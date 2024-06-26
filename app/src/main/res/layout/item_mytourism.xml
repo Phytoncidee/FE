@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_margin="15dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/round_background_lightyellow"
+    android:padding="20dp">
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="나의 관광 코스 이름"
+        android:textStyle="bold"
+        android:layout_weight="1"
+        android:id="@+id/mytourismName"/>
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/button_planned"
+        android:background="@color/lightyellow"
+        android:id="@+id/mytourismState"/>
+</LinearLayout>
+
