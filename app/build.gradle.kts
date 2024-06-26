@@ -33,12 +33,18 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    // [뷰 바인딩]
+    viewBinding{
+        enable = true
+    }
 }
 
 dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
+    implementation("androidx.viewpager2:viewpager2:1.1.0")
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
