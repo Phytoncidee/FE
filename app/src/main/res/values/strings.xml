@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">산행록</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="user_name">김산이</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

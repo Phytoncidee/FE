@@ -1,10 +1,12 @@
 package com.example.hikinglog_fe
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.example.hikinglog_fe.databinding.FragmentCommunityBinding
 import com.example.hikinglog_fe.databinding.FragmentHomeBinding
 
@@ -36,6 +38,11 @@ class CommunityFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentCommunityBinding.inflate(inflater, container, false)
+
+        // 플로팅 버튼 클릭 -> AddPostActivity로 이동
+        binding.mainFab.setOnClickListener {
+            startActivity(Intent(context, AddPostActivity::class.java)) //플로팅 버튼 눌러 데이터 추가 화면(AddPostActivity)으로 넘어갔다 finish() 후 돌아옴. -> onStart()에서 처리 -> 작성한 게시물 불러옴
+        }
 
         return binding.root
     }
