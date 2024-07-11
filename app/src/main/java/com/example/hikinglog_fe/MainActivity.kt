@@ -4,11 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -46,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         // [액션바 설정]
         supportActionBar?.apply {
             setDisplayShowHomeEnabled(true)
-            setLogo(R.drawable.logo) // 로고 이미지 설정
+            setLogo(R.drawable.etc_logo) // 로고 이미지 설정
             setDisplayUseLogoEnabled(true)
             title = "산행록"
         }
@@ -60,23 +57,23 @@ class MainActivity : AppCompatActivity() {
             when(position) {
                 0 -> {
                     tab.text = "홈"
-                    tab.icon = ContextCompat.getDrawable(this, R.drawable.tab_home)
+                    tab.icon = ContextCompat.getDrawable(this, R.drawable.icon_tab_home)
                 }
                 1 -> {
                     tab.text = "마이관광"
-                    tab.icon = ContextCompat.getDrawable(this, R.drawable.tab_tourism)
+                    tab.icon = ContextCompat.getDrawable(this, R.drawable.icon_tab_tourism)
                 }
                 2 -> {
                     tab.text = "지도"
-                    tab.icon = ContextCompat.getDrawable(this, R.drawable.tab_map)
+                    tab.icon = ContextCompat.getDrawable(this, R.drawable.icon_tab_map)
                 }
                 3 -> {
                     tab.text = "커뮤니티"
-                    tab.icon = ContextCompat.getDrawable(this, R.drawable.tab_community)
+                    tab.icon = ContextCompat.getDrawable(this, R.drawable.icon_tab_community)
                 }
                 4 -> {
                     tab.text = "마이"
-                    tab.icon = ContextCompat.getDrawable(this, R.drawable.tab_mypage)
+                    tab.icon = ContextCompat.getDrawable(this, R.drawable.icon_tab_mypage)
                 }
             }
         }.attach() // tab 버튼 부착

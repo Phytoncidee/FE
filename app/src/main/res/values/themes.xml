@@ -6,8 +6,15 @@
         <item name="windowActionBar">true</item>
         <item name="windowNoTitle">false</item>
         <item name="android:displayOptions">useLogo|showHome|showTitle</item>
-        <item name="android:logo">@drawable/logo</item> <!-- 로고 이미지 설정 -->
+        <item name="android:logo">@drawable/etc_logo</item> <!-- 로고 이미지 설정 -->
         <item name="android:textColorPrimary">@color/green</item> <!-- 앱 이름 색상 설정 -->
+
+        <!-- 폰트 적용 -->
+        <item name="android:textViewStyle">@style/customTextViewFontStyle</item>
+        <item name="android:buttonStyle">@style/customButtonFontStyle</item>
+        <item name="android:editTextStyle">@style/customEditTextFontStyle</item>
+        <item name="android:radioButtonStyle">@style/customRadioButtonFontStyle</item>
+        <item name="android:checkboxStyle">@style/customCheckboxFontStyle</item>
     </style>
 
     <style name="Theme.HikingLog_FE" parent="Base.Theme.HikingLog_FE" />

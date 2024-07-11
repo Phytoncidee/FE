@@ -1,5 +1,6 @@
 package com.example.hikinglog_fe
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -36,6 +37,12 @@ class MyPageFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentMyPageBinding.inflate(inflater, container, false)
+
+        binding.myfavoritesBtn.setOnClickListener {
+            val intent = Intent(context, FavoritesActivity::class.java)
+            startActivity(intent)
+            true
+        }
 
         return binding.root
     }

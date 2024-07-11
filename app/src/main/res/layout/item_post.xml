@@ -14,7 +14,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/default_profile" />
+            android:src="@drawable/icon_community_default_profile" />
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/default_image" />
+        android:src="@drawable/etc_default_image" />
 
     <!-- 좋아요, 댓글 -->
     <LinearLayout
@@ -50,7 +50,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/icon_emptyheart"
+            android:src="@drawable/icon_community_emptyheart"
             android:layout_marginLeft="20dp" />
         <TextView
             android:layout_width="wrap_content"
@@ -62,7 +62,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/icon_comment"
+            android:src="@drawable/icon_community_comment"
             android:layout_marginLeft="20dp" />
         <TextView
             android:layout_width="wrap_content"
@@ -73,7 +73,7 @@
             android:layout_marginLeft="10dp" />
     </LinearLayout>
 
-    <!-- 최근 댓글 하나 -->
+    <!-- 게시물 글 -->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -87,7 +87,7 @@
             android:textStyle="bold"
             android:textSize="18dp"
             android:layout_marginRight="10dp"
-            android:layout_marginLeft="20dp"/>
+            android:layout_marginLeft="20dp" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

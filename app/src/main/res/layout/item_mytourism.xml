@@ -5,7 +5,8 @@
     android:layout_margin="15dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/round_background_backgroundyellow"
+    android:background="@drawable/round_background_lightyellow"
+    android:backgroundTint="@color/backgroundyellow"
     android:padding="20dp">
     <TextView
         android:layout_width="0dp"

@@ -15,7 +15,7 @@ tools:context=".CommunityFragment">
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
-        app:icon="@drawable/icon_addpost"
+        app:icon="@drawable/icon_community_addpost"
         app:iconTint="@color/lightyellow"
         android:text="글쓰기"
         android:textStyle="bold"
@@ -24,15 +24,3 @@ tools:context=".CommunityFragment">
         android:textColor="@color/lightyellow"
         android:backgroundTint="@color/navy"/>
 </RelativeLayout>
-
-    <!--    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton-->
-    <!--        android:id="@+id/main_fab"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_margin="30dp"-->
-    <!--        android:text="식물 추가"-->
-    <!--        android:layout_alignParentRight="true"-->
-    <!--        android:layout_alignParentBottom="true"-->
-    <!--        android:background="#9DDE8B"-->
-    <!--        android:textColor="#ffffff"-->
-    <!--        android:textStyle="bold"/>-->

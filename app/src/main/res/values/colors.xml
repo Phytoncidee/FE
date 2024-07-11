@@ -6,4 +6,6 @@
     <color name="lightyellow">#FFF5E0</color>
     <color name="backgroundyellow">#FFFAF2</color>
     <color name="navy">#141E46</color>
+    <color name="backgroundgreen">#E3F3E9</color>
+    <color name="lightgray">#ECEAEA</color>
 </resources>
