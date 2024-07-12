@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<font-family
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <font
+        android:fontStyle="normal"
+        android:fontWeight="400"
+        android:font="@font/nanum_square_round_r"
+        app:fontStyle="normal"
+        app:fontWeight="500"
+        app:font="@font/nanum_square_round_r" />
+
+    <font
+        android:fontStyle="normal"
+        android:fontWeight="200"
+        android:font="@font/nanum_square_round_l"
+        app:fontStyle="normal"
+        app:fontWeight="300"
+        app:font="@font/nanum_square_round_l" />
+
+    <font
+        android:fontStyle="normal"
+        android:fontWeight="500"
+        android:font="@font/nanum_square_round_b"
+        app:fontStyle="normal"
+        app:fontWeight="600"
+        app:font="@font/nanum_square_round_b" />
+
+    <font
+        android:fontStyle="normal"
+        android:fontWeight="700"
+        android:font="@font/nanum_square_round_eb"
+        app:fontStyle="normal"
+        app:fontWeight="800"
+        app:font="@font/nanum_square_round_eb" />
+
+
+</font-family>
