@@ -44,6 +44,12 @@ class CommunityFragment : Fragment() {
             startActivity(Intent(context, AddPostActivity::class.java)) //플로팅 버튼 눌러 데이터 추가 화면(AddPostActivity)으로 넘어갔다 finish() 후 돌아옴. -> onStart()에서 처리 -> 작성한 게시물 불러옴
         }
 
+        // comment fragment 화면 확인용 임시 버튼 클릭 -> CommentFragment
+        binding.commentBtn.setOnClickListener {
+            val commentFragment = CommentFragment.newInstance("param1", "param2")
+            commentFragment.show(childFragmentManager, "CommentFragment")
+        }
+
         return binding.root
     }
 

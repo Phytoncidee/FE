@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-tools:context=".CommunityFragment">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CommunityFragment"
+    android:id="@+id/fragment_community" >
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/myPlantRecyclerView"
         android:layout_width="match_parent"
@@ -23,4 +24,21 @@ tools:context=".CommunityFragment">
         android:layout_alignParentBottom="true"
         android:textColor="@color/lightyellow"
         android:backgroundTint="@color/navy"/>
+
+    <!-- 임시 버튼 -->
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="comment 화면 확인용 임시 버튼"
+        android:textColor="@color/black"
+        android:id="@+id/commentBtn" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/fragment_comment"
+        android:name="com.example.hikinglog_fe.CommentFragment"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"/>
+
 </RelativeLayout>
