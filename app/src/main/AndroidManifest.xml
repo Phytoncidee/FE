@@ -32,6 +32,8 @@
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
+            android:exported="false" />
+        <activity
             android:name=".CourseDetailActivity"
             android:exported="false" />
         <activity
