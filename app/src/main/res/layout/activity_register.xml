@@ -19,10 +19,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="20dp">
 
             <TextView
-                android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -39,10 +38,8 @@
                 android:layout_marginTop="20dp">
 
                 <TextView
-                    android:id="@+id/textView1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="top|left"
                     android:layout_marginBottom="34dp"
                     android:layout_marginLeft="8dp"
                     android:text="이름"
@@ -68,10 +65,8 @@
                 android:layout_marginTop="15dp">
 
                 <TextView
-                    android:id="@+id/textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="top|left"
                     android:layout_marginBottom="34dp"
                     android:layout_marginLeft="8dp"
                     android:text="생년월일"
@@ -97,10 +92,8 @@
                 android:layout_marginTop="15dp">
 
                 <TextView
-                    android:id="@+id/textView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="top|left"
                     android:layout_marginBottom="34dp"
                     android:layout_marginLeft="8dp"
                     android:text="성별"
@@ -137,10 +130,8 @@
                 android:layout_marginTop="15dp">
 
                 <TextView
-                    android:id="@+id/textView4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="top|left"
                     android:layout_marginBottom="34dp"
                     android:layout_marginLeft="8dp"
                     android:text="이메일 (아이디)"
@@ -186,10 +177,8 @@
                 android:layout_marginTop="15dp">
 
                 <TextView
-                    android:id="@+id/textView5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="top|left"
                     android:layout_marginBottom="34dp"
                     android:layout_marginLeft="8dp"
                     android:text="비밀번호"
@@ -215,10 +204,8 @@
                 android:layout_marginTop="15dp">
 
                 <TextView
-                    android:id="@+id/textView6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="top|left"
                     android:layout_marginBottom="34dp"
                     android:layout_marginLeft="8dp"
                     android:text="비밀번호 확인"
@@ -244,10 +231,8 @@
                 android:layout_marginTop="15dp">
 
                 <TextView
-                    android:id="@+id/textView7"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="top|left"
                     android:layout_marginBottom="34dp"
                     android:layout_marginLeft="8dp"
                     android:text="전화번호"
