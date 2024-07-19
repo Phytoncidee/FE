@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="320dp"
+    android:layout_height="90dp"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:background="#E3F3E9">
+
+    <TextView
+        android:id="@+id/recordMountainName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="16dp"
+        android:text="한라산에서 2번째 등산" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/recordTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#928E8E"
+            android:textSize="15dp"
+            android:text="1시간 30분" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#928E8E"
+            android:textSize="15dp"
+            android:text="  |  " />
+
+        <TextView
+            android:id="@+id/recordDistance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#928E8E"
+            android:textSize="15dp"
+            android:text="400km" />
+
+        <Space
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/recordDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#928E8E"
+            android:textSize="15dp"
+            android:text="2024.07.17(수)" />
+    </LinearLayout>
+
+</LinearLayout>
