@@ -32,6 +32,13 @@
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
+            android:name=".CourseDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CreateCourseActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Top100Activity"
             android:exported="false" />
         <activity
             android:name=".FavoritesActivity"

@@ -37,6 +37,12 @@ class HomeFragment : Fragment() {
     ): View? {
         val binding = FragmentHomeBinding.inflate(inflater, container, false)
 
+        binding.famousMountainBtn.setOnClickListener {
+            val intent = Intent(context, Top100Activity::class.java)
+            startActivity(intent)
+            true
+        }
+
         binding.equipmentShopBtn.setOnClickListener {
             val intent = Intent(context, EquipmentShopActivity::class.java)
             startActivity(intent)
