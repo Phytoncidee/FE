@@ -229,7 +229,7 @@
                     android:layout_width="30dp"
                     android:layout_height="20dp"
                     android:backgroundTint="@color/white"
-                    android:src="@drawable/icon_arrow_dropdown" />
+                    android:src="@drawable/icon_arrow_dropdown2" />
             </LinearLayout>
 
             <View
@@ -307,7 +307,7 @@
                     android:layout_width="30dp"
                     android:layout_height="20dp"
                     android:backgroundTint="@color/white"
-                    android:src="@drawable/icon_arrow_dropdown" />
+                    android:src="@drawable/icon_arrow_dropdown2" />
             </LinearLayout>
 
             <View
@@ -346,7 +346,7 @@
                     android:layout_width="30dp"
                     android:layout_height="20dp"
                     android:backgroundTint="@color/white"
-                    android:src="@drawable/icon_arrow_dropdown" />
+                    android:src="@drawable/icon_arrow_dropdown2" />
             </LinearLayout>
 
             <View
@@ -385,7 +385,7 @@
                     android:layout_width="30dp"
                     android:layout_height="20dp"
                     android:backgroundTint="@color/white"
-                    android:src="@drawable/icon_arrow_dropdown" />
+                    android:src="@drawable/icon_arrow_dropdown2" />
             </LinearLayout>
 
 
