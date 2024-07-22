@@ -4,7 +4,7 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="20dp">
+    android:background="@color/backgroundyellow">
     <ImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
@@ -20,7 +20,8 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -43,34 +44,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=" 산 주소~~~~~~~~~~~~~"
-            android:drawableLeft="@drawable/icon_address"
+            android:textSize="17dp"
+            android:textColor="@color/gray"
             android:fontFamily="@font/nanum_square_round_b"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="5dp"/>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="난이도"
-                android:background="@drawable/round_background_lightyellow"
-                android:backgroundTint="@color/navy"
-                android:textColor="@color/white"
-                android:paddingHorizontal="10dp"
-                android:paddingVertical="5dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="산 위치 지역"
-                android:background="@drawable/round_background_lightyellow"
-                android:backgroundTint="@color/navy"
-                android:textColor="@color/white"
-                android:paddingHorizontal="10dp"
-                android:paddingVertical="5dp"
-                android:layout_marginLeft="10dp"/>
-        </LinearLayout>
     </LinearLayout>
 
     <ImageButton

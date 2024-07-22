@@ -146,14 +146,6 @@
                 android:fontFamily="@font/nanum_square_round_b"
                 android:layout_marginTop="8dp"
                 android:padding="5dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="  카카오페이 가맹점~~~"
-                android:drawableLeft="@drawable/icon_shopdetails_pay"
-                android:fontFamily="@font/nanum_square_round_b"
-                android:layout_marginTop="8dp"
-                android:padding="5dp"/>
         </LinearLayout>
 
 

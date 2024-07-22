@@ -67,7 +67,7 @@
                     android:layout_height="wrap_content"
                     android:text="100대 명산"
                     android:layout_gravity="center"
-                    android:textStyle="bold" />
+                    android:fontFamily="@font/nanum_square_round_eb" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -86,7 +86,7 @@
                     android:layout_height="wrap_content"
                     android:text="전국 산"
                     android:layout_gravity="center"
-                    android:textStyle="bold" />
+                    android:fontFamily="@font/nanum_square_round_eb"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -104,7 +104,7 @@
                     android:layout_height="wrap_content"
                     android:text="안전 가이드"
                     android:layout_gravity="center"
-                    android:textStyle="bold" />
+                    android:fontFamily="@font/nanum_square_round_eb" />
             </LinearLayout>
         </LinearLayout>
 
@@ -131,7 +131,7 @@
                     android:layout_height="wrap_content"
                     android:text="등산 용품점"
                     android:layout_gravity="center"
-                    android:textStyle="bold" />
+                    android:fontFamily="@font/nanum_square_round_eb" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -150,7 +150,7 @@
                     android:layout_height="wrap_content"
                     android:text="음식점"
                     android:layout_gravity="center"
-                    android:textStyle="bold" />
+                    android:fontFamily="@font/nanum_square_round_eb" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -168,7 +168,7 @@
                     android:layout_height="wrap_content"
                     android:text="숙박 시설"
                     android:layout_gravity="center"
-                    android:textStyle="bold" />
+                    android:fontFamily="@font/nanum_square_round_eb" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
@@ -212,16 +212,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2024.00.00 (월)" />
+                android:text="2024.00.00 (월)"
+                android:fontFamily="@font/nanum_square_round_b"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="북한산에서 2번째 등산" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="맑음|22°C"
-                android:textColor="#808080"/>
+                android:text="북한산에서 2번째 등산"
+                android:fontFamily="@font/nanum_square_round_b"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
@@ -233,16 +230,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2024.00.00 (월)" />
+                android:text="2024.00.00 (월)"
+                android:fontFamily="@font/nanum_square_round_b"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="북한산에서 2번째 등산" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="맑음|22°C"
-                android:textColor="#808080"/>
+                android:text="북한산에서 2번째 등산"
+                android:fontFamily="@font/nanum_square_round_b"/>
         </LinearLayout>
     </LinearLayout>
 
