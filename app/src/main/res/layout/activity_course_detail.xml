@@ -41,224 +41,123 @@ tools:context=".CourseDetailActivity">
         android:background="@drawable/round_background_white"
         android:orientation="vertical"
         android:padding="20dp">
-
-        <!-- 최종 코스 -->
+        <!-- 입산 전 -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:fontFamily="@font/nanum_square_round_eb"
-            android:text="최종 코스"
+            android:text="🔆 입산 전 "
             android:textSize="20dp" />
-
-        <!-- 입력 시간에 따라 타임라인 결과 다르게 표시하는 로직 필요.. 일단 예시 하드 코딩 -->
-        <!-- 일정 1 -->
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/nanum_square_round_eb"
-                android:text="10:30" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:src="@drawable/etc_timeline_circle" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/nanum_square_round_eb"
-                android:text="아침 식사" />
-
-            <ImageButton
-                android:layout_width="30dp"
-                android:layout_height="20dp"
-                android:backgroundTint="@color/white"
-                android:src="@drawable/icon_arrow_dropdown2" />
-        </LinearLayout>
+            android:id="@+id/beforeHikingRecyclerView"
+            android:layout_marginTop="20dp" />
 
         <View
-            android:layout_width="3dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="80dp"
-            android:background="#e0e0e0" />
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:padding="10dp"
+            android:background="#e0e0e0"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"/>
 
 
-        <!-- 일정 2 -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/nanum_square_round_eb"
-                android:text="12:30" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:src="@drawable/etc_timeline_circle" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/nanum_square_round_eb"
-                android:text="한라산" />
-
-            <ImageButton
-                android:layout_width="70dp"
-                android:layout_height="22dp"
-                android:backgroundTint="@color/white"
-                android:src="@drawable/button_move_hcource" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="3dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="80dp"
-            android:background="#e0e0e0" />
-
-
-        <!-- 일정 3 -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/nanum_square_round_eb"
-                android:text="14:30" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:src="@drawable/etc_timeline_circle" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/nanum_square_round_eb"
-                android:text="점심 식사" />
-
-            <ImageButton
-                android:layout_width="30dp"
-                android:layout_height="20dp"
-                android:backgroundTint="@color/white"
-                android:src="@drawable/icon_arrow_dropdown2" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="3dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="80dp"
-            android:background="#e0e0e0" />
-
-
-        <!-- 일정 4 -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/nanum_square_round_eb"
-                android:text="16:30" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:src="@drawable/etc_timeline_circle" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/nanum_square_round_eb"
-                android:text="제부도 카페" />
-
-            <ImageButton
-                android:layout_width="30dp"
-                android:layout_height="20dp"
-                android:backgroundTint="@color/white"
-                android:src="@drawable/icon_arrow_dropdown2" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="3dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="80dp"
-            android:background="#e0e0e0" />
-
-
-        <!-- 일정 4 -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/nanum_square_round_eb"
-                android:text="18:30" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:src="@drawable/etc_timeline_circle" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/nanum_square_round_eb"
-                android:text="저녁 식사" />
-
-            <ImageButton
-                android:layout_width="30dp"
-                android:layout_height="20dp"
-                android:backgroundTint="@color/white"
-                android:src="@drawable/icon_arrow_dropdown2" />
-        </LinearLayout>
-
-
-        <!-- 경로 보기 -->
+        <!-- 산 정보 -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
             android:fontFamily="@font/nanum_square_round_eb"
-            android:text="경로 보기"
-            android:textSize="20dp"/>
-
-
-        <!-- 경로 지도 -->
-        <!-- 임시 이미지, 추후 지도에 경로 표시하도록 변경 -->
+            android:text="🏔️ 산 정보 "
+            android:textSize="20dp" />
         <ImageView
+            android:layout_width="250dp"
+            android:layout_height="150dp"
+            android:src="@drawable/etc_default_image"
+            android:layout_gravity="center"
+            android:layout_marginVertical="20dp"/>
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/etc_default_image" />
+            android:fontFamily="@font/nanum_square_round_b"
+            android:text="산 이름"
+            android:textSize="20dp"
+            android:paddingHorizontal="30dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="산 소개"
+            android:textSize="15dp"
+            android:paddingHorizontal="30dp"
+            android:layout_marginTop="10dp"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="30dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="소재지"
+                android:textSize="15dp"
+                android:textColor="@color/gray"
+                android:layout_marginRight="10dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="산 주소~~~~~~~~~"
+                android:textSize="15dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="30dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="높이"
+                android:textSize="15dp"
+                android:textColor="@color/gray"
+                android:layout_marginRight="10dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2000m"
+                android:textSize="15dp"/>
+        </LinearLayout>
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/button_realtime_recording"
+            android:backgroundTint="@color/white"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:padding="10dp"
+            android:background="#e0e0e0"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"/>
+
+
+        <!-- 하산 후 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/nanum_square_round_eb"
+            android:text="🍀 하산 후 "
+            android:textSize="20dp" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/afterHikingRecyclerView"
+            android:layout_marginTop="20dp" />
 
     </LinearLayout>
 </LinearLayout>
