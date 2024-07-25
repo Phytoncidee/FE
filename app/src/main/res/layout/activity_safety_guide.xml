@@ -55,7 +55,8 @@
                 android:src="@drawable/button_119_banner"
                 android:background="@color/white"
                 android:layout_gravity="center"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp"
+                android:id="@+id/safetyGuideBtn"/>
 
             <!-- 초보자 등산 가이드 -->
             <LinearLayout
