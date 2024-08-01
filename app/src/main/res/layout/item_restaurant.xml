@@ -6,12 +6,14 @@
     android:layout_height="wrap_content"
     android:background="@color/backgroundyellow"
     android:layout_marginHorizontal="20dp"
-    android:layout_marginVertical="10dp">
+    android:layout_marginVertical="10dp"
+    android:id="@+id/root">
     <ImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:src="@drawable/etc_default_image"
-        android:layout_gravity="center_vertical"/>
+        android:layout_gravity="center_vertical"
+        android:id="@+id/ImgRestaurant"/>
 
     <LinearLayout
         android:layout_width="0dp"
@@ -26,7 +28,8 @@
             android:textSize="20dp"
             android:fontFamily="@font/nanum_square_round_eb"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp"
+            android:id="@+id/restaurantName"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -36,7 +39,8 @@
             android:textColor="@color/gray"
             android:fontFamily="@font/nanum_square_round_b"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="5dp"/>
+            android:layout_marginBottom="5dp"
+            android:id="@+id/restaurantAdd"/>
     </LinearLayout>
 
     <ImageButton
@@ -45,7 +49,8 @@
         android:src="@android:drawable/btn_star_big_off"
         android:backgroundTint="@color/backgroundyellow"
         android:scaleType="fitCenter"
-        android:padding="10dp"/>
+        android:padding="10dp"
+        android:id="@+id/BtnResBookmark"/>
 
 </LinearLayout>
 

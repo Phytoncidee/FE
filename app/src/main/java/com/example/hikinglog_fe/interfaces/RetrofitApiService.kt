@@ -6,6 +6,7 @@ import com.example.hikinglog_fe.models.EquipmentShopLResponse
 import com.example.hikinglog_fe.models.MBookmarkGetResponse
 import com.example.hikinglog_fe.models.MImageResponse
 import com.example.hikinglog_fe.models.MSearchResponse
+import com.example.hikinglog_fe.models.RestaurantLResponse
 import com.example.hikinglog_fe.models.Top100Response
 import retrofit2.Call
 import retrofit2.http.Body
@@ -67,5 +68,13 @@ interface RetrofitApiService {
         @Query("longitude") longitude: Double?,
         @Query("latitude") latitude: Double?
     ): Call<AccommodationLResponse>
+
+    // [음식점 목록 조회]
+    @GET("/api/store/restaurant-list")
+    fun getRestaurantList(
+        @Header("Authorization") auth: String?,
+        @Query("longitude") longitude: Double?,
+        @Query("latitude") latitude: Double?
+    ): Call<RestaurantLResponse>
 
 }

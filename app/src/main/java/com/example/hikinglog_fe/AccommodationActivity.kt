@@ -26,6 +26,7 @@ class AccommodationActivity : AppCompatActivity() {
             "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMUBuYXZlci5jb20iLCJ1aWQiOjEsImV4cCI6MTcyMzQ5NjM5MiwiZW1haWwiOiJ1c2VyMUBuYXZlci5jb20ifQ.TKguWwv_0JcaNgtzinEpn7GRLYusUUnX9s6ZlOiFS00HJOMKbSGdGfbrUNqyrGExqdEQuOGy2Z11ZZUvF28jAg",
             127.01612551862054,
             37.6525631765458
+            // 현재 위도, 경도 받아서 넘겨주는 처리 필요
         )
 
         // [Retrofit 통신 응답: 등산용품점 목록]
