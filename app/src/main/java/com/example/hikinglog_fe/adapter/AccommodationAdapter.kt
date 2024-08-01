@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startActivity
 import com.bumptech.glide.Glide
 import com.example.hikinglog_fe.RetrofitConnection
+import com.example.hikinglog_fe.ShopDetailActivity
 import com.example.hikinglog_fe.databinding.ItemAccommodationBinding
 import com.example.hikinglog_fe.databinding.ItemEquipmentshopBinding
 import com.example.hikinglog_fe.models.Accommodation
@@ -51,7 +52,9 @@ class AccommodationAdapter(val context: Context, val datas:MutableList<Accommoda
 
         // [[리사이클러 뷰 클릭 -> 숙박시설 상세 페이지로 이동]]
         binding.root.setOnClickListener {
-
+            Intent(context, ShopDetailActivity::class.java).apply {
+                putExtra("ContentId", model.contentId) // 산 이름 전달
+            }.run { context.startActivity(this) }
         }
     }
 }
