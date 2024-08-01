@@ -1,5 +1,6 @@
 package com.example.hikinglog_fe.interfaces
 
+import com.example.hikinglog_fe.models.AccommodationLResponse
 import com.example.hikinglog_fe.models.EShopBookmarkGetResponse
 import com.example.hikinglog_fe.models.EquipmentShopLResponse
 import com.example.hikinglog_fe.models.MBookmarkGetResponse
@@ -58,5 +59,13 @@ interface RetrofitApiService {
         @Query("size") size: Int?,
         @Query("page") page: Int?
     ): Call<EShopBookmarkGetResponse>
+
+    // [숙박시설 목록 조회]
+    @GET("/api/store/stay-list")
+    fun getAccommodationList(
+        @Header("Authorization") auth: String?,
+        @Query("longitude") longitude: Double?,
+        @Query("latitude") latitude: Double?
+    ): Call<AccommodationLResponse>
 
 }
