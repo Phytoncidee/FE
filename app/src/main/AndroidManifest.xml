@@ -13,8 +13,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HikingLog_FE"
-        tools:targetApi="31"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        tools:targetApi="31">
+        <activity
+            android:name=".RestaurantDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AccommodationDetailActivity"
+            android:exported="false" />
         <activity
             android:name=".RealTimeRecordActivity"
             android:exported="false" />

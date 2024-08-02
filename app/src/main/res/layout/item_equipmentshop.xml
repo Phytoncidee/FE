@@ -4,7 +4,8 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="20dp">
+    android:padding="20dp"
+    android:id="@+id/root">
 
     <TextView
         android:layout_width="0dp"
@@ -13,14 +14,16 @@
         android:textSize="20dp"
         android:fontFamily="@font/nanum_square_round_eb"
         android:layout_weight="1"
-        android:gravity="center_vertical"/>
+        android:gravity="center_vertical"
+        android:id="@+id/eShopName"/>
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@android:drawable/btn_star_big_off"
         android:backgroundTint="@color/white"
-        android:scaleType="fitCenter"/>
+        android:scaleType="fitCenter"
+        android:id="@+id/BtnESBookmark"/>
 
 </LinearLayout>
 

@@ -4,12 +4,16 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/backgroundyellow">
+    android:background="@color/backgroundyellow"
+    android:layout_marginHorizontal="20dp"
+    android:layout_marginVertical="10dp"
+    android:id="@+id/root">
+
     <ImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/etc_default_image"
-        android:layout_gravity="center_vertical"/>
+        android:layout_gravity="center_vertical"
+        android:id="@+id/mntImg"/>
 
     <LinearLayout
         android:layout_width="0dp"
@@ -28,7 +32,8 @@
                 android:text="산 이름"
                 android:textSize="20dp"
                 android:fontFamily="@font/nanum_square_round_eb"
-                android:layout_marginBottom="10dp"/>
+                android:layout_marginBottom="10dp"
+                android:id="@+id/mntiname"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -37,7 +42,16 @@
                 android:textColor="@color/gray"
                 android:fontFamily="@font/nanum_square_round_b"
                 android:layout_marginBottom="10dp"
-                android:layout_marginLeft="10dp"/>
+                android:layout_marginLeft="10dp"
+                android:id="@+id/mntihigh" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="m"
+                android:textSize="15dp"
+                android:textColor="@color/gray"
+                android:fontFamily="@font/nanum_square_round_b"
+                android:layout_marginBottom="10dp"/>
         </LinearLayout>
 
         <TextView
@@ -48,15 +62,20 @@
             android:textColor="@color/gray"
             android:fontFamily="@font/nanum_square_round_b"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="5dp"/>
+            android:layout_marginBottom="5dp"
+            android:id="@+id/mntiadd"
+            android:maxLines="1"
+            android:ellipsize="end" />
     </LinearLayout>
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@android:drawable/btn_star_big_off"
-        android:backgroundTint="@color/white"
-        android:scaleType="fitCenter"/>
+        android:backgroundTint="@color/backgroundyellow"
+        android:scaleType="fitCenter"
+        android:padding="10dp"
+        android:id="@+id/btnMBookmark"/>
 
 </LinearLayout>
 
