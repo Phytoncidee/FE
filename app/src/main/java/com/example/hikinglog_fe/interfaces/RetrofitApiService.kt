@@ -1,13 +1,18 @@
 package com.example.hikinglog_fe.interfaces
 
+import com.example.hikinglog_fe.models.AccommodationDResponse
 import com.example.hikinglog_fe.models.AccommodationLResponse
+import com.example.hikinglog_fe.models.CommunityPostLResponse
 import com.example.hikinglog_fe.models.EShopBookmarkGetResponse
 import com.example.hikinglog_fe.models.EquipmentShopLResponse
 import com.example.hikinglog_fe.models.MBookmarkGetResponse
 import com.example.hikinglog_fe.models.MImageResponse
 import com.example.hikinglog_fe.models.MSearchResponse
+import com.example.hikinglog_fe.models.RestaurantDResponse
 import com.example.hikinglog_fe.models.RestaurantLResponse
 import com.example.hikinglog_fe.models.Top100Response
+import com.google.gson.JsonObject
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -69,6 +74,13 @@ interface RetrofitApiService {
         @Query("latitude") latitude: Double?
     ): Call<AccommodationLResponse>
 
+    // [숙박시설 상세 조회]
+    @GET("/api/store/stay-detail")
+    fun getAccommodationDetail(
+        @Header("Authorization") auth: String?,
+        @Query("contentId") contentId: Int?
+    ): Call<AccommodationDResponse>
+
     // [음식점 목록 조회]
     @GET("/api/store/restaurant-list")
     fun getRestaurantList(
@@ -76,5 +88,19 @@ interface RetrofitApiService {
         @Query("longitude") longitude: Double?,
         @Query("latitude") latitude: Double?
     ): Call<RestaurantLResponse>
+
+    // [음식점 상세 조회]
+    @GET("api/store/restaurant-detail")
+    fun getRestaurantDetail(
+        @Header("Authorization") auth: String?,
+        @Query("contentId") contentId: Int?
+    ): Call<RestaurantDResponse>
+
+    // [커뮤니티 글 목록 조회]
+    @GET("/api/boards")
+    fun getPostList(
+        @Header("Authorization") auth: String?,
+        @Body raw: JsonObject
+    ): Call<CommunityPostLResponse>
 
 }

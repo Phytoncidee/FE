@@ -6,7 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import android.content.Context
 import com.bumptech.glide.Glide
-import com.example.hikinglog_fe.ShopDetailActivity
+import com.example.hikinglog_fe.AccommodationDetailActivity
+import com.example.hikinglog_fe.RestaurantDetailActivity
 import com.example.hikinglog_fe.databinding.ItemRestaurantBinding
 import com.example.hikinglog_fe.models.Restaurant
 
@@ -40,8 +41,8 @@ class RestaurantAdapter(val context: Context, val datas:MutableList<Restaurant>?
 
         // [[리사이클러 뷰 클릭 -> 음식점 상세 페이지로 이동]]
         binding.root.setOnClickListener {
-            Intent(context, ShopDetailActivity::class.java).apply {
-                putExtra("ContentId", model.contentId) // 산 이름 전달
+            Intent(context, RestaurantDetailActivity::class.java).apply {
+                putExtra("contentId", model.contentId) // 산 이름 전달
             }.run { context.startActivity(this) }
         }
     }

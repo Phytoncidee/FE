@@ -23,7 +23,8 @@
         android:padding="10dp"
         android:gravity="center"
         android:hint="게시물이 작성된 산을 알려주세요!"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="20dp"
+        android:id="@+id/postMountain"/>
 
     <EditText
         android:layout_width="match_parent"
@@ -32,7 +33,8 @@
         android:padding="20dp"
         android:gravity="start"
         android:hint="게시물을 작성해주세요 :)"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="20dp"
+        android:id="@+id/postContent"/>
 
     <!-- 사진 선택 -->
     <LinearLayout
@@ -45,12 +47,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/button_selectphoto"
-            android:background="@color/white" />
+            android:background="@color/white"
+            android:id="@+id/BtnPostImg"/>
         <ImageView
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:layout_marginLeft="20dp"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            android:id="@+id/PostImg"/>
     </LinearLayout>
 
 
@@ -61,6 +65,7 @@
         android:layout_gravity="center"
         android:src="@drawable/button_savepost"
         android:background="@color/white"
-        android:layout_marginTop="30dp"/>
+        android:layout_marginTop="30dp"
+        android:id="@+id/BtnAddPost"/>
 
 </LinearLayout>

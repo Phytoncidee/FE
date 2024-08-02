@@ -4,7 +4,7 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-tools:context=".ShopDetailActivity">
+tools:context=".RestaurantDetailActivity">
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,7 +13,8 @@ tools:context=".ShopDetailActivity">
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:src="@drawable/etc_default_image"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/img_shop"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -22,12 +23,13 @@ tools:context=".ShopDetailActivity">
         android:textSize="25dp"
         android:layout_marginTop="20dp"
         android:layout_gravity="center_horizontal"
-        android:fontFamily="@font/nanum_square_round_eb"/>
+        android:fontFamily="@font/nanum_square_round_eb"
+        android:id="@+id/name_shop"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="가게 종류"
+        android:text="음식점"
         android:textSize="18dp"
         android:textColor="#808080"
         android:layout_marginTop="20dp"
@@ -47,7 +49,8 @@ tools:context=".ShopDetailActivity">
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/icon_shopdetails_call"
-                android:backgroundTint="@color/white" />
+                android:backgroundTint="@color/white"
+                android:id="@+id/btn_call_shop"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -72,7 +75,8 @@ tools:context=".ShopDetailActivity">
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@android:drawable/btn_star_big_off"
-                android:backgroundTint="@color/white" />
+                android:backgroundTint="@color/white"
+                android:id="@+id/btn_bookmark_shop"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -97,7 +101,8 @@ tools:context=".ShopDetailActivity">
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/icon_shopdetails_location"
-                android:backgroundTint="@color/white" />
+                android:backgroundTint="@color/white"
+                android:id="@+id/btn_map_shop"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -129,15 +134,8 @@ tools:context=".ShopDetailActivity">
             android:drawableLeft="@drawable/icon_address"
             android:fontFamily="@font/nanum_square_round_b"
             android:layout_marginTop="8dp"
-            android:padding="5dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="  가게 영업 시간"
-            android:drawableLeft="@drawable/icon_shopdetails_clock"
-            android:fontFamily="@font/nanum_square_round_b"
-            android:layout_marginTop="8dp"
-            android:padding="5dp"/>
+            android:padding="5dp"
+            android:id="@+id/add_shop"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -145,7 +143,8 @@ tools:context=".ShopDetailActivity">
             android:drawableLeft="@drawable/icon_shopdetails_smallcall"
             android:fontFamily="@font/nanum_square_round_b"
             android:layout_marginTop="8dp"
-            android:padding="5dp"/>
+            android:padding="5dp"
+            android:id="@+id/number_shop"/>
     </LinearLayout>
 
 
@@ -160,11 +159,19 @@ tools:context=".ShopDetailActivity">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="사진"
+        android:text="소개"
         android:fontFamily="@font/nanum_square_round_eb"
         android:textSize="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:fontFamily="@font/nanum_square_round_b"
+        android:textSize="15dp"
+        android:padding="20dp"
+        android:id="@+id/info_shop"/>
 
 
 </LinearLayout>

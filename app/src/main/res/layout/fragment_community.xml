@@ -8,7 +8,7 @@
     tools:context=".CommunityFragment"
     android:id="@+id/fragment_community" >
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/myPlantRecyclerView"
+        android:id="@+id/communityRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
@@ -23,7 +23,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:textColor="@color/lightyellow"
-        android:backgroundTint="@color/navy"/>
+        android:backgroundTint="@color/navy" />
 
     <!-- 임시 버튼 -->
     <Button
