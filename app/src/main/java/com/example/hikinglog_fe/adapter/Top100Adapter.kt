@@ -105,6 +105,7 @@ class Top100Adapter(val context: Context, val datas:MutableList<Top100Item>?): R
 
 
         // [[산 즐겨찾기]]
+        var isBookmarked : Boolean = false
 
         // [즐겨찾기 조회 -> 표시]
         // <즐겨찾기 조회>
@@ -117,7 +118,20 @@ class Top100Adapter(val context: Context, val datas:MutableList<Top100Item>?): R
             override fun onResponse(call: Call<MBookmarkGetResponse>, response: Response<MBookmarkGetResponse>) {
                 if (response.isSuccessful) {
                     Log.d("mobileApp", "MBookmarksResponse: $response")
-                    // 즐겨찾기 여부 저장
+
+                    // >> 즐겨찾기 여부 저장
+                    for (i in 0..response.body()!!.data.bookmarkList.size-1){ //bookmarkList에 해당 산의 이름이 존재하는지 확인
+                        if(response.body()!!.data.bookmarkList[i].name == model.frtrlNm){
+                            isBookmarked = true // false -> true 변경
+                        }
+                    }
+
+                    // <즐겨찾기 버튼 표시>
+                    if (isBookmarked == true) { // 등록
+                        binding.btnMBookmark.setImageResource(android.R.drawable.btn_star_big_on)
+                    } else { // 미등록
+                        binding.btnMBookmark.setImageResource(android.R.drawable.btn_star_big_off)
+                    }
 
                 } else {
                     // 오류 처리
@@ -130,13 +144,6 @@ class Top100Adapter(val context: Context, val datas:MutableList<Top100Item>?): R
             }
         })
 
-//        // <즐겨찾기 버튼 표시>
-//        if () { // 등록
-//            binding.btnMBookmark.setImageResource(android.R.drawable.btn_star_big_on)
-//        } else { // 미등록
-//            binding.btnMBookmark.setImageResource(android.R.drawable.btn_star_big_off)
-//        }
-//
 //        // [즐겨찾기 등록/삭제 -> 표시]
 //        binding.btnMBookmark.setOnClickListener {
 //            if(){ // 미등록

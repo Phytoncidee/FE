@@ -3,11 +3,16 @@ package com.example.hikinglog_fe.interfaces
 import com.example.hikinglog_fe.models.AccommodationDResponse
 import com.example.hikinglog_fe.models.AccommodationLResponse
 import com.example.hikinglog_fe.models.CommunityPostLResponse
+import com.example.hikinglog_fe.models.EShopBookmarkDeleteResponse
 import com.example.hikinglog_fe.models.EShopBookmarkGetResponse
+import com.example.hikinglog_fe.models.EShopBookmarkPostResponse
 import com.example.hikinglog_fe.models.EquipmentShopLResponse
 import com.example.hikinglog_fe.models.MBookmarkGetResponse
 import com.example.hikinglog_fe.models.MImageResponse
 import com.example.hikinglog_fe.models.MSearchResponse
+import com.example.hikinglog_fe.models.PostEShopBMDTO
+import com.example.hikinglog_fe.models.PostWriteDTO
+import com.example.hikinglog_fe.models.PostWriteResponseDTO
 import com.example.hikinglog_fe.models.RestaurantDResponse
 import com.example.hikinglog_fe.models.RestaurantLResponse
 import com.example.hikinglog_fe.models.Top100Response
@@ -15,9 +20,11 @@ import com.google.gson.JsonObject
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Headers
+import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -52,6 +59,7 @@ interface RetrofitApiService {
         @Query("page") page: Int?
     ): Call<MBookmarkGetResponse>
 
+
     // [등산용품점 목록 조회]
     @GET("/api/store/store-list")
     fun getEquipmentShopList(
@@ -65,6 +73,22 @@ interface RetrofitApiService {
         @Query("size") size: Int?,
         @Query("page") page: Int?
     ): Call<EShopBookmarkGetResponse>
+
+    // [등산용품점 즐겨찾기 등록]
+    @POST("/api/bookmarks/onlinestore/{storeId}")
+    fun postEShopBookmark(
+        @Header("Authorization") auth: String?,
+        @Path("storeId") storeId: Int?,
+        @Body postEShopBMBody: PostEShopBMDTO
+    ): Call<EShopBookmarkPostResponse>
+
+    // [등산용품점 즐겨찾기 삭제]
+    @DELETE("/api/bookmarks/onlinestore/{storeId}")
+    fun deleteEShopBookmark(
+        @Header("Authorization") auth: String?,
+        @Path("storeId") storeId: Int?
+    ): Call<EShopBookmarkDeleteResponse>
+
 
     // [숙박시설 목록 조회]
     @GET("/api/store/stay-list")
@@ -81,6 +105,7 @@ interface RetrofitApiService {
         @Query("contentId") contentId: Int?
     ): Call<AccommodationDResponse>
 
+
     // [음식점 목록 조회]
     @GET("/api/store/restaurant-list")
     fun getRestaurantList(
@@ -90,17 +115,26 @@ interface RetrofitApiService {
     ): Call<RestaurantLResponse>
 
     // [음식점 상세 조회]
-    @GET("api/store/restaurant-detail")
+    @GET("/api/store/restaurant-detail")
     fun getRestaurantDetail(
         @Header("Authorization") auth: String?,
         @Query("contentId") contentId: Int?
     ): Call<RestaurantDResponse>
 
+
     // [커뮤니티 글 목록 조회]
     @GET("/api/boards")
     fun getPostList(
         @Header("Authorization") auth: String?,
-        @Body raw: JsonObject
+        @Query("size") size: Int?,
+        @Query("page") page: Int?
     ): Call<CommunityPostLResponse>
+
+    // [커뮤니티 글 목록 작성]
+    @POST("/api/boards")
+    fun postCommunityPost(
+        @Header("Authorization") auth: String?,
+        @Body postCPostBody: PostWriteDTO
+    ): Call<PostWriteResponseDTO<String>>
 
 }

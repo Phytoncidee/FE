@@ -53,10 +53,8 @@ class CommunityFragment : Fragment() {
         // [Retrofit 통신 요청: 커뮤니티 글 목록]
         val call: Call<CommunityPostLResponse> = RetrofitConnection.jsonNetServ.getPostList(
             "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMUBuYXZlci5jb20iLCJ1aWQiOjEsImV4cCI6MTcyMzQ5NjM5MiwiZW1haWwiOiJ1c2VyMUBuYXZlci5jb20ifQ.TKguWwv_0JcaNgtzinEpn7GRLYusUUnX9s6ZlOiFS00HJOMKbSGdGfbrUNqyrGExqdEQuOGy2Z11ZZUvF28jAg",
-            JsonObject().apply {
-                addProperty("size", 5)
-                addProperty("page", 0)
-            }
+            5,
+            0
         )
 
         // [Retrofit 통신 응답: 커뮤니티 글 목록]
@@ -67,13 +65,15 @@ class CommunityFragment : Fragment() {
                     Log.d("mobileApp", "getPostList: $response")
 
                     // <리사이클러뷰에 표시>
-                    binding.communityRecyclerView.layoutManager = LinearLayoutManager(context)
-                    binding.communityRecyclerView.adapter = CommunityPostAdapter(context!!, response.body()!!.data)
-                    binding.communityRecyclerView.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
+//                    binding.communityRecyclerView.layoutManager = LinearLayoutManager(context)
+//                    binding.communityRecyclerView.adapter = CommunityPostAdapter(context!!, response.body()!!.data.boardList)
+//                    binding.communityRecyclerView.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
 
                 } else {
                     // 오류 처리
-                    Log.e("mobileApp", "getPostList Error: ${response.code()}")
+//                    Log.e("mobileApp", "getPostList Error: ${response.code()}")
+                    val errorBody = response.errorBody()?.string()
+                    Log.e("mobileApp", "getPostList Error: ${response.code()}, Error Body: ${errorBody}")
                 }
             }
 
