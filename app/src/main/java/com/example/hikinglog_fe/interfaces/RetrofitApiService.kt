@@ -1,5 +1,9 @@
 package com.example.hikinglog_fe.interfaces
 
+import com.example.hikinglog_fe.models.AccommodationBookmarkDeleteResponse
+import com.example.hikinglog_fe.models.AccommodationBookmarkGetBookmark
+import com.example.hikinglog_fe.models.AccommodationBookmarkGetResponse
+import com.example.hikinglog_fe.models.AccommodationBookmarkPostResponse
 import com.example.hikinglog_fe.models.AccommodationDResponse
 import com.example.hikinglog_fe.models.AccommodationLResponse
 import com.example.hikinglog_fe.models.CommunityPostLResponse
@@ -10,6 +14,7 @@ import com.example.hikinglog_fe.models.EquipmentShopLResponse
 import com.example.hikinglog_fe.models.MBookmarkGetResponse
 import com.example.hikinglog_fe.models.MImageResponse
 import com.example.hikinglog_fe.models.MSearchResponse
+import com.example.hikinglog_fe.models.PostAccommodationBMDTO
 import com.example.hikinglog_fe.models.PostEShopBMDTO
 import com.example.hikinglog_fe.models.PostWriteDTO
 import com.example.hikinglog_fe.models.PostWriteResponseDTO
@@ -104,6 +109,29 @@ interface RetrofitApiService {
         @Header("Authorization") auth: String?,
         @Query("contentId") contentId: Int?
     ): Call<AccommodationDResponse>
+
+    // [숙박시설 즐겨찾기 조회]
+    @GET("/api/bookmarks/accommodation")
+    fun getAccommodationBookmark(
+        @Header("Authorization") auth: String?,
+        @Query("size") size: Int?,
+        @Query("page") page: Int?
+    ): Call<AccommodationBookmarkGetResponse>
+
+    // [숙박시설 즐겨찾기 등록]
+    @POST("/api/bookmarks/accommodation/{storeId}")
+    fun postAccommodationBookmark(
+        @Header("Authorization") auth: String?,
+        @Path("storeId") storeId: Int?,
+        @Body postEShopBMBody: PostAccommodationBMDTO
+    ): Call<AccommodationBookmarkPostResponse>
+
+    // [숙박시설 즐겨찾기 삭제]
+    @DELETE("/api/bookmarks/store/{storeId}")
+    fun deleteAccommodationBookmark(
+        @Header("Authorization") auth: String?,
+        @Path("storeId") storeId: Int?
+    ): Call<AccommodationBookmarkDeleteResponse>
 
 
     // [음식점 목록 조회]

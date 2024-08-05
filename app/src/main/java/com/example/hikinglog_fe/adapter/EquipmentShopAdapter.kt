@@ -63,7 +63,7 @@ class EquipmentShopAdapter(val context: Context, val datas:MutableList<Equipment
                     Log.d("mobileApp", "getEShopBookmark: $response")
                     // 즐겨찾기 여부 저장
                     for (i in 0..response.body()!!.data.bookmarkList.size-1){ //bookmarkList에 해당 산의 이름이 존재하는지 확인
-                        if(response.body()!!.data.bookmarkList[i].id == model.id){
+                        if(response.body()!!.data.bookmarkList[i].storeId == model.id){
                             isBookmarked = true // false -> true 변경
                             Log.d("mobileApp", "${response.body()!!.data.bookmarkList[i].id}: isBookmarked가 true로 변경!!")
                         }
