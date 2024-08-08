@@ -10,7 +10,7 @@ data class CommunityPostLResponse(
 )
 
 data class PostData(
-    val boardList: List<CommunityPost>,
+    val boardList: MutableList<CommunityPost>,
     val hasNext: Boolean
 )
 

@@ -65,9 +65,9 @@ class CommunityFragment : Fragment() {
                     Log.d("mobileApp", "getPostList: $response")
 
                     // <리사이클러뷰에 표시>
-//                    binding.communityRecyclerView.layoutManager = LinearLayoutManager(context)
-//                    binding.communityRecyclerView.adapter = CommunityPostAdapter(context!!, response.body()!!.data.boardList)
-//                    binding.communityRecyclerView.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
+                    binding.communityRecyclerView.layoutManager = LinearLayoutManager(context)
+                    binding.communityRecyclerView.adapter = CommunityPostAdapter(context!!, response.body()!!.data.boardList)
+                    binding.communityRecyclerView.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
 
                 } else {
                     // 오류 처리

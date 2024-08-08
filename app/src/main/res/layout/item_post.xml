@@ -39,7 +39,7 @@
     <!-- 게시글 이미지 -->
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="400dp"
         android:src="@drawable/etc_default_image"
         android:id="@+id/post_image"/>
 
