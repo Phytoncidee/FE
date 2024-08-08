@@ -16,8 +16,12 @@ import com.example.hikinglog_fe.models.MImageResponse
 import com.example.hikinglog_fe.models.MSearchResponse
 import com.example.hikinglog_fe.models.PostAccommodationBMDTO
 import com.example.hikinglog_fe.models.PostEShopBMDTO
+import com.example.hikinglog_fe.models.PostRestaurantBMDTO
 import com.example.hikinglog_fe.models.PostWriteDTO
 import com.example.hikinglog_fe.models.PostWriteResponseDTO
+import com.example.hikinglog_fe.models.RestaurantBookmarkDeleteResponse
+import com.example.hikinglog_fe.models.RestaurantBookmarkGetResponse
+import com.example.hikinglog_fe.models.RestaurantBookmarkPostResponse
 import com.example.hikinglog_fe.models.RestaurantDResponse
 import com.example.hikinglog_fe.models.RestaurantLResponse
 import com.example.hikinglog_fe.models.Top100Response
@@ -123,7 +127,7 @@ interface RetrofitApiService {
     fun postAccommodationBookmark(
         @Header("Authorization") auth: String?,
         @Path("storeId") storeId: Int?,
-        @Body postEShopBMBody: PostAccommodationBMDTO
+        @Body postAccommodationBMBody: PostAccommodationBMDTO
     ): Call<AccommodationBookmarkPostResponse>
 
     // [숙박시설 즐겨찾기 삭제]
@@ -148,6 +152,29 @@ interface RetrofitApiService {
         @Header("Authorization") auth: String?,
         @Query("contentId") contentId: Int?
     ): Call<RestaurantDResponse>
+
+    // [음식점 즐겨찾기 조회]
+    @GET("/api/bookmarks/restaurant")
+    fun getRestaurantBookmark(
+        @Header("Authorization") auth: String?,
+        @Query("size") size: Int?,
+        @Query("page") page: Int?
+    ): Call<RestaurantBookmarkGetResponse>
+
+    // [음식점 즐겨찾기 등록]
+    @POST("/api/bookmarks/restaurant/{storeId}")
+    fun postRestaurantBookmark(
+        @Header("Authorization") auth: String?,
+        @Path("storeId") storeId: Int?,
+        @Body postRestaurantBMBody: PostRestaurantBMDTO
+    ): Call<RestaurantBookmarkPostResponse>
+
+    // [음식점 즐겨찾기 삭제]
+    @DELETE("/api/bookmarks/store/{storeId}")
+    fun deleteRestaurantBookmark(
+        @Header("Authorization") auth: String?,
+        @Path("storeId") storeId: Int?
+    ): Call<RestaurantBookmarkDeleteResponse>
 
 
     // [커뮤니티 글 목록 조회]
