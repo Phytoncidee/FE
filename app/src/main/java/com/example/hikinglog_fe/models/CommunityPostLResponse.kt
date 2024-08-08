@@ -6,7 +6,12 @@ data class CommunityPostLResponse(
     val status: Int,
     val code: String,
     val message: String,
-    val data: MutableList<CommunityPost>
+    val data: PostData
+)
+
+data class PostData(
+    val boardList: List<CommunityPost>,
+    val hasNext: Boolean
 )
 
 data class CommunityPost(

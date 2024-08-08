@@ -12,9 +12,13 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startActivity
 import com.example.hikinglog_fe.RetrofitConnection
 import com.example.hikinglog_fe.databinding.ItemEquipmentshopBinding
+import com.example.hikinglog_fe.models.EShopBookmarkDeleteResponse
 import com.example.hikinglog_fe.models.EShopBookmarkGetResponse
+import com.example.hikinglog_fe.models.EShopBookmarkPostResponse
 import com.example.hikinglog_fe.models.EquipmentShop
 import com.example.hikinglog_fe.models.MBookmarkGetResponse
+import com.example.hikinglog_fe.models.PostEShopBMDTO
+import com.example.hikinglog_fe.models.PostWriteDTO
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -42,7 +46,10 @@ class EquipmentShopAdapter(val context: Context, val datas:MutableList<Equipment
             startActivity(context, intent, null)
         }
 
+
         // [[등산용품점 즐겨찾기]]
+        var isBookmarked : Boolean = false
+
         // [즐겨찾기 조회 -> 표시]
         // <즐겨찾기 조회>
         val callB: Call<EShopBookmarkGetResponse> = RetrofitConnection.jsonNetServ.getEShopBookmark(
@@ -53,40 +60,95 @@ class EquipmentShopAdapter(val context: Context, val datas:MutableList<Equipment
         callB.enqueue(object : Callback<EShopBookmarkGetResponse> {
             override fun onResponse(call: Call<EShopBookmarkGetResponse>, response: Response<EShopBookmarkGetResponse>) {
                 if (response.isSuccessful) {
-                    Log.d("mobileApp", "EShopBookmarksResponse: $response")
+                    Log.d("mobileApp", "getEShopBookmark: $response")
                     // 즐겨찾기 여부 저장
+                    for (i in 0..response.body()!!.data.bookmarkList.size-1){ //bookmarkList에 해당 산의 이름이 존재하는지 확인
+                        if(response.body()!!.data.bookmarkList[i].storeId == model.id){
+                            isBookmarked = true // false -> true 변경
+                            Log.d("mobileApp", "${response.body()!!.data.bookmarkList[i].id}: isBookmarked가 true로 변경!!")
+                        }
+                    }
+
+                    // <즐겨찾기 버튼 표시>
+                    if (isBookmarked == true) { // 등록
+                        binding.BtnESBookmark.setImageResource(android.R.drawable.btn_star_big_on)
+                        Log.d("mobileApp", "${model.id}: isBookmarked가 true로 유지되는 중!!")
+                    } else { // 미등록
+                        binding.BtnESBookmark.setImageResource(android.R.drawable.btn_star_big_off)
+                    }
 
                 } else {
                     // 오류 처리
-                    Log.e("mobileApp", "EShopBookmarksError: ${response.code()}")
+                    Log.e("mobileApp", "getEShopBookmark: ${response.code()}")
                 }
             }
             override fun onFailure(call: Call<EShopBookmarkGetResponse>, t: Throwable) {
                 // 네트워크 오류 처리
-                Log.e("mobileApp", "Failed to fetch data(getEShopBookmarks)", t)
+                Log.e("mobileApp", "Failed to fetch data(getEShopBookmark)", t)
             }
         })
 
-//        // <즐겨찾기 버튼 표시>
-//        if () { // 등록
-//            binding.btnMBookmark.setImageResource(android.R.drawable.btn_star_big_on)
-//        } else { // 미등록
-//            binding.btnMBookmark.setImageResource(android.R.drawable.btn_star_big_off)
-//        }
-//
 //        // [즐겨찾기 등록/삭제 -> 표시]
-//        binding.btnMBookmark.setOnClickListener {
-//            if(){ // 미등록
-//                binding.btnMBookmark.setImageResource(android.R.drawable.btn_star_big_on)
-//                // <즐겨찾기 등록>
-//
-//                Toast.makeText(context, "즐겨찾기 등록", Toast.LENGTH_SHORT).show()
-//            } else { // 등록
-//                binding.btnMBookmark.setImageResource(android.R.drawable.btn_star_big_off)
-//                // <즐겨찾기 삭제>
-//
-//                Toast.makeText(context, "즐겨찾기 삭제", Toast.LENGTH_SHORT).show()
-//            }
-//        }
+        binding.BtnESBookmark.setOnClickListener {
+
+            if(isBookmarked == false){ // 미등록
+
+                binding.BtnESBookmark.setImageResource(android.R.drawable.btn_star_big_on)
+                isBookmarked = true
+
+                // <즐겨찾기 등록>
+                val newEshopBM = PostEShopBMDTO(name = model.name, link = model.link, image = model.image)
+
+                val callB: Call<EShopBookmarkPostResponse> = RetrofitConnection.jsonNetServ.postEShopBookmark(
+                    "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMkBuYXZlci5jb20iLCJ1aWQiOjIsImV4cCI6MTcyMzQ0MDY2MCwiZW1haWwiOiJ1c2VyMkBuYXZlci5jb20ifQ.9wuDnkFoPsN16gUNvDroqkDx59R49P1FQqb6PzmixLFAvswgyYZHzzVhfGhT4lI-J2XjjGw9zLZ3jqN7Ywp-KQ",
+                    model.id,
+                    newEshopBM
+                )
+                callB.enqueue(object : Callback<EShopBookmarkPostResponse> {
+                    override fun onResponse(call: Call<EShopBookmarkPostResponse>, response: Response<EShopBookmarkPostResponse>) {
+                        if (response.isSuccessful) {
+                            Log.d("mobileApp", "postEShopBookmark: $response")
+                        } else {
+                            // 오류 처리
+                            Log.e("mobileApp", "postEShopBookmark: ${response.code()}")
+                        }
+                    }
+                    override fun onFailure(call: Call<EShopBookmarkPostResponse>, t: Throwable) {
+                        // 네트워크 오류 처리
+                        Log.e("mobileApp", "Failed to fetch data(postEShopBookmark)", t)
+                    }
+                })
+                Toast.makeText(context, "즐겨찾기 등록", Toast.LENGTH_SHORT).show()
+
+            }
+            else { // 등록
+
+                binding.BtnESBookmark.setImageResource(android.R.drawable.btn_star_big_off)
+                isBookmarked = false
+
+                // <즐겨찾기 삭제>
+                val callB: Call<EShopBookmarkDeleteResponse> = RetrofitConnection.jsonNetServ.deleteEShopBookmark(
+                    "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMkBuYXZlci5jb20iLCJ1aWQiOjIsImV4cCI6MTcyMzQ0MDY2MCwiZW1haWwiOiJ1c2VyMkBuYXZlci5jb20ifQ.9wuDnkFoPsN16gUNvDroqkDx59R49P1FQqb6PzmixLFAvswgyYZHzzVhfGhT4lI-J2XjjGw9zLZ3jqN7Ywp-KQ",
+                    model.id
+                )
+                callB.enqueue(object : Callback<EShopBookmarkDeleteResponse> {
+                    override fun onResponse(call: Call<EShopBookmarkDeleteResponse>, response: Response<EShopBookmarkDeleteResponse>) {
+                        if (response.isSuccessful) {
+                            Log.d("mobileApp", "deleteEShopBookmark: $response")
+                        } else {
+                            // 오류 처리
+                            Log.e("mobileApp", "deleteEShopBookmark: ${response.code()}")
+                        }
+                    }
+                    override fun onFailure(call: Call<EShopBookmarkDeleteResponse>, t: Throwable) {
+                        // 네트워크 오류 처리
+                        Log.e("mobileApp", "Failed to fetch data(deleteEShopBookmark)", t)
+                    }
+                })
+
+                Toast.makeText(context, "즐겨찾기 삭제", Toast.LENGTH_SHORT).show()
+
+            }
+        }
     }
 }

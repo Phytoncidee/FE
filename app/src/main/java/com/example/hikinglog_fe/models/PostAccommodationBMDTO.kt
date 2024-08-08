@@ -1,0 +1,8 @@
+package com.example.hikinglog_fe.models
+
+data class PostAccommodationBMDTO(
+    val name: String,
+    val location: String,
+    val phone: String,
+    val image: String
+)
