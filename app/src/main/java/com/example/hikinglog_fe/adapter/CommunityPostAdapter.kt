@@ -39,7 +39,7 @@ class CommunityPostAdapter(val context: Context, val datas:MutableList<Community
             // <커뮤니티 글 이미지 표시(Glide)>
             Glide.with(binding.root)
                 .load("${model.image}")
-                .override(40, 40) // 이미지 크기 조정
+                .override(400, 400) // 이미지 크기 조정
                 .into(binding.postImage)
         }
     }

@@ -65,9 +65,9 @@ class CommunityFragment : Fragment() {
                     Log.d("mobileApp", "getPostList: $response")
 
                     // <리사이클러뷰에 표시>
-//                    binding.communityRecyclerView.layoutManager = LinearLayoutManager(context)
-//                    binding.communityRecyclerView.adapter = CommunityPostAdapter(context!!, response.body()!!.data.boardList)
-//                    binding.communityRecyclerView.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
+                    binding.communityRecyclerView.layoutManager = LinearLayoutManager(context)
+                    binding.communityRecyclerView.adapter = CommunityPostAdapter(context!!, response.body()!!.data.boardList)
+                    binding.communityRecyclerView.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
 
                 } else {
                     // 오류 처리
@@ -90,10 +90,10 @@ class CommunityFragment : Fragment() {
         }
 
         // [comment fragment 화면 확인용 임시 버튼 클릭 -> CommentFragment]
-        binding.commentBtn.setOnClickListener {
-            val commentFragment = CommentFragment.newInstance("param1", "param2")
-            commentFragment.show(childFragmentManager, "CommentFragment")
-        }
+//        binding.commentBtn.setOnClickListener {
+//            val commentFragment = CommentFragment.newInstance("param1", "param2")
+//            commentFragment.show(childFragmentManager, "CommentFragment")
+//        }
 
         return binding.root
     }

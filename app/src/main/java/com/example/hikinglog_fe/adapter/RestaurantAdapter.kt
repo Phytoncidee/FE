@@ -48,7 +48,7 @@ class RestaurantAdapter(val context: Context, val datas:MutableList<Restaurant>?
             // <음식점 이미지 표시(Glide)>
             Glide.with(binding.root)
                 .load("${model.img}")
-                .override(40, 40) // 이미지 크기 조정
+                .override(100, 100) // 이미지 크기 조정
                 .into(binding.ImgRestaurant)
         }
 

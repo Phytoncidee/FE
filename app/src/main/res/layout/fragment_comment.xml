@@ -1,46 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="650dp"
     android:layout_gravity="bottom"
     tools:context=".CommentFragment"
-    android:background="@drawable/round_background_white"
-    android:orientation="vertical"
-    android:id="@+id/fragment_comment" >
+    android:id="@+id/fragment_comment">
 
-    <View
-        android:layout_width="50dp"
-        android:layout_height="7dp"
-        android:padding="10dp"
-        android:background="@drawable/round_background_lightyellow"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:backgroundTint="#c0c0c0"/>
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="댓글"
-        android:fontFamily="@font/nanum_square_round_eb"
-        android:textSize="20dp"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="20dp"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/commentRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="350dp"
-        android:layout_marginTop="20dp"/>
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="  댓글을 남겨보세요!"
-        android:background="@drawable/edittext_border"
-        android:drawableRight="@drawable/button_send_comment"
+        android:layout_height="match_parent"
         android:layout_gravity="bottom"
-        android:layout_margin="20dp"
-        android:padding="5dp"/>
+        android:background="@drawable/round_background_white"
+        android:orientation="vertical" >
 
-</LinearLayout>
+        <View
+            android:layout_width="50dp"
+            android:layout_height="7dp"
+            android:padding="10dp"
+            android:background="@drawable/round_background_lightyellow"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="#c0c0c0"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="댓글"
+            android:fontFamily="@font/nanum_square_round_eb"
+            android:textSize="20dp"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="20dp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/commentRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:layout_marginTop="20dp"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="  댓글을 남겨보세요!"
+            android:background="@drawable/edittext_border"
+            android:drawableRight="@drawable/button_send_comment"
+            android:layout_gravity="bottom"
+            android:layout_margin="20dp"
+            android:padding="5dp"/>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

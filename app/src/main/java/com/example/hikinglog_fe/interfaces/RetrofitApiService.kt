@@ -26,6 +26,7 @@ import com.example.hikinglog_fe.models.RestaurantDResponse
 import com.example.hikinglog_fe.models.RestaurantLResponse
 import com.example.hikinglog_fe.models.Top100Response
 import com.google.gson.JsonObject
+import okhttp3.MultipartBody
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.http.Body
@@ -33,7 +34,9 @@ import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Headers
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -186,10 +189,12 @@ interface RetrofitApiService {
     ): Call<CommunityPostLResponse>
 
     // [커뮤니티 글 목록 작성]
+    @Multipart //form-data 사용
     @POST("/api/boards")
     fun postCommunityPost(
         @Header("Authorization") auth: String?,
-        @Body postCPostBody: PostWriteDTO
+        @Part image: MultipartBody.Part?,
+        @Part("data") data: PostWriteDTO
     ): Call<PostWriteResponseDTO<String>>
 
 }
