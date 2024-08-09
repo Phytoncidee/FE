@@ -26,12 +26,12 @@
         android:backgroundTint="@color/navy" />
 
     <!-- 임시 버튼 -->
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="comment 화면 확인용 임시 버튼"
-        android:textColor="@color/black"
-        android:id="@+id/commentBtn" />
+<!--    <Button-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="comment 화면 확인용 임시 버튼"-->
+<!--        android:textColor="@color/black"-->
+<!--        android:id="@+id/commentBtn" />-->
 
     <FrameLayout
         android:layout_width="match_parent"

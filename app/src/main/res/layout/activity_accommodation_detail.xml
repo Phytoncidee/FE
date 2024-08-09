@@ -1,178 +1,183 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-tools:context=".AccommodationDetailActivity">
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-    <ImageView
+    tools:context=".AccommodationDetailActivity">
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:src="@drawable/etc_default_image"
-        android:layout_gravity="center_horizontal"
-        android:id="@+id/img_shop"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="가게 이름"
-        android:textSize="25dp"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center_horizontal"
-        android:fontFamily="@font/nanum_square_round_eb"
-        android:id="@+id/name_shop"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="숙박 시설"
-        android:textSize="18dp"
-        android:textColor="#808080"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center_horizontal"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal">
+        android:layout_height="match_parent">
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginRight="10dp">
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/icon_shopdetails_call"
-                android:backgroundTint="@color/white"
-                android:id="@+id/btn_call_shop"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="전화"
-                android:textColor="#808080"
-                android:layout_gravity="center_horizontal" />
-        </LinearLayout>
-        <View
-            android:layout_width="0.7dp"
-            android:layout_height="50dp"
-            android:padding="10dp"
-            android:background="#c0c0c0"
-            android:layout_gravity="center"/>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp">
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@android:drawable/btn_star_big_off"
-                android:backgroundTint="@color/white"
-                android:id="@+id/btn_bookmark_shop"/>
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:src="@drawable/etc_default_image"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/img_shop"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="즐겨찾기"
-                android:textColor="#808080"
-                android:layout_gravity="center_horizontal" />
-        </LinearLayout>
-        <View
-            android:layout_width="0.7dp"
-            android:layout_height="50dp"
-            android:padding="10dp"
-            android:background="#c0c0c0"
-            android:layout_gravity="center"/>
+                android:text="가게 이름"
+                android:textSize="25dp"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center_horizontal"
+                android:fontFamily="@font/nanum_square_round_eb"
+                android:id="@+id/name_shop"/>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp">
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/icon_shopdetails_location"
-                android:backgroundTint="@color/white"
-                android:id="@+id/btn_map_shop"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="길찾기"
+                android:text="숙박 시설"
+                android:textSize="18dp"
                 android:textColor="#808080"
-                android:layout_gravity="center_horizontal" />
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center_horizontal"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginRight="10dp">
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/icon_shopdetails_call"
+                        android:backgroundTint="@color/white"
+                        android:id="@+id/btn_call_shop"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="전화"
+                        android:textColor="#808080"
+                        android:layout_gravity="center_horizontal" />
+                </LinearLayout>
+                <View
+                    android:layout_width="0.7dp"
+                    android:layout_height="50dp"
+                    android:padding="10dp"
+                    android:background="#c0c0c0"
+                    android:layout_gravity="center"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp">
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@android:drawable/btn_star_big_off"
+                        android:backgroundTint="@color/white"
+                        android:id="@+id/btn_bookmark_shop"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="즐겨찾기"
+                        android:textColor="#808080"
+                        android:layout_gravity="center_horizontal" />
+                </LinearLayout>
+                <View
+                    android:layout_width="0.7dp"
+                    android:layout_height="50dp"
+                    android:padding="10dp"
+                    android:background="#c0c0c0"
+                    android:layout_gravity="center"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp">
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/icon_shopdetails_location"
+                        android:backgroundTint="@color/white"
+                        android:id="@+id/btn_map_shop"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="길찾기"
+                        android:textColor="#808080"
+                        android:layout_gravity="center_horizontal" />
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                android:padding="10dp"
+                android:background="#e0e0e0"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"/>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="  가게 주소 정보"
+                    android:drawableLeft="@drawable/icon_address"
+                    android:fontFamily="@font/nanum_square_round_b"
+                    android:layout_marginTop="8dp"
+                    android:padding="5dp"
+                    android:id="@+id/add_shop"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="  가게 전화 번호"
+                    android:drawableLeft="@drawable/icon_shopdetails_smallcall"
+                    android:fontFamily="@font/nanum_square_round_b"
+                    android:layout_marginTop="8dp"
+                    android:padding="5dp"
+                    android:id="@+id/number_shop"/>
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                android:padding="10dp"
+                android:background="#e0e0e0"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="소개"
+                android:fontFamily="@font/nanum_square_round_eb"
+                android:textSize="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:fontFamily="@font/nanum_square_round_b"
+                android:textSize="15dp"
+                android:padding="20dp"
+                android:id="@+id/info_shop"/>
+
+
         </LinearLayout>
-    </LinearLayout>
+    </ScrollView>
 
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="15dp"
-        android:padding="10dp"
-        android:background="#e0e0e0"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"/>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="  가게 주소 정보"
-            android:drawableLeft="@drawable/icon_address"
-            android:fontFamily="@font/nanum_square_round_b"
-            android:layout_marginTop="8dp"
-            android:padding="5dp"
-            android:id="@+id/add_shop"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="  가게 전화 번호"
-            android:drawableLeft="@drawable/icon_shopdetails_smallcall"
-            android:fontFamily="@font/nanum_square_round_b"
-            android:layout_marginTop="8dp"
-            android:padding="5dp"
-            android:id="@+id/number_shop"/>
-    </LinearLayout>
-
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="15dp"
-        android:padding="10dp"
-        android:background="#e0e0e0"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="소개"
-        android:fontFamily="@font/nanum_square_round_eb"
-        android:textSize="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:fontFamily="@font/nanum_square_round_b"
-        android:textSize="15dp"
-        android:padding="20dp"
-        android:id="@+id/info_shop"/>
-
-
-</LinearLayout>
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

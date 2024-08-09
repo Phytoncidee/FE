@@ -90,10 +90,10 @@ class CommunityFragment : Fragment() {
         }
 
         // [comment fragment 화면 확인용 임시 버튼 클릭 -> CommentFragment]
-        binding.commentBtn.setOnClickListener {
-            val commentFragment = CommentFragment.newInstance("param1", "param2")
-            commentFragment.show(childFragmentManager, "CommentFragment")
-        }
+//        binding.commentBtn.setOnClickListener {
+//            val commentFragment = CommentFragment.newInstance("param1", "param2")
+//            commentFragment.show(childFragmentManager, "CommentFragment")
+//        }
 
         return binding.root
     }

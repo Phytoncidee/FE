@@ -1,29 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="20dp"
     android:id="@+id/root">
 
-    <TextView
-        android:layout_width="0dp"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="가게 이름"
-        android:textSize="20dp"
-        android:fontFamily="@font/nanum_square_round_eb"
-        android:layout_weight="1"
-        android:gravity="center_vertical"
-        android:id="@+id/eShopName"/>
+        android:padding="20dp">
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@android:drawable/btn_star_big_off"
-        android:backgroundTint="@color/white"
-        android:scaleType="fitCenter"
-        android:id="@+id/BtnESBookmark"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="가게 이름"
+            android:textSize="20dp"
+            android:fontFamily="@font/nanum_square_round_eb"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:id="@+id/eShopName"/>
 
-</LinearLayout>
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/btn_star_big_off"
+            android:backgroundTint="@color/white"
+            android:scaleType="fitCenter"
+            android:id="@+id/BtnESBookmark"/>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
 

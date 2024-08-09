@@ -1,187 +1,193 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MyPageFragment">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="30dp"
-        android:background="@color/white"
-        android:orientation="vertical"
-        android:gravity="center_horizontal">
 
-        <!-- 마이 페이지 상단 프로필 -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/icon_community_default_profile"
-                android:layout_marginRight="10dp"/>
+            android:layout_height="match_parent"
+            android:padding="30dp"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <!-- 마이 페이지 상단 프로필 -->
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_marginRight="180dp">
-                <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/user_name"
-                    android:textSize="18dp"
-                    android:fontFamily="@font/nanum_square_round_eb" />
+                    android:src="@drawable/icon_community_default_profile"
+                    android:layout_marginRight="10dp"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_marginRight="180dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/user_name"
+                        android:textSize="18dp"
+                        android:fontFamily="@font/nanum_square_round_eb" />
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/button_logout"
+                        android:background="@color/white"
+                        android:layout_marginTop="3dp"/>
+                </LinearLayout>
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/button_logout"
-                    android:background="@color/white"
-                    android:layout_marginTop="3dp"/>
+                    android:src="@drawable/icon_setting_icon"
+                    android:background="@color/white" />
             </LinearLayout>
+
+            <!-- 배너들 -->
+            <LinearLayout
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round_background_lightyellow"
+                android:backgroundTint="@color/backgroundyellow"
+                android:orientation="vertical"
+                android:padding="30dp"
+                android:layout_marginTop="20dp">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/user_name"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="님,"
+                        android:textStyle="bold" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="지금까지 "
+                        android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="5"
+                        android:textStyle="bold"
+                        android:id="@+id/hikingCount"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="회 등산했어요."
+                        android:textStyle="bold" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="총 "
+                        android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2500"
+                        android:textStyle="bold"
+                        android:id="@+id/hikingHeight"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="시간 올랐어요!"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+            </LinearLayout>
+
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/icon_setting_icon"
-                android:background="@color/white" />
-        </LinearLayout>
+                android:src="@drawable/button_banner_mytourism"
+                android:background="@color/white"
+                android:layout_marginTop="20dp"/>
 
-        <!-- 배너들 -->
-        <LinearLayout
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/round_background_lightyellow"
-            android:backgroundTint="@color/backgroundyellow"
-            android:orientation="vertical"
-            android:padding="30dp"
-            android:layout_marginTop="20dp">
+            <!-- 등산 기록 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="오늘의 등산\n기록을 시작할까요?"
+                android:textStyle="bold"
+                android:textSize="18dp"
+                android:layout_gravity="start"
+                android:layout_marginTop="10dp"/>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
+                android:orientation="horizontal"
+                android:layout_gravity="start">
+                <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/user_name"
-                    android:textStyle="bold" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="님,"
-                    android:textStyle="bold" />
+                    android:text="직접 입력"
+                    android:textColor="@color/white"/>
             </LinearLayout>
-            <LinearLayout
+
+            <!-- 내 활동 -->
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="지금까지 "
-                    android:textStyle="bold" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="5"
-                    android:textStyle="bold"
-                    android:id="@+id/hikingCount"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="회 등산했어요."
-                    android:textStyle="bold" />
-            </LinearLayout>
-            <LinearLayout
+                android:text="내 활동"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                android:textColor="@color/black"
+                android:layout_gravity="start"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/nanum_square_round_eb"/>
+            <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="총 "
-                    android:textStyle="bold" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="2500"
-                    android:textStyle="bold"
-                    android:id="@+id/hikingHeight"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="시간 올랐어요!"
-                    android:textStyle="bold" />
-            </LinearLayout>
+                android:src="@drawable/button_mypost"
+                android:background="@color/white"
+                android:layout_marginTop="20dp" />
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/button_mylike"
+                android:background="@color/white"
+                android:layout_marginTop="20dp"/>
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/button_myfavorite"
+                android:background="@color/white"
+                android:layout_marginTop="20dp"
+                android:id="@+id/myfavoritesBtn"/>
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/button_withdrawal"
+                android:background="@color/white"
+                android:layout_marginTop="20dp"/>
 
         </LinearLayout>
 
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/button_banner_mytourism"
-            android:background="@color/white"
-            android:layout_marginTop="20dp"/>
+    </ScrollView>
 
-        <!-- 등산 기록 -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="오늘의 등산\n기록을 시작할까요?"
-            android:textStyle="bold"
-            android:textSize="18dp"
-            android:layout_gravity="start"
-            android:layout_marginTop="10dp"/>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="start">
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="직접 입력"
-                android:textColor="@color/white"/>
-        </LinearLayout>
-
-        <!-- 내 활동 -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="내 활동"
-            android:textStyle="bold"
-            android:textSize="20dp"
-            android:textColor="@color/black"
-            android:layout_gravity="start"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/nanum_square_round_eb"/>
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/button_mypost"
-            android:background="@color/white"
-            android:layout_marginTop="20dp" />
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/button_mylike"
-            android:background="@color/white"
-            android:layout_marginTop="20dp"/>
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/button_myfavorite"
-            android:background="@color/white"
-            android:layout_marginTop="20dp"
-            android:id="@+id/myfavoritesBtn"/>
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/button_withdrawal"
-            android:background="@color/white"
-            android:layout_marginTop="20dp"/>
-
-    </LinearLayout>
-
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

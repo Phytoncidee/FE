@@ -18,7 +18,6 @@ data class CommunityPost(
     val createdAt: String,
     val updatedAt: String,
     val id: Int,
-    val title: String,
     val content: String,
     val image: String,
     val tag: String,
