@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.hikinglog_fe.databinding.ActivityNationalMountainsBinding
 import com.example.hikinglog_fe.databinding.FragmentMapBinding
 import com.kakao.vectormap.KakaoMap
 import com.kakao.vectormap.KakaoMapReadyCallback
@@ -13,14 +14,30 @@ import com.kakao.vectormap.MapLifeCycleCallback
 import com.kakao.vectormap.MapView
 
 
-class MapFragment : MainActivity.BaseFragment<FragmentMapBinding>({ FragmentMapBinding.inflate(it) }) {
+class MapFragment : Fragment() {
+    private var _binding: FragmentMapBinding? = null
+    private val binding get() = _binding!!
 
-    lateinit var kakaoMap: KakaoMap
+    private lateinit var kakaoMap: KakaoMap
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentMapBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val mapView: MapView = binding.mapView
         getMap(mapView)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun getMap(mapView: MapView) {

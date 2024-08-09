@@ -8,7 +8,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.hikinglog_fe.databinding.ActivityRegisterBinding
-import com.example.hikinglog_fe.interfaces.AuthApi
+import com.example.hikinglog_fe.interfaces.ApiService
 import com.example.hikinglog_fe.models.RegisterErrorResponse
 import com.example.hikinglog_fe.models.RegisterRequest
 import com.example.hikinglog_fe.models.RegisterResponse
@@ -75,7 +75,7 @@ class RegisterActivity : AppCompatActivity() {
             )
 
             // 백엔드 통신 부분
-            val authApi = AuthApi.create()
+            val authApi = ApiService.create()
 
 
             authApi.registerUser(newData).enqueue(object : Callback<RegisterResponse> {

@@ -14,7 +14,7 @@ import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.hikinglog_fe.databinding.ActivityLoginBinding
-import com.example.hikinglog_fe.interfaces.AuthApi
+import com.example.hikinglog_fe.interfaces.ApiService
 import com.example.hikinglog_fe.models.LoginRequest
 import com.example.hikinglog_fe.models.LoginResponse
 import retrofit2.Call
@@ -41,7 +41,7 @@ class LoginActivity : AppCompatActivity() {
             }
 
             // 백엔드 통신 부분
-            val authApi = AuthApi.create()
+            val authApi = ApiService.create()
             val data = LoginRequest(email, password)
 
             authApi.loginUser(data).enqueue(object : Callback<LoginResponse> {
@@ -56,7 +56,7 @@ class LoginActivity : AppCompatActivity() {
                         200 -> {
                             val loginResponse = response.body()
                             // 로그인 성공
-                            saveUserInfo(loginResponse?.data, email) // 토큰, 이메일 저장
+                            saveToken(loginResponse?.data) // 토큰 저장
                             showToast("로그인 성공")
                             navigateToMainActivity() // 메인 화면으로 이동
                         }
@@ -81,15 +81,14 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun saveUserInfo(token: String?, email: String) {
+    private fun saveToken(token: String?) {
         if (token.isNullOrEmpty()) {
             Log.d("토큰 저장 오류", "토큰이 null 또는 빈 문자열입니다.")
             return
         }
-        val pref = getSharedPreferences("userInfo", MODE_PRIVATE)
+        val pref = getSharedPreferences("userToken", MODE_PRIVATE)
         with(pref.edit()) {
             putString("token", token)
-            putString("userEmail", email)
             apply()
         }
         Log.d("토큰 저장", "saved")

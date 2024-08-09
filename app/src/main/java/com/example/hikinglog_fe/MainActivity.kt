@@ -84,26 +84,6 @@ class MainActivity : AppCompatActivity() {
         }.attach() // tab 버튼 부착
     } //onCreate()
 
-    abstract class BaseFragment<VB : ViewBinding>(private val bindingInflater: (LayoutInflater) -> VB) : Fragment() {
-
-        private var _binding: VB? = null
-        protected val binding get() = _binding!!
-
-        override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-        ): View? {
-            _binding = bindingInflater.invoke(inflater)
-            return binding.root
-        }
-
-        override fun onDestroyView() {
-            super.onDestroyView()
-            _binding = null
-        }
-    }
-
-
     // [Option Menu(액션바 메뉴)]
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_navigation, menu)

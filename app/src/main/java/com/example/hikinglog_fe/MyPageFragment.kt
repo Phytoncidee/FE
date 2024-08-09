@@ -9,25 +9,35 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.example.hikinglog_fe.databinding.FragmentHomeBinding
 import com.example.hikinglog_fe.databinding.FragmentMyPageBinding
+import com.example.hikinglog_fe.interfaces.ApiService
+import com.example.hikinglog_fe.models.ProfileResponse
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MyPageFragment : Fragment() {
     private lateinit var binding : FragmentMyPageBinding
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var apiService : ApiService
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentMyPageBinding.inflate(inflater, container, false)
+
+        // SharedPreferences 초기화
         sharedPreferences = requireContext().getSharedPreferences("userToken", Context.MODE_PRIVATE)
 
-        val userEmail = sharedPreferences.getString("userEmail", null)
+        // ApiService 초기화
+        apiService = ApiService.create()
+
+        // 저장된 데이터 읽기
         val token = sharedPreferences.getString("token", null)
 
-        if (userEmail != null && token != null) {
-            binding.userEmail.text = userEmail
+        if (token != null) {
+            fetchUserProfile(token)
             binding.btnAuth.setImageResource(R.drawable.button_logout) // 로그아웃 이미지로 변경
             binding.btnAuth.setOnClickListener {
                 logout()
@@ -46,6 +56,26 @@ class MyPageFragment : Fragment() {
             true
         }
         return binding.root
+    }
+
+    private fun fetchUserProfile(token: String) {
+        apiService.getProfile("Bearer $token").enqueue(object : Callback<ProfileResponse> {
+            override fun onResponse(call: Call<ProfileResponse>, response: Response<ProfileResponse>) {
+                if (response.isSuccessful) {
+                    val profileData = response.body()?.data
+                    profileData?.let {
+                        activity?.runOnUiThread {
+                            binding.userName.text = it.name
+                        }
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<ProfileResponse>, t: Throwable) {
+                t.printStackTrace()
+            }
+        })
+
     }
 
     private fun logout() {
