@@ -92,7 +92,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-    } //onCreate()
+    }
 
     // [Option Menu(액션바 메뉴)]
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
