@@ -28,7 +28,8 @@
             android:gravity="center"
             android:hint="게시물이 작성된 산을 알려주세요!"
             android:layout_marginTop="20dp"
-            android:id="@+id/postMountain"/>
+            android:id="@+id/postMountain"
+            android:textColor="@color/black"/>
 
         <EditText
             android:layout_width="match_parent"
@@ -38,7 +39,8 @@
             android:gravity="start"
             android:hint="게시물을 작성해주세요 :)"
             android:layout_marginTop="20dp"
-            android:id="@+id/postContent"/>
+            android:id="@+id/postContent"
+            android:textColor="@color/black"/>
 
         <!-- 사진 선택 -->
         <LinearLayout

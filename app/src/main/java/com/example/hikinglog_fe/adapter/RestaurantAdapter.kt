@@ -67,7 +67,7 @@ class RestaurantAdapter(val context: Context, val datas:MutableList<Restaurant>?
         // [즐겨찾기 조회 -> 표시]
         // <즐겨찾기 조회>
         val callB: Call<RestaurantBookmarkGetResponse> = RetrofitConnection.jsonNetServ.getRestaurantBookmark(
-            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMkBuYXZlci5jb20iLCJ1aWQiOjIsImV4cCI6MTcyMzQ0MDY2MCwiZW1haWwiOiJ1c2VyMkBuYXZlci5jb20ifQ.9wuDnkFoPsN16gUNvDroqkDx59R49P1FQqb6PzmixLFAvswgyYZHzzVhfGhT4lI-J2XjjGw9zLZ3jqN7Ywp-KQ",
+            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMUBuYXZlci5jb20iLCJ1aWQiOjEsImV4cCI6MTcyMzQ5NjM5MiwiZW1haWwiOiJ1c2VyMUBuYXZlci5jb20ifQ.TKguWwv_0JcaNgtzinEpn7GRLYusUUnX9s6ZlOiFS00HJOMKbSGdGfbrUNqyrGExqdEQuOGy2Z11ZZUvF28jAg",
             5,
             0
         )
@@ -114,7 +114,7 @@ class RestaurantAdapter(val context: Context, val datas:MutableList<Restaurant>?
                 val newRestaurantnBM = PostRestaurantBMDTO(name = model.name, location = model.add, phone = model.tel, image = model.img)
 
                 val callB: Call<RestaurantBookmarkPostResponse> = RetrofitConnection.jsonNetServ.postRestaurantBookmark(
-                    "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMkBuYXZlci5jb20iLCJ1aWQiOjIsImV4cCI6MTcyMzQ0MDY2MCwiZW1haWwiOiJ1c2VyMkBuYXZlci5jb20ifQ.9wuDnkFoPsN16gUNvDroqkDx59R49P1FQqb6PzmixLFAvswgyYZHzzVhfGhT4lI-J2XjjGw9zLZ3jqN7Ywp-KQ",
+                    "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMUBuYXZlci5jb20iLCJ1aWQiOjEsImV4cCI6MTcyMzQ5NjM5MiwiZW1haWwiOiJ1c2VyMUBuYXZlci5jb20ifQ.TKguWwv_0JcaNgtzinEpn7GRLYusUUnX9s6ZlOiFS00HJOMKbSGdGfbrUNqyrGExqdEQuOGy2Z11ZZUvF28jAg",
                     model.contentId,
                     newRestaurantnBM
                 )
@@ -142,7 +142,7 @@ class RestaurantAdapter(val context: Context, val datas:MutableList<Restaurant>?
 
                 // <즐겨찾기 삭제>
                 val callB: Call<RestaurantBookmarkDeleteResponse> = RetrofitConnection.jsonNetServ.deleteRestaurantBookmark(
-                    "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMkBuYXZlci5jb20iLCJ1aWQiOjIsImV4cCI6MTcyMzQ0MDY2MCwiZW1haWwiOiJ1c2VyMkBuYXZlci5jb20ifQ.9wuDnkFoPsN16gUNvDroqkDx59R49P1FQqb6PzmixLFAvswgyYZHzzVhfGhT4lI-J2XjjGw9zLZ3jqN7Ywp-KQ",
+                    "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMUBuYXZlci5jb20iLCJ1aWQiOjEsImV4cCI6MTcyMzQ5NjM5MiwiZW1haWwiOiJ1c2VyMUBuYXZlci5jb20ifQ.TKguWwv_0JcaNgtzinEpn7GRLYusUUnX9s6ZlOiFS00HJOMKbSGdGfbrUNqyrGExqdEQuOGy2Z11ZZUvF28jAg",
                     model.contentId
                 )
                 callB.enqueue(object : Callback<RestaurantBookmarkDeleteResponse> {
