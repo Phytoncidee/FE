@@ -34,17 +34,6 @@ class AddPostActivity : AppCompatActivity() {
         binding = ActivityAddPostBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // 권한 요청
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-//            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED) {
-//                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_MEDIA_IMAGES), 1)
-//            }
-//        } else {
-//            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-//                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 1)
-//            }
-//        }
-
         // [이미지 선택 버튼]
         val requestLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == android.app.Activity.RESULT_OK) {
@@ -78,9 +67,10 @@ class AddPostActivity : AppCompatActivity() {
 
                     // 이미지 파일을 RequestBody와 MultipartBody.Part로 변환
                     val imagePart: MultipartBody.Part? = selectedImageUri?.let { uri ->
-                        val file = File(getRealPathFromURI(uri))
-                        val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
-                        MultipartBody.Part.createFormData("image", file.name, requestFile)
+                        contentResolver.openInputStream(uri)?.use { inputStream ->
+                            val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), inputStream.readBytes())
+                            MultipartBody.Part.createFormData("image", "image.jpg", requestFile)
+                        }
                     }
 
                     // >> 서버에 넘겨 저장
@@ -112,20 +102,15 @@ class AddPostActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(this, "산 이름 미입력", Toast.LENGTH_LONG).show()
             }
-        }
-    }
 
-    private fun getRealPathFromURI(uri: Uri): String {
-        var filePath = ""
-        val cursor = contentResolver.query(uri, null, null, null, null)
-        if (cursor != null) {
-            cursor.moveToFirst()
-            val idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
-            filePath = cursor.getString(idx)
-            cursor.close()
+            // >> 커뮤니티 목록으로 돌아가기
+            val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("fragment", "community")
+            startActivity(intent)
+            finish()
+
         }
-        return filePath
-    }
+    }//onCreate()
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
