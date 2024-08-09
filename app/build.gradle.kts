@@ -2,9 +2,12 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     id("kotlin-kapt") // Kotlin Annotation Processing Tool
+    id("kotlin-android")
+    id("kotlin-parcelize")
 }
 
 android {
+
     namespace = "com.example.hikinglog_fe"
     compileSdk = 34
 

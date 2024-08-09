@@ -1,5 +1,8 @@
 package com.example.hikinglog_fe.models
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
 
 data class NationalMountainsResponse(
     val response: Response?
@@ -19,7 +22,7 @@ data class Body(
 data class Items(
     val item: List<Mountain>?
 )
-
+@Parcelize
 data class Mountain(
     val mntiadd: String?,
     val mntiadmin: String?,
@@ -32,4 +35,4 @@ data class Mountain(
     val mntisname: String?,
     val mntisummary: String?,
     val mntitop: String?
-)
+) : Parcelable
