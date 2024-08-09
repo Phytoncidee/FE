@@ -32,23 +32,8 @@
             android:textSize="15dp"
             android:text="1시간 30분" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#928E8E"
-            android:textSize="15dp"
-            android:text="  |  " />
-
-        <TextView
-            android:id="@+id/recordDistance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#928E8E"
-            android:textSize="15dp"
-            android:text="400km" />
-
         <Space
-            android:layout_width="100dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
 

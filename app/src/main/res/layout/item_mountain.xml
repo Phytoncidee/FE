@@ -35,7 +35,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="산 이름"
-                    android:textSize="20dp"
+                    android:textSize="16dp"
                     android:fontFamily="@font/nanum_square_round_eb"
                     android:layout_marginBottom="10dp"
                     android:id="@+id/mntiname"/>
@@ -43,7 +43,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="산 높이"
-                    android:textSize="15dp"
+                    android:textSize="16dp"
                     android:textColor="@color/gray"
                     android:fontFamily="@font/nanum_square_round_b"
                     android:layout_marginBottom="10dp"
@@ -63,7 +63,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=" 산 주소~~~~~~~~~~~~~"
-                android:textSize="17dp"
+                android:textSize="14dp"
                 android:textColor="@color/gray"
                 android:fontFamily="@font/nanum_square_round_b"
                 android:layout_marginTop="10dp"
@@ -85,4 +85,3 @@
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-

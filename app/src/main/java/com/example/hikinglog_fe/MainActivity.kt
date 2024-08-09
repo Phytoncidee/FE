@@ -2,18 +2,23 @@ package com.example.hikinglog_fe
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.viewbinding.ViewBinding
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.hikinglog_fe.databinding.ActivityMainBinding
 import com.google.android.material.tabs.TabLayoutMediator
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding : ActivityMainBinding
+
 
     // [viewpager adapter에 대한 class]
     class MyFragmentPagerAdapter(activity: FragmentActivity): FragmentStateAdapter(activity){
@@ -88,7 +93,6 @@ class MainActivity : AppCompatActivity() {
         }
 
     } //onCreate()
-
 
     // [Option Menu(액션바 메뉴)]
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

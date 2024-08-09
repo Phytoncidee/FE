@@ -23,6 +23,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:text="산행록과 함께\n전국의 산을 정복해보세요! ⛰️"
                 android:textColor="@color/white"
                 android:textSize="20sp"
@@ -33,8 +34,9 @@
             <!--검색창-->
             <EditText
                 android:id="@+id/searchEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="285dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
                 android:background="@drawable/search_box"
                 android:hint="산 이름 혹은 산 소재지 지역명 검색"
                 android:drawableStart="@drawable/icon_search"
@@ -46,37 +48,26 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:background="@drawable/round_background_white"
             android:orientation="vertical"
-            android:padding="30dp">
+            android:padding="5dp">
 
-            <!--            스피너 구현되지 않은 상태-->
-            <TextView
-                android:id="@+id/spinner_region"
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_gravity="center"
-                android:background="@drawable/region_spinner_background"
-                android:text="지역별로 보기"
-                android:textColor="@color/lightgray"
-                android:textSize="18sp"
-                android:gravity="center_vertical|start"
-                android:paddingStart="20dp"
-                android:layout_marginBottom="10dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            <!-- 지역 별로 보기_스피너 -->
+            <Spinner
+                android:id="@+id/spinner"
+                android:background="@drawable/spinner_background"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center_horizontal" />
 
-            <!-- 산 목록 리스트 -->
-            <ListView
-                android:id="@+id/mountainsListView"
+            <!-- 선택된 지역의 산 목록 -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/allMountainsRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="700dp"
-                android:layout_weight="1"
-                android:divider="@android:color/darker_gray"
-                android:dividerHeight="1dp"
-                android:padding="16dp" />
+                android:layout_height="match_parent" />
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
