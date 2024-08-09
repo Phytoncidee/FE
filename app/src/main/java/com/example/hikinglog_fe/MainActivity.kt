@@ -82,6 +82,16 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }.attach() // tab 버튼 부착
+
+        // AddPostActivity -> CommunityFragment 돌아기 위한 관련 코드
+        // [Intent에서 fragment 선택 처리]
+        val fragmentToSelect = intent.getStringExtra("fragment")
+        if (fragmentToSelect != null) {
+            when (fragmentToSelect) {
+                "community" -> binding.viewpager.currentItem = 3 // 커뮤니티 탭으로 이동
+            }
+        }
+
     } //onCreate()
 
     // [Option Menu(액션바 메뉴)]

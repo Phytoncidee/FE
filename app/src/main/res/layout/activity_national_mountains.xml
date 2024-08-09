@@ -42,7 +42,8 @@
                 android:drawableStart="@drawable/icon_search"
                 android:drawablePadding="8dp"
                 android:paddingLeft="20dp"
-                android:textColor="@color/lightgray"
+                android:textColorHint="@color/lightgray"
+                android:textColor="@color/black"
                 android:textSize="14sp" />
         </LinearLayout>
 

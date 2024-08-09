@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -10,57 +10,69 @@
     android:orientation="vertical"
     android:padding="40dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="새 게시물"
-        android:textSize="25dp"
-        android:textStyle="bold" />
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/edittext_border"
-        android:padding="10dp"
-        android:gravity="center"
-        android:hint="게시물이 작성된 산을 알려주세요!"
-        android:layout_marginTop="20dp"/>
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:background="@drawable/edittext_border"
-        android:padding="20dp"
-        android:gravity="start"
-        android:hint="게시물을 작성해주세요 :)"
-        android:layout_marginTop="20dp"/>
-
-    <!-- 사진 선택 -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginTop="30dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="새 게시물"
+            android:textSize="25dp"
+            android:textStyle="bold" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_border"
+            android:padding="10dp"
+            android:gravity="center"
+            android:hint="게시물이 작성된 산을 알려주세요!"
+            android:layout_marginTop="20dp"
+            android:id="@+id/postMountain"
+            android:textColor="@color/black"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:background="@drawable/edittext_border"
+            android:padding="20dp"
+            android:gravity="start"
+            android:hint="게시물을 작성해주세요 :)"
+            android:layout_marginTop="20dp"
+            android:id="@+id/postContent"
+            android:textColor="@color/black"/>
+
+        <!-- 사진 선택 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="30dp">
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/button_selectphoto"
+                android:background="@color/white"
+                android:id="@+id/BtnPostImg"/>
+            <ImageView
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_marginLeft="20dp"
+                android:visibility="gone"
+                android:id="@+id/PostImg"/>
+        </LinearLayout>
+
+
+        <!-- 글 등록 -->
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/button_selectphoto"
-            android:background="@color/white" />
-        <ImageView
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:layout_marginLeft="20dp"
-            android:visibility="gone"/>
+            android:layout_gravity="center"
+            android:src="@drawable/button_savepost"
+            android:background="@color/white"
+            android:layout_marginTop="30dp"
+            android:id="@+id/BtnAddPost"/>
     </LinearLayout>
 
-
-    <!-- 글 등록 -->
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:src="@drawable/button_savepost"
-        android:background="@color/white"
-        android:layout_marginTop="30dp"/>
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

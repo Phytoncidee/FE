@@ -135,7 +135,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="20dp"
-                        android:text="km 올랐어요!"
+                        android:text="시간 올랐어요!"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -166,11 +166,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="직접 입력"
-                    android:textColor="@color/white" />
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="실시간 시작"
                     android:textColor="@color/white" />
             </LinearLayout>
 

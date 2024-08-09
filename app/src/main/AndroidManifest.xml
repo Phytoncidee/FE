@@ -11,6 +11,12 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- 파일 외부 저장소 접근 권한 추가(게시물 post에 사용) -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:name=".MyApplication"
         android:usesCleartextTraffic="true"
@@ -23,7 +29,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HikingLog_FE"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".SplashActivity"
+            android:theme="@style/SplashTheme"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".RestaurantDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AccommodationDetailActivity"
+            android:exported="false" />
         <activity
             android:name=".RealTimeRecordActivity"
             android:exported="false" />
@@ -80,12 +102,7 @@
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="true" />
         <meta-data
             android:name="com.kakao.vectormap.APP_KEY"
             android:value="b054d4aac052e2c90ddc6fee33f06119" />

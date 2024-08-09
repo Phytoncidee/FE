@@ -83,6 +83,11 @@ class NationalMountainsActivity : AppCompatActivity() {
         } else {
             Log.e("TOKEN_ERROR", "No token found in SharedPreferences")
         }
+        
+        // Top100 페이지에서 클릭 후 이동한 경우 -> 검색창에 해당 Top100 산 이름 자동 입력
+        val mountainName: String? = intent.getStringExtra("mountainName")
+        binding.searchEditText.setText(mountainName)
+        
     }
 
     private fun fetchMountains(token: String) {
@@ -117,4 +122,3 @@ class NationalMountainsActivity : AppCompatActivity() {
             })
     }
 }
-
