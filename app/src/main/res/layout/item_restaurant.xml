@@ -34,7 +34,9 @@
                 android:fontFamily="@font/nanum_square_round_eb"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
-                android:id="@+id/restaurantName"/>
+                android:id="@+id/restaurantName"
+                android:maxLines="1"
+                android:ellipsize="end"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -45,14 +47,16 @@
                 android:fontFamily="@font/nanum_square_round_b"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="5dp"
-                android:id="@+id/restaurantAdd"/>
+                android:id="@+id/restaurantAdd"
+                android:maxLines="1"
+                android:ellipsize="end"/>
         </LinearLayout>
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@android:drawable/btn_star_big_off"
-            android:backgroundTint="@color/backgroundyellow"
+            android:background="@color/backgroundyellow"
             android:scaleType="fitCenter"
             android:padding="10dp"
             android:id="@+id/BtnResBookmark"/>
