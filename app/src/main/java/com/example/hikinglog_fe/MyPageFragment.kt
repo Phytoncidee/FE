@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.bumptech.glide.Glide
 import com.example.hikinglog_fe.databinding.FragmentMyPageBinding
 import com.example.hikinglog_fe.interfaces.ApiService
 import com.example.hikinglog_fe.models.ProfileResponse
@@ -66,6 +67,11 @@ class MyPageFragment : Fragment() {
                     profileData?.let {
                         activity?.runOnUiThread {
                             binding.userName.text = it.name
+                            binding.bannerName.text = it.name
+                            // 이미지 로드
+                            Glide.with(this@MyPageFragment)
+                                .load(it.image)
+                                .into(binding.userProfile)
                         }
                     }
                 }
@@ -83,6 +89,14 @@ class MyPageFragment : Fragment() {
             remove("token")
             remove("userName")
             apply()
+        }
+        // UI 초기화
+        binding.userName.text = "로그인하세요"
+        binding.bannerName.text = ""
+        binding.btnAuth.setImageResource(R.drawable.button_login)
+        binding.btnAuth.setOnClickListener {
+            val intent = Intent(context, LoginActivity::class.java)
+            startActivity(intent)
         }
         Toast.makeText(context, "로그아웃 성공", Toast.LENGTH_SHORT).show()
     }

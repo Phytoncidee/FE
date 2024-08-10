@@ -15,31 +15,35 @@
         android:background="@color/white">
 
         <!-- 홈 베너 -->
+
+        <!-- 홈 메뉴 -->
         <LinearLayout
             android:layout_width="350dp"
             android:layout_height="200dp"
             android:background="@drawable/round_background_lightyellow"
             android:backgroundTint="@color/green"
+            android:gravity="center"
             android:orientation="vertical"
-            android:padding="30dp"
-            android:gravity="center">
+            android:padding="30dp">
+
             <TextView
+                android:id="@+id/bannerName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="김산이님, 환영합니다! 🖐️"
-                android:textColor="@color/white"
                 android:fontFamily="@font/nanum_square_round_eb"
+                android:text="환영합니다! 🖐️"
+                android:textColor="@color/white"
                 android:textSize="20dp" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="산행록이 당신의 등산 여정에 \n함께할게요."
-                android:textColor="@color/white"
                 android:fontFamily="@font/nanum_square_round_eb"
+                android:text="산행록이 당신의 등산 여행을\n즐겁고 풍성하게 만들어 드릴게요."
+                android:textColor="@color/white"
                 android:textSize="20dp" />
         </LinearLayout>
 
-        <!-- 홈 메뉴 -->
         <LinearLayout
             android:layout_width="350dp"
             android:layout_height="wrap_content"
