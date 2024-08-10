@@ -1,5 +1,7 @@
 package com.example.hikinglog_fe
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
@@ -17,15 +19,20 @@ import retrofit2.Response
 
 
 class EquipmentShopActivity : AppCompatActivity() {
+    private lateinit var sharedPreferences: SharedPreferences
     lateinit var binding : ActivityEquipmentShopBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEquipmentShopBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // SharedPreferences 초기화
+        sharedPreferences = getSharedPreferences("userToken", Context.MODE_PRIVATE)
+        val token = sharedPreferences.getString("token", null)
+
         // [Retrofit 통신 요청: 등산용품점 목록]
         val call: Call<EquipmentShopLResponse> = RetrofitConnection.jsonNetServ.getEquipmentShopList(
-            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMUBuYXZlci5jb20iLCJ1aWQiOjEsImV4cCI6MTcyMzI2MTk0MSwiZW1haWwiOiJ1c2VyMUBuYXZlci5jb20ifQ.7jJ8Y5eu95xmPEIrh1Q2KjLgxLnAOVFolMMHK7bI6QLRMdoIpAyd8kOPmVungVa_N_GzbCsDKglTKjTwCzdVnk"
+            "Bearer $token"
         )
 
         // [Retrofit 통신 응답: 등산용품점 목록]
@@ -37,7 +44,7 @@ class EquipmentShopActivity : AppCompatActivity() {
 
                     // <리사이클러뷰에 표시>
                     binding.equipmentShopRecyclerView.layoutManager = LinearLayoutManager(applicationContext)
-                    binding.equipmentShopRecyclerView.adapter = EquipmentShopAdapter(this@EquipmentShopActivity, response.body()!!.data)
+                    binding.equipmentShopRecyclerView.adapter = EquipmentShopAdapter(this@EquipmentShopActivity, response.body()!!.data, token)
                     binding.equipmentShopRecyclerView.addItemDecoration(DividerItemDecoration(applicationContext, LinearLayoutManager.VERTICAL))
 
                 } else {

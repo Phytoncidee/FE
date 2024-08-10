@@ -1,6 +1,7 @@
 package com.example.hikinglog_fe
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -23,15 +24,20 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class Top100Activity : AppCompatActivity() {
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityTop100Binding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // SharedPreferences 초기화
+        sharedPreferences = getSharedPreferences("userToken", Context.MODE_PRIVATE)
+        val token = sharedPreferences.getString("token", null)
+
         // [Call객체를 통해 Retrofit 통신_요청]
         val call: Call<Top100Response> = RetrofitConnection.xmlNetServ.getTop100Mountains(
-            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMUBuYXZlci5jb20iLCJ1aWQiOjEsImV4cCI6MTcyMzI2MTk0MSwiZW1haWwiOiJ1c2VyMUBuYXZlci5jb20ifQ.7jJ8Y5eu95xmPEIrh1Q2KjLgxLnAOVFolMMHK7bI6QLRMdoIpAyd8kOPmVungVa_N_GzbCsDKglTKjTwCzdVng"
+            "Bearer $token"
         )
 
         // [Call객체를 통해 Retrofit 통신_응답] (return된 값 처리)

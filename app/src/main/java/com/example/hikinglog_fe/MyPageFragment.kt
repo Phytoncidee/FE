@@ -50,11 +50,27 @@ class MyPageFragment : Fragment() {
             }
         }
 
-        binding.myfavoritesBtn.setOnClickListener {
-            val intent = Intent(context, FavoritesActivity::class.java)
+        // 내 활동_내가 작성한 게시물
+        binding.myPostsBtn.setOnClickListener {
+            val intent = Intent(context, MyPostsActivity::class.java)
             startActivity(intent)
             true
         }
+
+        // 내 활동_좋아요한 게시물
+        binding.myLikesBtn.setOnClickListener {
+            val intent = Intent(context, MyLikesActivity::class.java)
+            startActivity(intent)
+            true
+        }
+
+        // 내 활동_즐겨찾기
+        binding.myfavoritesBtn.setOnClickListener {
+            val intent = Intent(context, MyBookmarksActivity::class.java)
+            startActivity(intent)
+            true
+        }
+
         return binding.root
     }
 

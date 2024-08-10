@@ -1,5 +1,7 @@
 package com.example.hikinglog_fe
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
@@ -20,14 +22,20 @@ import retrofit2.Response
 
 class RestaurantActivity : AppCompatActivity() {
     lateinit var binding : ActivityRestaurantBinding
+    private lateinit var sharedPreferences: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRestaurantBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // SharedPreferences 초기화
+        sharedPreferences = getSharedPreferences("userToken", Context.MODE_PRIVATE)
+        val token = sharedPreferences.getString("token", null)
+
         // [Retrofit 통신 요청: 음식점 목록]
         val call: Call<RestaurantLResponse> = RetrofitConnection.jsonNetServ.getRestaurantList(
-            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMUBuYXZlci5jb20iLCJ1aWQiOjEsImV4cCI6MTcyMzQ5NjM5MiwiZW1haWwiOiJ1c2VyMUBuYXZlci5jb20ifQ.TKguWwv_0JcaNgtzinEpn7GRLYusUUnX9s6ZlOiFS00HJOMKbSGdGfbrUNqyrGExqdEQuOGy2Z11ZZUvF28jAg",
+            "Bearer $token",
             127.01612551862054,
             37.6525631765458
             // 현재 위도, 경도 받아서 넘겨주는 처리 필요
@@ -42,7 +50,7 @@ class RestaurantActivity : AppCompatActivity() {
 
                     // <리사이클러뷰에 표시>
                     binding.restaurantRecyclerView.layoutManager = LinearLayoutManager(applicationContext)
-                    binding.restaurantRecyclerView.adapter = RestaurantAdapter(this@RestaurantActivity, response.body()!!.data)
+                    binding.restaurantRecyclerView.adapter = RestaurantAdapter(this@RestaurantActivity, response.body()!!.data, token)
                     binding.restaurantRecyclerView.addItemDecoration(DividerItemDecoration(applicationContext, LinearLayoutManager.VERTICAL))
 
                 } else {

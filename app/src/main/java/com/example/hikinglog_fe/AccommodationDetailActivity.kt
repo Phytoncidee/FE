@@ -1,6 +1,8 @@
 package com.example.hikinglog_fe
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -19,11 +21,16 @@ import retrofit2.Response
 
 class AccommodationDetailActivity : AppCompatActivity() {
     lateinit var binding : ActivityAccommodationDetailBinding
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAccommodationDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // SharedPreferences 초기화
+        sharedPreferences = getSharedPreferences("userToken", Context.MODE_PRIVATE)
+        val token = sharedPreferences.getString("token", null)
 
         // 리사이클러 뷰에서 가게 contentId 받아오기
         val contentId: Int? = intent.getIntExtra("contentId", -1)
@@ -35,7 +42,7 @@ class AccommodationDetailActivity : AppCompatActivity() {
 
         // [Retrofit 통신 요청: 등산용품점 상세]
         val call: Call<AccommodationDResponse> = RetrofitConnection.jsonNetServ.getAccommodationDetail(
-            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMUBuYXZlci5jb20iLCJ1aWQiOjEsImV4cCI6MTcyMzQ5NjM5MiwiZW1haWwiOiJ1c2VyMUBuYXZlci5jb20ifQ.TKguWwv_0JcaNgtzinEpn7GRLYusUUnX9s6ZlOiFS00HJOMKbSGdGfbrUNqyrGExqdEQuOGy2Z11ZZUvF28jAg",
+            "Bearer $token",
             contentId!!.toInt()
         )
 
@@ -50,7 +57,7 @@ class AccommodationDetailActivity : AppCompatActivity() {
                     // > 가게 이미지(Glide)
                     Glide.with(binding.root)
                         .load("${response.body()!!.data.img}")
-                        .override(40, 40) // 이미지 크기 조정
+                        .override(250, 200) // 이미지 크기 조정
                         .into(binding.imgShop)
                     // > 가게 이름
                     binding.nameShop.text = response.body()!!.data.name

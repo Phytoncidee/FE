@@ -2,40 +2,42 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.hikinglog_fe">
-
-    <!--권한 설정-->
+    <!-- 권한 설정 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
-
-    <uses-permission android:name="android.permission.INTERNET" />
-
-    <!-- 파일 외부 저장소 접근 권한 추가(게시물 post에 사용) -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- 파일 외부 저장소 접근 권한 추가(게시물 post에 사용) -->
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".MyApplication"
-        android:usesCleartextTraffic="true"
-        android:hardwareAccelerated="true"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HikingLog_FE"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".MyPostsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MyLikesActivity"
+            android:exported="false" />
+        <activity
             android:name=".SplashActivity"
-            android:theme="@style/SplashTheme"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -66,7 +68,8 @@
         <activity
             android:name=".LoginActivity"
             android:exported="false" />
-        <activity android:name=".RegisterActivity"
+        <activity
+            android:name=".RegisterActivity"
             android:exported="false" />
         <activity
             android:name=".CourseDetailActivity"
@@ -78,7 +81,7 @@
             android:name=".Top100Activity"
             android:exported="false" />
         <activity
-            android:name=".FavoritesActivity"
+            android:name=".MyBookmarksActivity"
             android:exported="false" />
         <activity
             android:name=".SafetyGuideActivity"
@@ -102,6 +105,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="false" />
+
         <meta-data
             android:name="com.kakao.vectormap.APP_KEY"
             android:value="b054d4aac052e2c90ddc6fee33f06119" />
