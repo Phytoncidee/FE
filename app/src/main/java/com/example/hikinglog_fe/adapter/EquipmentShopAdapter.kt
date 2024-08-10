@@ -25,7 +25,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class EquipmentShopHolder(val binding: ItemEquipmentshopBinding): RecyclerView.ViewHolder(binding.root)
-class EquipmentShopAdapter(val context: Context, val datas:MutableList<EquipmentShop>?): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class EquipmentShopAdapter(val context: Context, val datas:MutableList<EquipmentShop>?, private val token: String?): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun getItemCount(): Int {
         return datas?.size ?: 0
     }
@@ -54,7 +54,7 @@ class EquipmentShopAdapter(val context: Context, val datas:MutableList<Equipment
         // [즐겨찾기 조회 -> 표시]
         // <즐겨찾기 조회>
         val callB: Call<EShopBookmarkGetResponse> = RetrofitConnection.jsonNetServ.getEShopBookmark(
-            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMUBuYXZlci5jb20iLCJ1aWQiOjEsImV4cCI6MTcyMzQ5NjM5MiwiZW1haWwiOiJ1c2VyMUBuYXZlci5jb20ifQ.TKguWwv_0JcaNgtzinEpn7GRLYusUUnX9s6ZlOiFS00HJOMKbSGdGfbrUNqyrGExqdEQuOGy2Z11ZZUvF28jAg",
+            "Bearer $token",
             5,
             0
         )
@@ -101,7 +101,7 @@ class EquipmentShopAdapter(val context: Context, val datas:MutableList<Equipment
                 val newEshopBM = PostEShopBMDTO(name = model.name, link = model.link, image = model.image)
 
                 val callB: Call<EShopBookmarkPostResponse> = RetrofitConnection.jsonNetServ.postEShopBookmark(
-                    "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMUBuYXZlci5jb20iLCJ1aWQiOjEsImV4cCI6MTcyMzQ5NjM5MiwiZW1haWwiOiJ1c2VyMUBuYXZlci5jb20ifQ.TKguWwv_0JcaNgtzinEpn7GRLYusUUnX9s6ZlOiFS00HJOMKbSGdGfbrUNqyrGExqdEQuOGy2Z11ZZUvF28jAg",
+                    "Bearer $token",
                     model.id,
                     newEshopBM
                 )
@@ -129,7 +129,7 @@ class EquipmentShopAdapter(val context: Context, val datas:MutableList<Equipment
 
                 // <즐겨찾기 삭제>
                 val callB: Call<EShopBookmarkDeleteResponse> = RetrofitConnection.jsonNetServ.deleteEShopBookmark(
-                    "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMUBuYXZlci5jb20iLCJ1aWQiOjEsImV4cCI6MTcyMzQ5NjM5MiwiZW1haWwiOiJ1c2VyMUBuYXZlci5jb20ifQ.TKguWwv_0JcaNgtzinEpn7GRLYusUUnX9s6ZlOiFS00HJOMKbSGdGfbrUNqyrGExqdEQuOGy2Z11ZZUvF28jAg",
+                    "Bearer $token",
                     model.id
                 )
                 callB.enqueue(object : Callback<EShopBookmarkDeleteResponse> {

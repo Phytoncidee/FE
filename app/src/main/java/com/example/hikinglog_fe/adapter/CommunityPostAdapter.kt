@@ -4,12 +4,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import android.content.Context
+import androidx.fragment.app.FragmentManager
 import com.bumptech.glide.Glide
+import com.example.hikinglog_fe.CommentFragment
 import com.example.hikinglog_fe.databinding.ItemPostBinding
 import com.example.hikinglog_fe.models.CommunityPost
 
 class CommunityPostHolder(val binding: ItemPostBinding): RecyclerView.ViewHolder(binding.root)
-class CommunityPostAdapter(val context: Context, val datas:MutableList<CommunityPost>?): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class CommunityPostAdapter(val context: Context, val datas:MutableList<CommunityPost>?, val fragmentManager: FragmentManager): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun getItemCount(): Int {
         return datas?.size ?: 0
     }
@@ -41,6 +43,12 @@ class CommunityPostAdapter(val context: Context, val datas:MutableList<Community
                 .load("${model.image}")
                 .override(400, 400) // 이미지 크기 조정
                 .into(binding.postImage)
+        }
+
+        // [[댓글 버튼 클릭]]
+        binding.BtnPostComment.setOnClickListener {
+            val commentFragment = CommentFragment.newInstance("param1", "param2")
+            commentFragment.show(fragmentManager, "CommentFragment")
         }
     }
 }

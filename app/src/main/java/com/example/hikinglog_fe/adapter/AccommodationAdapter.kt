@@ -25,7 +25,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class AccommodationHolder(val binding: ItemAccommodationBinding): RecyclerView.ViewHolder(binding.root)
-class AccommodationAdapter(val context: Context, val datas:MutableList<Accommodation>?): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class AccommodationAdapter(val context: Context, val datas:MutableList<Accommodation>?, private val token: String?): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun getItemCount(): Int {
         return datas?.size ?: 0
     }
@@ -65,7 +65,7 @@ class AccommodationAdapter(val context: Context, val datas:MutableList<Accommoda
         // [즐겨찾기 조회 -> 표시]
         // <즐겨찾기 조회>
         val callB: Call<AccommodationBookmarkGetResponse> = RetrofitConnection.jsonNetServ.getAccommodationBookmark(
-            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMUBuYXZlci5jb20iLCJ1aWQiOjEsImV4cCI6MTcyMzQ5NjM5MiwiZW1haWwiOiJ1c2VyMUBuYXZlci5jb20ifQ.TKguWwv_0JcaNgtzinEpn7GRLYusUUnX9s6ZlOiFS00HJOMKbSGdGfbrUNqyrGExqdEQuOGy2Z11ZZUvF28jAg",
+            "Bearer $token",
             5,
             0
         )
@@ -112,7 +112,7 @@ class AccommodationAdapter(val context: Context, val datas:MutableList<Accommoda
                 val newAccommodationBM = PostAccommodationBMDTO(name = model.name, location = model.add, phone = model.tel, image = model.img)
 
                 val callB: Call<AccommodationBookmarkPostResponse> = RetrofitConnection.jsonNetServ.postAccommodationBookmark(
-                    "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMUBuYXZlci5jb20iLCJ1aWQiOjEsImV4cCI6MTcyMzQ5NjM5MiwiZW1haWwiOiJ1c2VyMUBuYXZlci5jb20ifQ.TKguWwv_0JcaNgtzinEpn7GRLYusUUnX9s6ZlOiFS00HJOMKbSGdGfbrUNqyrGExqdEQuOGy2Z11ZZUvF28jAg",
+                    "Bearer $token",
                     model.contentId,
                     newAccommodationBM
                 )
@@ -140,7 +140,7 @@ class AccommodationAdapter(val context: Context, val datas:MutableList<Accommoda
 
                 // <즐겨찾기 삭제>
                 val callB: Call<AccommodationBookmarkDeleteResponse> = RetrofitConnection.jsonNetServ.deleteAccommodationBookmark(
-                    "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMUBuYXZlci5jb20iLCJ1aWQiOjEsImV4cCI6MTcyMzQ5NjM5MiwiZW1haWwiOiJ1c2VyMUBuYXZlci5jb20ifQ.TKguWwv_0JcaNgtzinEpn7GRLYusUUnX9s6ZlOiFS00HJOMKbSGdGfbrUNqyrGExqdEQuOGy2Z11ZZUvF28jAg",
+                    "Bearer $token",
                     model.contentId
                 )
                 callB.enqueue(object : Callback<AccommodationBookmarkDeleteResponse> {

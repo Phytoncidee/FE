@@ -1,6 +1,8 @@
 package com.example.hikinglog_fe
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -14,6 +16,7 @@ import com.example.hikinglog_fe.adapter.AccommodationAdapter
 import com.example.hikinglog_fe.adapter.CommunityPostAdapter
 import com.example.hikinglog_fe.databinding.FragmentCommunityBinding
 import com.example.hikinglog_fe.databinding.FragmentHomeBinding
+import com.example.hikinglog_fe.interfaces.ApiService
 import com.example.hikinglog_fe.models.AccommodationLResponse
 import com.example.hikinglog_fe.models.CommunityPostLResponse
 import com.google.gson.JsonObject
@@ -32,6 +35,8 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class CommunityFragment : Fragment() {
+    private lateinit var sharedPreferences: SharedPreferences
+
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -50,9 +55,15 @@ class CommunityFragment : Fragment() {
     ): View? {
         val binding = FragmentCommunityBinding.inflate(inflater, container, false)
 
+        // SharedPreferences 초기화
+        sharedPreferences = requireContext().getSharedPreferences("userToken", Context.MODE_PRIVATE)
+        // 저장된 데이터 읽기
+        val token = sharedPreferences.getString("token", null)
+
+
         // [Retrofit 통신 요청: 커뮤니티 글 목록]
         val call: Call<CommunityPostLResponse> = RetrofitConnection.jsonNetServ.getPostList(
-            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMUBuYXZlci5jb20iLCJ1aWQiOjEsImV4cCI6MTcyMzQ5NjM5MiwiZW1haWwiOiJ1c2VyMUBuYXZlci5jb20ifQ.TKguWwv_0JcaNgtzinEpn7GRLYusUUnX9s6ZlOiFS00HJOMKbSGdGfbrUNqyrGExqdEQuOGy2Z11ZZUvF28jAg",
+            "Bearer $token",
             5,
             0
         )
@@ -66,7 +77,7 @@ class CommunityFragment : Fragment() {
 
                     // <리사이클러뷰에 표시>
                     binding.communityRecyclerView.layoutManager = LinearLayoutManager(context)
-                    binding.communityRecyclerView.adapter = CommunityPostAdapter(context!!, response.body()!!.data.boardList)
+                    binding.communityRecyclerView.adapter = CommunityPostAdapter(context!!, response.body()!!.data.boardList, childFragmentManager)
                     binding.communityRecyclerView.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
 
                 } else {

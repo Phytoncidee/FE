@@ -180,18 +180,22 @@
                 android:layout_gravity="start"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/nanum_square_round_eb"/>
+
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/button_mypost"
+                android:layout_marginTop="20dp"
                 android:background="@color/white"
-                android:layout_marginTop="20dp" />
+                android:src="@drawable/button_mypost"
+                android:id="@+id/myPostsBtn"/>
+
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/button_mylike"
                 android:background="@color/white"
-                android:layout_marginTop="20dp"/>
+                android:layout_marginTop="20dp"
+                android:id="@+id/myLikesBtn"/>
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

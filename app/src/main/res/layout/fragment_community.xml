@@ -6,7 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CommunityFragment"
-    android:id="@+id/fragment_community" >
+    android:id="@+id/fragment_community"
+    android:padding="10dp">
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/communityRecyclerView"
         android:layout_width="match_parent"

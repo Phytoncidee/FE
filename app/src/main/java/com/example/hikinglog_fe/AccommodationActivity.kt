@@ -1,5 +1,7 @@
 package com.example.hikinglog_fe
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -16,14 +18,19 @@ import retrofit2.Response
 
 class AccommodationActivity : AppCompatActivity() {
     lateinit var binding : ActivityAccommodationBinding
+    private lateinit var sharedPreferences: SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAccommodationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // SharedPreferences 초기화
+        sharedPreferences = getSharedPreferences("userToken", Context.MODE_PRIVATE)
+        val token = sharedPreferences.getString("token", null)
+
         // [Retrofit 통신 요청: 등산용품점 목록]
         val call: Call<AccommodationLResponse> = RetrofitConnection.jsonNetServ.getAccommodationList(
-            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMUBuYXZlci5jb20iLCJ1aWQiOjEsImV4cCI6MTcyMzQ5NjM5MiwiZW1haWwiOiJ1c2VyMUBuYXZlci5jb20ifQ.TKguWwv_0JcaNgtzinEpn7GRLYusUUnX9s6ZlOiFS00HJOMKbSGdGfbrUNqyrGExqdEQuOGy2Z11ZZUvF28jAg",
+            "Bearer $token",
             127.01612551862054,
             37.6525631765458
             // 현재 위도, 경도 받아서 넘겨주는 처리 필요
@@ -38,7 +45,7 @@ class AccommodationActivity : AppCompatActivity() {
 
                     // <리사이클러뷰에 표시>
                     binding.accommodationRecyclerView.layoutManager = LinearLayoutManager(applicationContext)
-                    binding.accommodationRecyclerView.adapter = AccommodationAdapter(this@AccommodationActivity, response.body()!!.data)
+                    binding.accommodationRecyclerView.adapter = AccommodationAdapter(this@AccommodationActivity, response.body()!!.data, token)
                     binding.accommodationRecyclerView.addItemDecoration(DividerItemDecoration(applicationContext, LinearLayoutManager.VERTICAL))
 
                 } else {
