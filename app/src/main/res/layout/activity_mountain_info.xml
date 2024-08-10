@@ -30,7 +30,7 @@
                 android:textColor="@color/white"
                 android:textSize="25sp"
                 android:textStyle="bold"
-                android:layout_marginTop="60dp"
+                android:layout_marginTop="10dp"
                 android:padding="25dp" />
 
             <LinearLayout
@@ -39,194 +39,224 @@
                 android:background="@drawable/round_background_white"
                 android:orientation="vertical" >
 
-                <ImageView
-                    android:id="@+id/mountainImg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <androidx.cardview.widget.CardView
+                    android:layout_width="300dp"
+                    android:layout_height="200dp"
                     android:layout_marginTop="30dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/mock_hallamountain" />
+                    app:cardCornerRadius="10dp">
+                    <ImageView
+                        android:id="@+id/mntImg"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/mock_hallamountain"
+                        android:scaleType="centerCrop"/>
+
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:id="@+id/mountainComment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="화산이 잉태한 남한 최고(最高)의 영산"
+                    android:textSize="16sp"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="10dp"
+                    android:padding="20dp"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="15dp" >
+                    android:padding="20dp"
+                    android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/mountainName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="한라산"
+                        android:text="위치"
+                        android:textSize="15sp"
+                        android:textColor="@color/gray"
+                        android:layout_marginTop="15dp" />
+
+                    <TextView
+                        android:id="@+id/mountainLocation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="제주특별자치도"
+                        android:textSize="15sp"
+                        android:textColor="@color/black"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginStart="10dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:padding="20dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="높이"
+                        android:textSize="15sp"
+                        android:textColor="@color/gray"
+                        android:layout_marginTop="15dp" />
+
+                    <TextView
+                        android:id="@+id/mountainHeight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="15dp"
+                        android:text="1,947m"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="350dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/xml_mountain_info_district">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="등산경로"
+                        android:textColor="@color/black"
                         android:textSize="20sp"
                         android:textStyle="bold"
-                        android:textColor="@color/black"
-                        android:layout_marginStart="70dp" />
+                        android:layout_marginTop="20dp"
+                        android:layout_marginStart="30dp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/mock_hikingcourse"
+                        android:layout_marginBottom="20dp" />
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="350dp"
+                    android:layout_height="140dp"
+                    android:layout_gravity="center"
+                    android:orientation="vertical"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/xml_mountain_info_district">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_centerVertical="true"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/main_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="여행 중인 산 근처\n맛집과 관광지 선택하고"
+                            android:textColor="@android:color/black"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            android:layout_marginStart="6dp"/>
+
+                        <Button
+                            android:id="@+id/buttonMakeCourse"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/main_text"
+                            android:layout_alignStart="@id/main_text"
+                            android:text="나만의 관광코스 만들기"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:background="@android:color/transparent"
+                            android:textColor="#928E8E"
+                            android:drawableEnd="@drawable/icon_arrow_right"
+                            android:layout_marginTop="1dp" />
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="25dp"
+                        android:src="@drawable/icon_map" />
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="350dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical"
+                    android:background="@drawable/xml_mountain_info_district"
+                    android:layout_marginTop="10dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="1,947m"
+                        android:text="커뮤니티 후기글"
+                        android:textColor="@color/black"
                         android:textSize="20sp"
-                        android:textColor="@android:color/darker_gray"
-                        android:layout_marginStart="20dp" />
+                        android:textStyle="bold"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginStart="30dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="30dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="20dp">
+
+                        <ImageView
+                            android:layout_width="90dp"
+                            android:layout_height="90dp"
+                            android:src="@drawable/mock_post"/>
+
+                        <!-- post 간격 조정 -->
+                        <View
+                            android:layout_width="5dp"
+                            android:layout_height="0dp" />
+
+                        <ImageView
+                            android:layout_width="90dp"
+                            android:layout_height="90dp"
+                            android:src="@drawable/mock_post"/>
+
+                        <!-- post 간격 조정 -->
+                        <View
+                            android:layout_width="5dp"
+                            android:layout_height="0dp" />
+
+                        <ImageView
+                            android:layout_width="90dp"
+                            android:layout_height="90dp"
+                            android:src="@drawable/mock_post"/>
+                    </LinearLayout>
                 </LinearLayout>
-
-                <!-- 들어오는 데이터에 따라 난이도 변경해서 보여주는 로직 구현 필요 ($difficulty) -->
-                <TextView
-                    android:id="@+id/mountainLocation"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="위치: 제주특별자치도"
-                    android:textSize="15sp"
-                    android:textColor="@color/black"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginStart="70dp" />
-
-                <TextView
-                    android:id="@+id/mountainDifficulty"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="난이도: 중급"
-                    android:textSize="15sp"
-                    android:textColor="@color/black"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="20dp"
-                    android:layout_marginStart="70dp" />
-
-                <View
-                    android:layout_width="350dp"
-                    android:layout_height="2dp"
-                    android:layout_gravity="center"
-                    android:layout_centerInParent="true"
-                    android:background="@color/lightgray"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="등산경로"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginStart="70dp" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/mock_hikingcourse"
-                    android:layout_marginBottom="20dp" />
-
-                <View
-                    android:layout_width="350dp"
-                    android:layout_height="2dp"
-                    android:layout_gravity="center"
-                    android:layout_centerInParent="true"
-                    android:background="@color/lightgray"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="나만의 관광코스"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginStart="70dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="여행 중인 산 근처의 맛집과 숙소를 포함한\nAI 추천 관광 코스를 만들어 드립니다."
-                    android:textSize="17sp"
-                    android:textColor="@color/black"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="20dp"
-                    android:layout_marginStart="70dp" />
-
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="0dp"
-                    android:background="@android:color/transparent"
-                    android:src="@drawable/button_mytrip"
-                    android:layout_marginBottom="20dp" />
-
-
-                <View
-                    android:layout_width="350dp"
-                    android:layout_height="2dp"
-                    android:layout_gravity="center"
-                    android:layout_centerInParent="true"
-                    android:background="@color/lightgray"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="커뮤니티 후기글"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginStart="70dp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginStart="70dp"
-                    android:layout_marginBottom="20dp">
-
-                    <ImageView
-                        android:layout_width="110dp"
-                        android:layout_height="110dp"
-                        android:src="@drawable/mock_post"/>
-
-                    <!-- post 간격 조정 -->
-                    <View
-                        android:layout_width="5dp"
-                        android:layout_height="0dp" />
-
-                    <ImageView
-                        android:layout_width="110dp"
-                        android:layout_height="110dp"
-                        android:src="@drawable/mock_post"/>
-
-                    <!-- post 간격 조정 -->
-                    <View
-                        android:layout_width="5dp"
-                        android:layout_height="0dp" />
-
-                    <ImageView
-                        android:layout_width="110dp"
-                        android:layout_height="110dp"
-                        android:src="@drawable/mock_post"/>
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="350dp"
-                    android:layout_height="2dp"
-                    android:layout_gravity="center"
-                    android:layout_centerInParent="true"
-                    android:background="@color/lightgray"/>
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginBottom="20dp"
                     android:src="@drawable/mock_weather" />
 
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,11 +1,13 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
-
     id("kotlin-kapt") // Kotlin Annotation Processing Tool
+    id("kotlin-android")
+    id("kotlin-parcelize")
 }
 
 android {
+
     namespace = "com.example.hikinglog_fe"
     compileSdk = 34
 
@@ -17,6 +19,12 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            abiFilters.add("arm64-v8a")
+            abiFilters.add("armeabi-v7a")
+        }
+
     }
 
     buildTypes {
@@ -44,6 +52,21 @@ android {
 
 dependencies {
 
+    // Kakao
+    implementation("com.kakao.sdk:v2-user:2.20.3")
+    implementation("com.kakao.sdk:v2-share:2.20.3")
+    implementation("com.kakao.maps.open:android:2.9.5")
+
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0'")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.okhttp3:okhttp:4.8.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.8.0")
+
+
+    // 이미지 처리-Glide 라이브러리
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation("androidx.viewpager2:viewpager2:1.1.0")
@@ -53,7 +76,6 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
     implementation("androidx.core:core:1.10.1")
 
 

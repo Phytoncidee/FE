@@ -22,7 +22,7 @@ class SplashActivity : AppCompatActivity() {
             // 쓰레드, 시간, 단위
             {
                 mainExe.execute({ // 쓰레드 형태로 실행
-                    val intent = Intent(applicationContext, MainActivity::class.java)
+                    val intent = Intent(applicationContext, LoginActivity::class.java)
                     startActivity(intent)
                     finish()
                 })

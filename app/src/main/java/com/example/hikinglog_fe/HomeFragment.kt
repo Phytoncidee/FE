@@ -43,6 +43,12 @@ class HomeFragment : Fragment() {
             true
         }
 
+        binding.nationalMountainBtn.setOnClickListener {
+            val intent = Intent(context, NationalMountainsActivity::class.java)
+            startActivity(intent)
+            true
+        }
+
         binding.equipmentShopBtn.setOnClickListener {
             val intent = Intent(context, EquipmentShopActivity::class.java)
             startActivity(intent)
