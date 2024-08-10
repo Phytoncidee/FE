@@ -1,5 +1,6 @@
 package com.example.hikinglog_fe
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -48,7 +49,18 @@ class MountainInfoActivity : AppCompatActivity() {
                 binding.mntImg.setImageResource(R.drawable.etc_default_mountain)
             }
         }
-    }
+
+
+        // [[마이관광 이동 버튼 클릭]]
+        binding.buttonMakeCourse.setOnClickListener {
+            val context = binding.root.context
+            val intent = Intent(context, CreateCourseActivity::class.java).apply {
+                putExtra("mountain", mountain)
+            }
+            context.startActivity(intent)
+        }
+
+    } // onCreate()
 
     private fun displayMountainInfo(mountain: Mountain) {
         // 산의 상세 정보를 표시

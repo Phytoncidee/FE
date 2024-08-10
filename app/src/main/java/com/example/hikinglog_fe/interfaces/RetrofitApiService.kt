@@ -25,6 +25,7 @@ import com.example.hikinglog_fe.models.RestaurantBookmarkPostResponse
 import com.example.hikinglog_fe.models.RestaurantDResponse
 import com.example.hikinglog_fe.models.RestaurantLResponse
 import com.example.hikinglog_fe.models.Top100Response
+import com.example.hikinglog_fe.models.TourismLResponse
 import com.google.gson.JsonObject
 import okhttp3.MultipartBody
 import org.json.JSONObject
@@ -178,6 +179,15 @@ interface RetrofitApiService {
         @Header("Authorization") auth: String?,
         @Path("storeId") storeId: Int?
     ): Call<RestaurantBookmarkDeleteResponse>
+
+
+    // [관광지 목록 조회]
+    @GET("/api/store/tour-list")
+    fun getTourpList(
+        @Header("Authorization") auth: String?,
+        @Query("longitude") longitude: Double?,
+        @Query("latitude") latitude: Double?
+    ): Call<TourismLResponse>
 
 
     // [커뮤니티 글 목록 조회]
