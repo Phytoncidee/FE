@@ -101,7 +101,7 @@
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".MainActivity"
-            android:exported="true" />
+            android:exported="false" />
         <meta-data
             android:name="com.kakao.vectormap.APP_KEY"
             android:value="b054d4aac052e2c90ddc6fee33f06119" />
