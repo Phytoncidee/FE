@@ -1,6 +1,7 @@
 package com.example.hikinglog_fe
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
@@ -207,7 +208,9 @@ class CreateCourseActivity : AppCompatActivity() {
 
         // [[코스 저장]]
         binding.BtnSaveCourse.setOnClickListener {
-
+            val intent = Intent(applicationContext, MainActivity::class.java)
+            startActivity(intent)
+            true
         }
     }
 }

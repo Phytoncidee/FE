@@ -52,11 +52,71 @@
                     android:fontFamily="@font/nanum_square_round_eb"
                     android:text="🔆 입산 전 "
                     android:textSize="20dp" />
-                <androidx.recyclerview.widget.RecyclerView
+<!--                <androidx.recyclerview.widget.RecyclerView-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:id="@+id/beforeHikingRecyclerView"-->
+<!--                    android:layout_marginTop="20dp" />-->
+
+
+
+                <!-- 시연용 예시 목록 -->
+                <!-- 예시 음식점 -->
+                <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/beforeHikingRecyclerView"
-                    android:layout_marginTop="20dp" />
+                    android:layout_marginTop="20dp"
+                    android:background="@color/backgroundyellow">
+
+                    <ImageView
+                        android:id="@+id/ImgRestaurant"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/xx_exrestaurant3"
+                        android:padding="5dp"/>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:layout_marginLeft="20dp"
+                        android:layout_weight="1">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="송원막국수"
+                            android:textSize="20dp"
+                            android:fontFamily="@font/nanum_square_round_eb"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginTop="10dp"
+                            android:id="@+id/restaurantName"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=" 경기도 가평군 가화로 76-1 송원막국수"
+                            android:drawableLeft="@drawable/icon_address"
+                            android:textSize="17dp"
+                            android:textColor="@color/gray"
+                            android:fontFamily="@font/nanum_square_round_b"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="5dp"
+                            android:id="@+id/restaurantAdd"
+                            android:maxLines="1"
+                            android:ellipsize="end"/>
+                    </LinearLayout>
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@android:drawable/btn_star_big_off"
+                        android:backgroundTint="@color/backgroundyellow"
+                        android:scaleType="fitCenter"
+                        android:padding="10dp"
+                        android:id="@+id/BtnResBookmark"/>
+
+                </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
@@ -65,6 +125,9 @@
                     android:background="#e0e0e0"
                     android:layout_gravity="center"
                     android:layout_marginTop="20dp"/>
+
+
+
 
 
                 <!-- 산 정보 -->
@@ -78,23 +141,23 @@
                 <ImageView
                     android:layout_width="250dp"
                     android:layout_height="150dp"
-                    android:src="@drawable/etc_default_image"
+                    android:src="@drawable/xx_exmountain5"
                     android:layout_gravity="center"
                     android:layout_marginVertical="20dp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nanum_square_round_b"
-                    android:text="산 이름"
+                    android:text="가덕산"
                     android:textSize="20dp"
                     android:paddingHorizontal="30dp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="산 소개"
+                    android:text="경기 제1봉인 화악산(1,468m)에서 동남쪽으로 뻗어 내린 능선 상에 솟아 있는 가덕산은 몽덕산과 북배산의 능선 중간에 자리 잡고 있다. 억새산이라고 할 만큼 가을철에 억새가 볼만하다. 가덕산은 계관산, 북배산, 몽덕산과 더불어 네 개의 산을 연결하여 등산하는 유명한 종주 코스이다. 이 능선에 구축된 등산길은 넓게 길이 잘 뚫려 있고 굴곡이 심하지 않아 겨울철 능선 종주산행지로 적격이다."
                     android:textSize="15dp"
                     android:paddingHorizontal="30dp"
-                    android:layout_marginTop="10dp"/>
+                    android:layout_marginVertical="10dp"/>
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -106,12 +169,14 @@
                         android:text="소재지"
                         android:textSize="15dp"
                         android:textColor="@color/gray"
-                        android:layout_marginRight="10dp"/>
+                        android:layout_marginRight="10dp"
+                        android:layout_marginVertical="10dp"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="산 주소~~~~~~~~~"
-                        android:textSize="15dp"/>
+                        android:text="경기도 가평군 북면 목동리"
+                        android:textSize="15dp"
+                        android:layout_marginVertical="10dp"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -124,12 +189,14 @@
                         android:text="높이"
                         android:textSize="15dp"
                         android:textColor="@color/gray"
-                        android:layout_marginRight="10dp"/>
+                        android:layout_marginRight="10dp"
+                        android:layout_marginVertical="5dp"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2000m"
-                        android:textSize="15dp"/>
+                        android:text="334.8m"
+                        android:textSize="15dp"
+                        android:layout_marginVertical="5dp"/>
                 </LinearLayout>
                 <ImageButton
                     android:layout_width="wrap_content"
@@ -156,11 +223,111 @@
                     android:fontFamily="@font/nanum_square_round_eb"
                     android:text="🍀 하산 후 "
                     android:textSize="20dp" />
-                <androidx.recyclerview.widget.RecyclerView
+<!--                <androidx.recyclerview.widget.RecyclerView-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:id="@+id/afterHikingRecyclerView"-->
+<!--                    android:layout_marginTop="20dp" />-->
+
+
+
+                <!-- 시연용 예시 목록 -->
+                <!-- 예시 음식점 -->
+                <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/afterHikingRecyclerView"
-                    android:layout_marginTop="20dp" />
+                    android:layout_marginTop="20dp"
+                    android:background="@color/backgroundyellow">
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/xx_exrestaurant2"
+                        android:padding="5dp"/>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:layout_marginLeft="20dp"
+                        android:layout_weight="1">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="[백년가게]유일관"
+                            android:textSize="20dp"
+                            android:fontFamily="@font/nanum_square_round_eb"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginTop="10dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=" 경기도 가평군 조종면 조종새싹로4번길 15-14"
+                            android:drawableLeft="@drawable/icon_address"
+                            android:textSize="17dp"
+                            android:textColor="@color/gray"
+                            android:fontFamily="@font/nanum_square_round_b"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="5dp"
+                            android:maxLines="1"
+                            android:ellipsize="end"/>
+                    </LinearLayout>
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@android:drawable/btn_star_big_off"
+                        android:backgroundTint="@color/backgroundyellow"
+                        android:scaleType="fitCenter"
+                        android:padding="10dp"/>
+                </LinearLayout>
+
+
+                <!-- 예시 관광지 -->
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/backgroundyellow">
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/xx_extourspot"
+                        android:padding="5dp"/>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:layout_marginLeft="20dp"
+                        android:layout_weight="1">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="버섯구지마을"
+                            android:textSize="20dp"
+                            android:fontFamily="@font/nanum_square_round_eb"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginTop="10dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=" 경기도 가평군 조종면 대보간선로 173"
+                            android:drawableLeft="@drawable/icon_address"
+                            android:textSize="17dp"
+                            android:textColor="@color/gray"
+                            android:fontFamily="@font/nanum_square_round_b"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="5dp"
+                            android:maxLines="1"
+                            android:ellipsize="end"/>
+                    </LinearLayout>
+                </LinearLayout>
 
             </LinearLayout>
         </LinearLayout>
