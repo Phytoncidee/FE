@@ -1,5 +1,6 @@
 package com.example.hikinglog_fe
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -36,6 +37,12 @@ class MyTourismFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentMyTourismBinding.inflate(inflater, container, false)
+
+        binding.exRoot.setOnClickListener {
+            val intent = Intent(context, CourseDetailActivity::class.java)
+            startActivity(intent)
+            true
+        }
 
         return binding.root
     }
