@@ -65,81 +65,88 @@
             </RelativeLayout>
 
             <!-- 배너들 -->
-            <LinearLayout
-                android:layout_width="325dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/round_background_lightyellow"
-                android:backgroundTint="@color/backgroundyellow"
-                android:orientation="vertical"
-                android:padding="30dp"
-                android:layout_marginTop="20dp">
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/user_name"
-                        android:textSize="20dp"
-                        android:textStyle="bold" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="님,"
-                        android:textSize="20dp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="지금까지 "
-                        android:textSize="20dp"
-                        android:textStyle="bold" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="5"
-                        android:textSize="20dp"
-                        android:textStyle="bold"
-                        android:id="@+id/hikingCount"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="20dp"
-                        android:text="회 등산했어요."
-                        android:textStyle="bold" />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="총 "
-                        android:textSize="20dp"
-                        android:textStyle="bold" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="2500"
-                        android:textStyle="bold"
-                        android:textSize="20dp"
-                        android:id="@+id/hikingHeight"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="20dp"
-                        android:text="시간 올랐어요!"
-                        android:textStyle="bold" />
-                </LinearLayout>
+<!--            <LinearLayout-->
+<!--                android:layout_width="325dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:background="@drawable/round_background_lightyellow"-->
+<!--                android:backgroundTint="@color/backgroundyellow"-->
+<!--                android:orientation="vertical"-->
+<!--                android:padding="30dp"-->
+<!--                android:layout_marginTop="20dp">-->
+<!--                <LinearLayout-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="horizontal">-->
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="@string/user_name"-->
+<!--                        android:textSize="20dp"-->
+<!--                        android:textStyle="bold" />-->
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="님,"-->
+<!--                        android:textSize="20dp"-->
+<!--                        android:textStyle="bold" />-->
+<!--                </LinearLayout>-->
+<!--                <LinearLayout-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="horizontal">-->
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="지금까지 "-->
+<!--                        android:textSize="20dp"-->
+<!--                        android:textStyle="bold" />-->
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="5"-->
+<!--                        android:textSize="20dp"-->
+<!--                        android:textStyle="bold"-->
+<!--                        android:id="@+id/hikingCount"/>-->
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:textSize="20dp"-->
+<!--                        android:text="회 등산했어요."-->
+<!--                        android:textStyle="bold" />-->
+<!--                </LinearLayout>-->
+<!--                <LinearLayout-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="horizontal">-->
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="총 "-->
+<!--                        android:textSize="20dp"-->
+<!--                        android:textStyle="bold" />-->
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="2500"-->
+<!--                        android:textStyle="bold"-->
+<!--                        android:textSize="20dp"-->
+<!--                        android:id="@+id/hikingHeight"/>-->
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:textSize="20dp"-->
+<!--                        android:text="시간 올랐어요!"-->
+<!--                        android:textStyle="bold" />-->
+<!--                </LinearLayout>-->
 
-            </LinearLayout>
+<!--            </LinearLayout>-->
+
+            <!-- 시연용 예시 이미지 배너 -->ㅕ
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/xx_mypagebanner"
+                android:layout_marginVertical="20dp" />
 
             <ImageButton
                 android:layout_width="wrap_content"
@@ -154,9 +161,11 @@
                 android:layout_height="wrap_content"
                 android:text="오늘의 등산\n기록을 시작할까요?"
                 android:textStyle="bold"
-                android:textSize="18dp"
+                android:textSize="20dp"
                 android:layout_gravity="start"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/nanum_square_round_eb"
+                android:textColor="@color/black"/>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -165,8 +174,11 @@
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="직접 입력"
-                    android:textColor="@color/white" />
+                    android:text="등산 기록"
+                    android:fontFamily="@font/nanum_square_round_b"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="15dp"/>
             </LinearLayout>
 
             <!-- 내 활동 -->
@@ -178,7 +190,7 @@
                 android:textSize="20dp"
                 android:textColor="@color/black"
                 android:layout_gravity="start"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:fontFamily="@font/nanum_square_round_eb"/>
 
             <ImageButton
