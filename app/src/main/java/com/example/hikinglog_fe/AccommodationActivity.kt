@@ -1,17 +1,23 @@
 package com.example.hikinglog_fe
 
+import android.Manifest
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.location.LocationManagerCompat.getCurrentLocation
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hikinglog_fe.adapter.AccommodationAdapter
-import com.example.hikinglog_fe.adapter.EquipmentShopAdapter
 import com.example.hikinglog_fe.databinding.ActivityAccommodationBinding
 import com.example.hikinglog_fe.models.AccommodationLResponse
-import com.example.hikinglog_fe.models.EquipmentShopLResponse
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -19,21 +25,64 @@ import retrofit2.Response
 class AccommodationActivity : AppCompatActivity() {
     lateinit var binding : ActivityAccommodationBinding
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAccommodationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // SharedPreferences 초기화
+        // [[SharedPreferences 초기화]
         sharedPreferences = getSharedPreferences("userToken", Context.MODE_PRIVATE)
         val token = sharedPreferences.getString("token", null)
 
+        // [[FusedLocationProviderClient 초기화]]
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+        // [[위치 권한 확인]]
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+            == PackageManager.PERMISSION_GRANTED) { // 위치 권한이 허용된 경우 현재 위치를 가져옴
+            getCurrentLocation(token)
+        } else { // 위치 권한 요청
+            ActivityCompat.requestPermissions(this,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                LOCATION_PERMISSION_REQUEST_CODE
+            )
+        }
+
+    } //onCreate()
+
+    private fun getCurrentLocation(token: String?) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+            == PackageManager.PERMISSION_GRANTED) { // 권한이 있는 경우에만 위치를 가져옴
+            fusedLocationClient.lastLocation
+                .addOnSuccessListener { location: Location? ->
+                    if (location != null) {
+                        val latitude = location.latitude
+                        val longitude = location.longitude
+                        Log.d("mobileApp", "현재 사용자 위치 정보: $latitude, $longitude")
+
+                        // Retrofit 통신 요청: 음식점 목록
+                        requestRestaurantList(token, latitude, longitude)
+                    } else {
+                        Log.e("mobileApp", "Location is null")
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Log.e("mobileApp", "Failed to get location", exception)
+                }
+        } else { // 권한이 없는 경우
+            Log.e("mobileApp", "Location permission not granted")
+        }
+    }
+
+
+    private fun requestRestaurantList(token: String?, latitude: Double, longitude: Double) {
         // [Retrofit 통신 요청: 등산용품점 목록]
         val call: Call<AccommodationLResponse> = RetrofitConnection.jsonNetServ.getAccommodationList(
             "Bearer $token",
-            127.01612551862054,
-            37.6525631765458
-            // 현재 위도, 경도 받아서 넘겨주는 처리 필요
+            longitude,
+            latitude
         )
 
         // [Retrofit 통신 응답: 등산용품점 목록]
@@ -59,6 +108,23 @@ class AccommodationActivity : AppCompatActivity() {
                 Log.e("mobileApp", "Failed to fetch data(getAccommodationList)", t)
             }
         })
+    }
 
-    } //onCreate()
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+            if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                // 권한이 허용된 경우 현재 위치를 가져옴
+                val token = sharedPreferences.getString("token", null)
+                getCurrentLocation(token)
+            } else {
+                Log.e("mobileApp", "Location permission denied")
+            }
+        }
+    }
+
+    companion object {
+        private const val LOCATION_PERMISSION_REQUEST_CODE = 1
+    }
+
 }
