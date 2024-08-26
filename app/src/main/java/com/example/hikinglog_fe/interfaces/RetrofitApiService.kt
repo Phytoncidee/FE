@@ -14,6 +14,7 @@ import com.example.hikinglog_fe.models.EquipmentShopLResponse
 import com.example.hikinglog_fe.models.MBookmarkGetResponse
 import com.example.hikinglog_fe.models.MImageResponse
 import com.example.hikinglog_fe.models.MSearchResponse
+import com.example.hikinglog_fe.models.NationalMountainsResponse
 import com.example.hikinglog_fe.models.PostAccommodationBMDTO
 import com.example.hikinglog_fe.models.PostEShopBMDTO
 import com.example.hikinglog_fe.models.PostRestaurantBMDTO
@@ -55,7 +56,7 @@ interface RetrofitApiService {
     fun getMountain(
         @Header("Authorization") auth: String?,
         @Path("mountain_Name") mName: String?
-    ): Call<MSearchResponse>
+    ): Call<NationalMountainsResponse>
 
     // [산 이미지]
     @GET("/api/getI/{mountain_Code}")

@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,8 +14,12 @@ import com.bumptech.glide.Glide
 import com.example.hikinglog_fe.adapter.AccommodationAdapter
 import com.example.hikinglog_fe.databinding.ActivityAccommodationBinding
 import com.example.hikinglog_fe.databinding.ActivityAccommodationDetailBinding
+import com.example.hikinglog_fe.models.AccommodationBookmarkDeleteResponse
+import com.example.hikinglog_fe.models.AccommodationBookmarkGetResponse
+import com.example.hikinglog_fe.models.AccommodationBookmarkPostResponse
 import com.example.hikinglog_fe.models.AccommodationDResponse
 import com.example.hikinglog_fe.models.AccommodationLResponse
+import com.example.hikinglog_fe.models.PostAccommodationBMDTO
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -68,7 +73,109 @@ class AccommodationDetailActivity : AppCompatActivity() {
                         true
                     }
 
-                    // > 즐겨찾기 버튼 (////즐겨찾기 통신 성공 후 다시 도전/////)
+                    // >> 숙박시설 즐겨찾기
+                    var isBookmarked : Boolean = false
+
+                    // [즐겨찾기 조회 -> 표시]
+                    // <즐겨찾기 조회>
+                    val callB: Call<AccommodationBookmarkGetResponse> = RetrofitConnection.jsonNetServ.getAccommodationBookmark(
+                        "Bearer $token",
+                        5,
+                        0
+                    )
+                    callB.enqueue(object : Callback<AccommodationBookmarkGetResponse> {
+                        override fun onResponse(call: Call<AccommodationBookmarkGetResponse>, response: Response<AccommodationBookmarkGetResponse>) {
+                            if (response.isSuccessful) {
+                                Log.d("mobileApp", "getAccommodationBookmark: $response")
+                                // 즐겨찾기 여부 저장
+                                for (i in 0..response.body()!!.data.bookmarkList.size-1){ //bookmarkList에 해당 숙박시설이 존재하는지 확인
+                                    if(response.body()!!.data.bookmarkList[i].storeId == contentId!!.toInt()){
+                                        isBookmarked = true // false -> true 변경
+                                        Log.d("mobileApp", "${response.body()!!.data.bookmarkList[i].id}: isBookmarked가 true로 변경!!")
+                                    }
+                                }
+
+                                // <즐겨찾기 버튼 표시>
+                                if (isBookmarked == true) { // 등록
+                                    binding.btnBookmarkShop.setImageResource(android.R.drawable.btn_star_big_on)
+                                    Log.d("mobileApp", "${contentId!!.toInt()}: isBookmarked가 true로 유지되는 중!!")
+                                } else { // 미등록
+                                    binding.btnBookmarkShop.setImageResource(android.R.drawable.btn_star_big_off)
+                                }
+
+                            } else {
+                                // 오류 처리
+                                Log.e("mobileApp", "getAccommodationBookmark: ${response.code()}")
+                            }
+                        }
+                        override fun onFailure(call: Call<AccommodationBookmarkGetResponse>, t: Throwable) {
+                            // 네트워크 오류 처리
+                            Log.e("mobileApp", "Failed to fetch data(getAccommodationBookmark)", t)
+                        }
+                    })
+
+//        // [즐겨찾기 등록/삭제 -> 표시]
+                    binding.btnBookmarkShop.setOnClickListener {
+
+                        if(isBookmarked == false){ // 미등록
+
+                            binding.btnBookmarkShop.setImageResource(android.R.drawable.btn_star_big_on)
+                            isBookmarked = true
+
+                            // <즐겨찾기 등록>
+                            val newAccommodationBM = PostAccommodationBMDTO(name = response.body()!!.data.name, location = response.body()!!.data.add, phone = response.body()!!.data.tel, image = response.body()!!.data.img)
+
+                            val callB: Call<AccommodationBookmarkPostResponse> = RetrofitConnection.jsonNetServ.postAccommodationBookmark(
+                                "Bearer $token",
+                                contentId!!.toInt(),
+                                newAccommodationBM
+                            )
+                            callB.enqueue(object : Callback<AccommodationBookmarkPostResponse> {
+                                override fun onResponse(call: Call<AccommodationBookmarkPostResponse>, response: Response<AccommodationBookmarkPostResponse>) {
+                                    if (response.isSuccessful) {
+                                        Log.d("mobileApp", "postAccommodationBookmark: $response")
+                                    } else {
+                                        // 오류 처리
+                                        Log.e("mobileApp", "postAccommodationBookmark: ${response.code()}")
+                                    }
+                                }
+                                override fun onFailure(call: Call<AccommodationBookmarkPostResponse>, t: Throwable) {
+                                    // 네트워크 오류 처리
+                                    Log.e("mobileApp", "Failed to fetch data(postAccommodationBookmark)", t)
+                                }
+                            })
+                            Toast.makeText(applicationContext, "즐겨찾기 등록", Toast.LENGTH_SHORT).show()
+
+                        }
+                        else { // 등록
+
+                            binding.btnBookmarkShop.setImageResource(android.R.drawable.btn_star_big_off)
+                            isBookmarked = false
+
+                            // <즐겨찾기 삭제>
+                            val callB: Call<AccommodationBookmarkDeleteResponse> = RetrofitConnection.jsonNetServ.deleteAccommodationBookmark(
+                                "Bearer $token",
+                                contentId!!.toInt()
+                            )
+                            callB.enqueue(object : Callback<AccommodationBookmarkDeleteResponse> {
+                                override fun onResponse(call: Call<AccommodationBookmarkDeleteResponse>, response: Response<AccommodationBookmarkDeleteResponse>) {
+                                    if (response.isSuccessful) {
+                                        Log.d("mobileApp", "deleteAccommodationBookmark: $response")
+                                    } else {
+                                        // 오류 처리
+                                        Log.e("mobileApp", "deleteAccommodationBookmark: ${response.code()}")
+                                    }
+                                }
+                                override fun onFailure(call: Call<AccommodationBookmarkDeleteResponse>, t: Throwable) {
+                                    // 네트워크 오류 처리
+                                    Log.e("mobileApp", "Failed to fetch data(deleteAccommodationBookmark)", t)
+                                }
+                            })
+
+                            Toast.makeText(applicationContext, "즐겨찾기 삭제", Toast.LENGTH_SHORT).show()
+
+                        }
+                    }
 
                     // > 길찾기 버튼 (구글 지도 연결.. 카카오 지도로 변경)
                     binding.btnMapShop.setOnClickListener {

@@ -50,7 +50,7 @@ class Top100Activity : AppCompatActivity() {
                     Log.d("mobileApp", "${response.body()}")
 
                     binding.top100RecyclerView.layoutManager = LinearLayoutManager(applicationContext)
-                    binding.top100RecyclerView.adapter = Top100Adapter(this@Top100Activity, response.body()!!.body!!.items!!.item)
+                    binding.top100RecyclerView.adapter = Top100Adapter(this@Top100Activity, response.body()!!.body!!.items!!.item, token!!)
                     binding.top100RecyclerView.addItemDecoration(DividerItemDecoration(applicationContext, LinearLayoutManager.VERTICAL))
 
                 } else {
