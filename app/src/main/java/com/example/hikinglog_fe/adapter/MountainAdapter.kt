@@ -5,6 +5,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.hikinglog_fe.MountainInfoActivity
@@ -17,12 +19,14 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MountainAdapter(private val apiService: ApiService, private val token: String): RecyclerView.Adapter<MountainAdapter.MountainViewHolder>()  {
+class MountainAdapter(private val apiService: ApiService, private val token: String): RecyclerView.Adapter<MountainAdapter.MountainViewHolder>(), Filterable {
 
-    private var datalist = mutableListOf<Mountain>()
+    private var datalist = mutableListOf<Mountain>()    // 원본 리스트
+    private var filteredList = mutableListOf<Mountain>() // 필터링된 리스트
 
     fun setData(mntData: List<Mountain>) {
         datalist = mntData.toMutableList()
+        filteredList = datalist // 필터링 리스트 초기화 (공백 또는 검색 기능을 사용하지 않을 때는 전체 리스트를 보여주기에 복제한 리스트의 초기값을 원본 리스트와 동일하게 선언)
         notifyDataSetChanged()
     }
 
@@ -35,9 +39,9 @@ class MountainAdapter(private val apiService: ApiService, private val token: Str
     // recyclerview가 viewholder를 가져와 데이터 연결할때 호출
     // 적절한 데이터를 가져와서 그 데이터를 사용하여 뷰홀더의 레이아웃 채움
     override fun onBindViewHolder(holder: MountainViewHolder, position: Int) {
-        holder.bind(datalist[position])
+        holder.bind(filteredList[position])
     }
-    override fun getItemCount(): Int = datalist.size
+    override fun getItemCount(): Int = filteredList.size
 
     inner class MountainViewHolder(private val binding: ItemMountainBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(mntData: Mountain) {
@@ -103,4 +107,40 @@ class MountainAdapter(private val apiService: ApiService, private val token: Str
             })
         }
     }
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            // 입력 받은 문자열에 대한 처리
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val charString = constraint.toString().trim()
+                // 공백, 아무런 값이 입력 되지 않았을 때는 원본 리스트
+                filteredList = if (charString.isEmpty()) {
+                    datalist
+                } else {
+                    val filteredResults = datalist.filter { mountain ->
+                        mountain.mntiname!!.contains(charString, ignoreCase = true) ||
+                                mountain.mntiadd!!.contains(charString, ignoreCase = true)
+                    }
+                    filteredResults.toMutableList()
+                }
+
+                val filterResults = FilterResults().apply {
+                    values = filteredList
+                }
+                return filterResults
+            }
+
+            // 필터링 결과 적용
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                filteredList = results?.values as MutableList<Mountain>
+                notifyDataSetChanged()
+            }
+        }
+    }
+
+
+    // 검색 텍스트가 변경 되면 Activity에서 호출됨
+    fun performSearch(query: String) {
+        filter.filter(query)
+    }
+
 }

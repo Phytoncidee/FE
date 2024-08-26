@@ -1,5 +1,7 @@
 package com.example.hikinglog_fe.interfaces
 
+import com.example.hikinglog_fe.models.DirectRecordRequest
+import com.example.hikinglog_fe.models.DirectRecordResponse
 import com.example.hikinglog_fe.models.LoginRequest
 import com.example.hikinglog_fe.models.LoginResponse
 import com.example.hikinglog_fe.models.NationalMountainsImageResponse
@@ -45,10 +47,21 @@ interface ApiService {
         @Path("mountain_Code") mountainCode: Long
     ): Call<NationalMountainsImageResponse>
 
+    @GET("/api/getM/{mountain_Name}")
+    fun getMountainInfo(
+        @Header("Authorization") token: String,
+        @Path("mountain_Name") mountainName: String
+    ): Call<NationalMountainsResponse>
+
+    @POST("api/record/hiking")
+    fun recordHiking(
+        @Header("Authorization") token: String,
+        @Body request: DirectRecordRequest
+    ): Call<DirectRecordResponse>
 
     companion object {
         private const val BASE_URL = "http://192.168.0.10:8080/"    // http://localhost:8080/
-        val gson : Gson =   GsonBuilder().setLenient().create();
+        val gson : Gson =   GsonBuilder().setLenient().create()
 
         fun create() : ApiService {
 
