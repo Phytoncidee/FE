@@ -21,6 +21,9 @@ import retrofit2.Callback
 import retrofit2.Response
 import android.Manifest
 import android.location.Location
+import android.widget.Toast
+import com.example.hikinglog_fe.adapter.AccommodationAdapter
+import com.example.hikinglog_fe.models.AccommodationLResponse
 
 class RestaurantActivity : AppCompatActivity() {
     lateinit var binding : ActivityRestaurantBinding
@@ -49,7 +52,47 @@ class RestaurantActivity : AppCompatActivity() {
                 LOCATION_PERMISSION_REQUEST_CODE)
         }
 
+        binding.btnSearch.setOnClickListener {
+            val keyword = binding.searchEditText.text.toString()
+            if (keyword.isNotEmpty()) {
+                searchRestaurants(keyword, token)
+            } else {
+                Toast.makeText(this, "검색어를 입력하세요.", Toast.LENGTH_SHORT).show()
+            }
+        }
+
     } //onCreate()
+
+    private fun searchRestaurants(keyword: String, token: String?) {
+        // [Retrofit 통신 요청: 숙소 목록 검색]
+        val call: Call<RestaurantLResponse> = RetrofitConnection.jsonNetServ.searchRestaurant(
+            "Bearer $token",
+            keyword
+        )
+
+        // [Retrofit 통신 응답: 숙소 목록 검색]
+        call.enqueue(object : Callback<RestaurantLResponse> {
+            override fun onResponse(call: Call<RestaurantLResponse>, response: Response<RestaurantLResponse>) {
+                if (response.isSuccessful) {
+                    Log.d("mobileApp", "getAccommodationList: $response")
+
+                    // <리사이클러뷰에 표시>
+                    binding.restaurantRecyclerView.layoutManager = LinearLayoutManager(applicationContext)
+                    binding.restaurantRecyclerView.adapter = RestaurantAdapter(this@RestaurantActivity, response.body()!!.data, token)
+                    binding.restaurantRecyclerView.addItemDecoration(DividerItemDecoration(applicationContext, LinearLayoutManager.VERTICAL))
+
+                } else {
+                    // 오류 처리
+                    Log.e("mobileApp", "getAccommodationList Error: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<RestaurantLResponse>, t: Throwable) {
+                // 네트워크 오류 처리
+                Log.e("mobileApp", "Failed to fetch data(getAccommodationList)", t)
+            }
+        })
+    }
 
     private fun getCurrentLocation(token: String?) {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)

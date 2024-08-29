@@ -85,8 +85,8 @@ class NationalMountainsActivity : AppCompatActivity() {
         }
         
         // Top100 페이지에서 클릭 후 이동한 경우 -> 검색창에 해당 Top100 산 이름 자동 입력
-        val mountainName: String? = intent.getStringExtra("mountainName")
-        binding.searchEditText.setText(mountainName)
+//        val mountainName: String? = intent.getStringExtra("mountainName")
+//        binding.searchEditText.setText(mountainName)
         
     }
 

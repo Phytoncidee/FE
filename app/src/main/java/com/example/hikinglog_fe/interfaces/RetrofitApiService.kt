@@ -14,6 +14,7 @@ import com.example.hikinglog_fe.models.EquipmentShopLResponse
 import com.example.hikinglog_fe.models.MBookmarkGetResponse
 import com.example.hikinglog_fe.models.MImageResponse
 import com.example.hikinglog_fe.models.MSearchResponse
+import com.example.hikinglog_fe.models.NationalMountainsResponse
 import com.example.hikinglog_fe.models.PostAccommodationBMDTO
 import com.example.hikinglog_fe.models.PostEShopBMDTO
 import com.example.hikinglog_fe.models.PostRestaurantBMDTO
@@ -55,7 +56,7 @@ interface RetrofitApiService {
     fun getMountain(
         @Header("Authorization") auth: String?,
         @Path("mountain_Name") mName: String?
-    ): Call<MSearchResponse>
+    ): Call<NationalMountainsResponse>
 
     // [산 이미지]
     @GET("/api/getI/{mountain_Code}")
@@ -141,6 +142,13 @@ interface RetrofitApiService {
         @Path("storeId") storeId: Int?
     ): Call<AccommodationBookmarkDeleteResponse>
 
+    // [숙박시설 검색]
+    @GET("api/store/search-stay?")
+    fun searchStay(
+        @Header("Authorization") auth: String?,
+        @Query("keyword") keyword: String?
+    ): Call<AccommodationLResponse>
+
 
     // [음식점 목록 조회]
     @GET("/api/store/restaurant-list")
@@ -179,6 +187,13 @@ interface RetrofitApiService {
         @Header("Authorization") auth: String?,
         @Path("storeId") storeId: Int?
     ): Call<RestaurantBookmarkDeleteResponse>
+
+    // [음식점 검색]
+    @GET("api/store/search-restaurant?")
+    fun searchRestaurant(
+        @Header("Authorization") auth: String?,
+        @Query("keyword") keyword: String?
+    ): Call<RestaurantLResponse>
 
 
     // [관광지 목록 조회]
