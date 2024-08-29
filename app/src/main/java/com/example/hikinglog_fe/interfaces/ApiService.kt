@@ -45,10 +45,15 @@ interface ApiService {
         @Path("mountain_Code") mountainCode: Long
     ): Call<NationalMountainsImageResponse>
 
+    @GET("/api/getM/{mountain_Name}")
+    fun getMountainInfo(
+        @Header("Authorization") token: String,
+        @Path("mountain_Name") mountainName: String
+    ): Call<NationalMountainsResponse>
 
     companion object {
         private const val BASE_URL = "http://192.168.35.251:8080/"  //"http://10.0.2.2:8080/"  // http://localhost:8080/
-        val gson : Gson =   GsonBuilder().setLenient().create();
+        val gson : Gson =   GsonBuilder().setLenient().create()
 
         fun create() : ApiService {
 
