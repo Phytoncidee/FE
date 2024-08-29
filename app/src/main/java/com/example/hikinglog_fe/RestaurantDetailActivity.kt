@@ -180,7 +180,7 @@ class RestaurantDetailActivity : AppCompatActivity() {
 
                     // > 길찾기 버튼 (구글 지도 연결.. 카카오 지도로 변경)
                     binding.btnMapShop.setOnClickListener {
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/maps/dir/덕성여자대학교/${response.body()!!.data.name}")) //출발지 어떻게 넣느냐가 관건, 근데 왜 길을 못 찾냐.. 좌표로 넣어야 하나
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/maps/dir//${response.body()!!.data.name}")) //출발지 사용자가 선택하도록, 목적지만 해당 가게 이름으로 자동 입력
                         //val intent = Intent(Intent.ACTION_VIEW, Uri.parse("geo:${response.body()!!.data.mapX},${response.body()!!.data.mapY}")) //지도가 이상한데 찍힘..
                         startActivity(intent)
                     }
