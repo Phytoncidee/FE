@@ -142,6 +142,13 @@ interface RetrofitApiService {
         @Path("storeId") storeId: Int?
     ): Call<AccommodationBookmarkDeleteResponse>
 
+    // [숙박시설 검색]
+    @GET("api/store/search-stay?")
+    fun searchStay(
+        @Header("Authorization") auth: String?,
+        @Query("keyword") keyword: String?
+    ): Call<AccommodationLResponse>
+
 
     // [음식점 목록 조회]
     @GET("/api/store/restaurant-list")

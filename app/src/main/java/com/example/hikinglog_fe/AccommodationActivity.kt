@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -50,7 +51,47 @@ class AccommodationActivity : AppCompatActivity() {
             )
         }
 
+        binding.btnSearch.setOnClickListener {
+            val keyword = binding.searchEditText.text.toString()
+            if (keyword.isNotEmpty()) {
+                searchAccommodations(keyword, token)
+            } else {
+                Toast.makeText(this, "검색어를 입력하세요.", Toast.LENGTH_SHORT).show()
+            }
+        }
+
     } //onCreate()
+
+    private fun searchAccommodations(keyword: String, token: String?) {
+        // [Retrofit 통신 요청: 숙소 목록 검색]
+        val call: Call<AccommodationLResponse> = RetrofitConnection.jsonNetServ.searchStay(
+            "Bearer $token",
+            keyword
+        )
+
+        // [Retrofit 통신 응답: 숙소 목록 검색]
+        call.enqueue(object : Callback<AccommodationLResponse> {
+            override fun onResponse(call: Call<AccommodationLResponse>, response: Response<AccommodationLResponse>) {
+                if (response.isSuccessful) {
+                    Log.d("mobileApp", "getAccommodationList: $response")
+
+                    // <리사이클러뷰에 표시>
+                    binding.accommodationRecyclerView.layoutManager = LinearLayoutManager(applicationContext)
+                    binding.accommodationRecyclerView.adapter = AccommodationAdapter(this@AccommodationActivity, response.body()!!.data, token)
+                    binding.accommodationRecyclerView.addItemDecoration(DividerItemDecoration(applicationContext, LinearLayoutManager.VERTICAL))
+
+                } else {
+                    // 오류 처리
+                    Log.e("mobileApp", "getAccommodationList Error: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<AccommodationLResponse>, t: Throwable) {
+                // 네트워크 오류 처리
+                Log.e("mobileApp", "Failed to fetch data(getAccommodationList)", t)
+            }
+        })
+    }
 
     private fun getCurrentLocation(token: String?) {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -63,7 +104,7 @@ class AccommodationActivity : AppCompatActivity() {
                         Log.d("mobileApp", "현재 사용자 위치 정보: $latitude, $longitude")
 
                         // Retrofit 통신 요청: 음식점 목록
-                        requestRestaurantList(token, latitude, longitude)
+                        requestAccommodationList(token, latitude, longitude)
                     } else {
                         Log.e("mobileApp", "Location is null")
                     }
@@ -77,7 +118,7 @@ class AccommodationActivity : AppCompatActivity() {
     }
 
 
-    private fun requestRestaurantList(token: String?, latitude: Double, longitude: Double) {
+    private fun requestAccommodationList(token: String?, latitude: Double, longitude: Double) {
         // [Retrofit 통신 요청: 등산용품점 목록]
         val call: Call<AccommodationLResponse> = RetrofitConnection.jsonNetServ.getAccommodationList(
             "Bearer $token",
@@ -126,5 +167,4 @@ class AccommodationActivity : AppCompatActivity() {
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
     }
-
 }
