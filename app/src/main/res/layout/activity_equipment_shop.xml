@@ -41,16 +41,6 @@
                 android:text="다양한 등산용품 쇼핑몰을 둘러보세요!"
                 android:textColor="@color/white"
                 android:layout_marginTop="5dp" />
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="  등산용품점 이름 검색"
-                android:textColorHint="#d0d0d0"
-                android:background="@drawable/round_background_lightyellow2"
-                android:drawableLeft="@drawable/icon_search"
-                android:padding="5dp"
-                android:layout_marginTop="20dp"
-                android:id="@+id/searchEditText"/>
         </LinearLayout>
 
         <LinearLayout
