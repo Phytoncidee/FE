@@ -13,7 +13,7 @@ import com.example.hikinglog_fe.R
 import com.example.hikinglog_fe.RetrofitConnection
 import com.example.hikinglog_fe.databinding.ItemPostBinding
 import com.example.hikinglog_fe.models.CommunityPost
-import com.example.hikinglog_fe.models.PostLikeResponse
+import com.example.hikinglog_fe.models.PostLikeCommentResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -37,13 +37,14 @@ class CommunityPostAdapter(val context: Context, val datas:MutableList<Community
         binding.postUsername.text = model.userid
         binding.postContent.text = model.content
         binding.mountainTag.text = model.tag
+        binding.postUsername.text = model.userName
 
-        if (model.image != "") {
-            // <커뮤니티 글 작성자 프로필 표시(Glide)> ////넘겨받는 프로필 이미지 데이터가 없다....???
-//            Glide.with(binding.root)
-//                .load("${model.image}")
-//                .override(40, 40) // 이미지 크기 조정
-//                .into(binding.postImage)
+        if (model.userImage != "") {
+            // <커뮤니티 글 작성자 프로필 표시(Glide)>
+            Glide.with(binding.root)
+                .load("${model.userImage}")
+                .override(100, 100) // 이미지 크기 조정
+                .into(binding.postUserprofile)
         }
 
         if (model.image != "") {
@@ -72,12 +73,12 @@ class CommunityPostAdapter(val context: Context, val datas:MutableList<Community
                 binding.CountPostHeart.text = likeNumber.toString()
 
                 // <좋아요 삭제>
-                val callD: Call<PostLikeResponse> = RetrofitConnection.jsonNetServ.deletePostLike(
+                val callD: Call<PostLikeCommentResponse> = RetrofitConnection.jsonNetServ.deletePostLike(
                     "Bearer $token",
                     model.id
                 )
-                callD.enqueue(object : Callback<PostLikeResponse> {
-                    override fun onResponse(call: Call<PostLikeResponse>, response: Response<PostLikeResponse>) {
+                callD.enqueue(object : Callback<PostLikeCommentResponse> {
+                    override fun onResponse(call: Call<PostLikeCommentResponse>, response: Response<PostLikeCommentResponse>) {
                         if (response.isSuccessful) {
                             Log.d("mobileApp", "deletePostLike: $response")
                         } else {
@@ -85,7 +86,7 @@ class CommunityPostAdapter(val context: Context, val datas:MutableList<Community
                             Log.e("mobileApp", "deletePostLike: ${response.code()}")
                         }
                     }
-                    override fun onFailure(call: Call<PostLikeResponse>, t: Throwable) {
+                    override fun onFailure(call: Call<PostLikeCommentResponse>, t: Throwable) {
                         // 네트워크 오류 처리
                         Log.e("mobileApp", "Failed to fetch data(deletePostLike)", t)
                     }
@@ -98,12 +99,12 @@ class CommunityPostAdapter(val context: Context, val datas:MutableList<Community
                 binding.CountPostHeart.text = likeNumber.toString()
 
                 // <좋아요 등록>
-                val callP: Call<PostLikeResponse> = RetrofitConnection.jsonNetServ.postPostLike(
+                val callP: Call<PostLikeCommentResponse> = RetrofitConnection.jsonNetServ.postPostLike(
                     "Bearer $token",
                     model.id
                 )
-                callP.enqueue(object : Callback<PostLikeResponse> {
-                    override fun onResponse(call: Call<PostLikeResponse>, response: Response<PostLikeResponse>) {
+                callP.enqueue(object : Callback<PostLikeCommentResponse> {
+                    override fun onResponse(call: Call<PostLikeCommentResponse>, response: Response<PostLikeCommentResponse>) {
                         if (response.isSuccessful) {
                             Log.d("mobileApp", "postPostLike: $response")
                         } else {
@@ -111,7 +112,7 @@ class CommunityPostAdapter(val context: Context, val datas:MutableList<Community
                             Log.e("mobileApp", "postPostLike: ${response.code()}")
                         }
                     }
-                    override fun onFailure(call: Call<PostLikeResponse>, t: Throwable) {
+                    override fun onFailure(call: Call<PostLikeCommentResponse>, t: Throwable) {
                         // 네트워크 오류 처리
                         Log.e("mobileApp", "Failed to fetch data(postPostLike)", t)
                     }
@@ -125,7 +126,7 @@ class CommunityPostAdapter(val context: Context, val datas:MutableList<Community
         binding.CountPostComment.text = model.commentNum.toString()
         // >> 댓글 버튼 클릭
         binding.BtnPostComment.setOnClickListener {
-            val commentFragment = CommentFragment.newInstance("param1", "param2")
+            val commentFragment = CommentFragment.newInstance("param1", "param2", model.id.toString())
             commentFragment.show(fragmentManager, "CommentFragment")
         }
     }

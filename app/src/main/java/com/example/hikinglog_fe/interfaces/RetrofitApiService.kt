@@ -5,6 +5,7 @@ import com.example.hikinglog_fe.models.AccommodationBookmarkGetResponse
 import com.example.hikinglog_fe.models.AccommodationBookmarkPostResponse
 import com.example.hikinglog_fe.models.AccommodationDResponse
 import com.example.hikinglog_fe.models.AccommodationLResponse
+import com.example.hikinglog_fe.models.CommentsGetResponse
 import com.example.hikinglog_fe.models.CommunityPostLResponse
 import com.example.hikinglog_fe.models.EShopBookmarkDeleteResponse
 import com.example.hikinglog_fe.models.EShopBookmarkGetResponse
@@ -15,7 +16,7 @@ import com.example.hikinglog_fe.models.MImageResponse
 import com.example.hikinglog_fe.models.NationalMountainsResponse
 import com.example.hikinglog_fe.models.PostAccommodationBMDTO
 import com.example.hikinglog_fe.models.PostEShopBMDTO
-import com.example.hikinglog_fe.models.PostLikeResponse
+import com.example.hikinglog_fe.models.PostLikeCommentResponse
 import com.example.hikinglog_fe.models.PostRestaurantBMDTO
 import com.example.hikinglog_fe.models.PostWriteDTO
 import com.example.hikinglog_fe.models.PostWriteResponseDTO
@@ -223,13 +224,37 @@ interface RetrofitApiService {
     fun postPostLike(
         @Header("Authorization") auth: String?,
         @Path("boardId") boardId: Int?
-    ): Call<PostLikeResponse>
+    ): Call<PostLikeCommentResponse>
 
-    // [커뮤니티 좋아요 등록, 삭제]
+    // [커뮤니티 좋아요 삭제]
     @DELETE("/api/boards/{boardId}/like")
     fun deletePostLike(
         @Header("Authorization") auth: String?,
         @Path("boardId") boardId: Int?
-    ): Call<PostLikeResponse>
+    ): Call<PostLikeCommentResponse>
+
+    // [커뮤니티 댓글 목록 조회]
+    @GET("/api/boards/{boardId}/comments")
+    fun getPostComments(
+        @Header("Authorization") auth: String?,
+        @Path("boardId") boardId: Int?,
+        @Query("size") size: Int?,
+        @Query("page") page: Int?
+    ): Call<CommentsGetResponse>
+
+    // [커뮤니티 댓글 등록]
+    @POST("/api/boards/{boardId}/comments")
+    fun postPostComment(
+        @Header("Authorization") auth: String?,
+        @Path("boardId") boardId: Int?
+    ): Call<PostLikeCommentResponse>
+
+    // [커뮤니티 댓글 삭제]
+    @DELETE("/api/boards/{boardId}/comments/{commentId}")
+    fun deletePostComment(
+        @Header("Authorization") auth: String?,
+        @Path("boardId") boardId: Int?,
+        @Path("commentId") commentId: Int?
+    ): Call<PostLikeCommentResponse>
 
 }
