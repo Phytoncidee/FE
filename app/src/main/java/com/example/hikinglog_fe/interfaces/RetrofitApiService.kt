@@ -1,7 +1,6 @@
 package com.example.hikinglog_fe.interfaces
 
 import com.example.hikinglog_fe.models.AccommodationBookmarkDeleteResponse
-import com.example.hikinglog_fe.models.AccommodationBookmarkGetBookmark
 import com.example.hikinglog_fe.models.AccommodationBookmarkGetResponse
 import com.example.hikinglog_fe.models.AccommodationBookmarkPostResponse
 import com.example.hikinglog_fe.models.AccommodationDResponse
@@ -13,10 +12,10 @@ import com.example.hikinglog_fe.models.EShopBookmarkPostResponse
 import com.example.hikinglog_fe.models.EquipmentShopLResponse
 import com.example.hikinglog_fe.models.MBookmarkGetResponse
 import com.example.hikinglog_fe.models.MImageResponse
-import com.example.hikinglog_fe.models.MSearchResponse
 import com.example.hikinglog_fe.models.NationalMountainsResponse
 import com.example.hikinglog_fe.models.PostAccommodationBMDTO
 import com.example.hikinglog_fe.models.PostEShopBMDTO
+import com.example.hikinglog_fe.models.PostLikeResponse
 import com.example.hikinglog_fe.models.PostRestaurantBMDTO
 import com.example.hikinglog_fe.models.PostWriteDTO
 import com.example.hikinglog_fe.models.PostWriteResponseDTO
@@ -27,15 +26,12 @@ import com.example.hikinglog_fe.models.RestaurantDResponse
 import com.example.hikinglog_fe.models.RestaurantLResponse
 import com.example.hikinglog_fe.models.Top100Response
 import com.example.hikinglog_fe.models.TourismLResponse
-import com.google.gson.JsonObject
 import okhttp3.MultipartBody
-import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
-import retrofit2.http.Headers
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
@@ -221,5 +217,19 @@ interface RetrofitApiService {
         @Part image: MultipartBody.Part?,
         @Part("data") data: PostWriteDTO
     ): Call<PostWriteResponseDTO<String>>
+
+    // [커뮤니티 좋아요 등록]
+    @POST("/api/boards/{boardId}/like")
+    fun postPostLike(
+        @Header("Authorization") auth: String?,
+        @Path("boardId") boardId: Int?
+    ): Call<PostLikeResponse>
+
+    // [커뮤니티 좋아요 등록, 삭제]
+    @DELETE("/api/boards/{boardId}/like")
+    fun deletePostLike(
+        @Header("Authorization") auth: String?,
+        @Path("boardId") boardId: Int?
+    ): Call<PostLikeResponse>
 
 }
