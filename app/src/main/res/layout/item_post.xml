@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -42,14 +43,15 @@
         </LinearLayout>
 
         <!-- 게시글 이미지 -->
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="400dp"
-            android:src="@drawable/etc_default_image"
-            android:id="@+id/post_image"
-            android:background="@color/lightgray"/>
 
         <!-- 좋아요, 댓글 -->
+        <ImageView
+            android:id="@+id/post_image"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:background="@color/lightgray"
+            android:src="@drawable/etc_default_image" />
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -68,7 +70,8 @@
                 android:text="0"
                 android:textStyle="bold"
                 android:textSize="20dp"
-                android:layout_marginLeft="10dp" />
+                android:layout_marginLeft="10dp"
+                android:id="@+id/CountPostHeart"/>
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -82,7 +85,8 @@
                 android:text="0"
                 android:textStyle="bold"
                 android:textSize="20dp"
-                android:layout_marginLeft="10dp" />
+                android:layout_marginLeft="10dp"
+                android:id="@+id/CountPostComment"/>
         </LinearLayout>
 
         <!-- 게시물 글 -->

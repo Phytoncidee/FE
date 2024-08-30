@@ -1,11 +1,11 @@
 package com.example.hikinglog_fe.interfaces
 
 import com.example.hikinglog_fe.models.AccommodationBookmarkDeleteResponse
-import com.example.hikinglog_fe.models.AccommodationBookmarkGetBookmark
 import com.example.hikinglog_fe.models.AccommodationBookmarkGetResponse
 import com.example.hikinglog_fe.models.AccommodationBookmarkPostResponse
 import com.example.hikinglog_fe.models.AccommodationDResponse
 import com.example.hikinglog_fe.models.AccommodationLResponse
+import com.example.hikinglog_fe.models.CommentsGetResponse
 import com.example.hikinglog_fe.models.CommunityPostLResponse
 import com.example.hikinglog_fe.models.EShopBookmarkDeleteResponse
 import com.example.hikinglog_fe.models.EShopBookmarkGetResponse
@@ -13,10 +13,10 @@ import com.example.hikinglog_fe.models.EShopBookmarkPostResponse
 import com.example.hikinglog_fe.models.EquipmentShopLResponse
 import com.example.hikinglog_fe.models.MBookmarkGetResponse
 import com.example.hikinglog_fe.models.MImageResponse
-import com.example.hikinglog_fe.models.MSearchResponse
 import com.example.hikinglog_fe.models.NationalMountainsResponse
 import com.example.hikinglog_fe.models.PostAccommodationBMDTO
 import com.example.hikinglog_fe.models.PostEShopBMDTO
+import com.example.hikinglog_fe.models.PostLikeCommentResponse
 import com.example.hikinglog_fe.models.PostRestaurantBMDTO
 import com.example.hikinglog_fe.models.PostWriteDTO
 import com.example.hikinglog_fe.models.PostWriteResponseDTO
@@ -27,15 +27,12 @@ import com.example.hikinglog_fe.models.RestaurantDResponse
 import com.example.hikinglog_fe.models.RestaurantLResponse
 import com.example.hikinglog_fe.models.Top100Response
 import com.example.hikinglog_fe.models.TourismLResponse
-import com.google.gson.JsonObject
 import okhttp3.MultipartBody
-import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
-import retrofit2.http.Headers
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
@@ -221,5 +218,43 @@ interface RetrofitApiService {
         @Part image: MultipartBody.Part?,
         @Part("data") data: PostWriteDTO
     ): Call<PostWriteResponseDTO<String>>
+
+    // [커뮤니티 좋아요 등록]
+    @POST("/api/boards/{boardId}/like")
+    fun postPostLike(
+        @Header("Authorization") auth: String?,
+        @Path("boardId") boardId: Int?
+    ): Call<PostLikeCommentResponse>
+
+    // [커뮤니티 좋아요 삭제]
+    @DELETE("/api/boards/{boardId}/like")
+    fun deletePostLike(
+        @Header("Authorization") auth: String?,
+        @Path("boardId") boardId: Int?
+    ): Call<PostLikeCommentResponse>
+
+    // [커뮤니티 댓글 목록 조회]
+    @GET("/api/boards/{boardId}/comments")
+    fun getPostComments(
+        @Header("Authorization") auth: String?,
+        @Path("boardId") boardId: Int?,
+        @Query("size") size: Int?,
+        @Query("page") page: Int?
+    ): Call<CommentsGetResponse>
+
+    // [커뮤니티 댓글 등록]
+    @POST("/api/boards/{boardId}/comments")
+    fun postPostComment(
+        @Header("Authorization") auth: String?,
+        @Path("boardId") boardId: Int?
+    ): Call<PostLikeCommentResponse>
+
+    // [커뮤니티 댓글 삭제]
+    @DELETE("/api/boards/{boardId}/comments/{commentId}")
+    fun deletePostComment(
+        @Header("Authorization") auth: String?,
+        @Path("boardId") boardId: Int?,
+        @Path("commentId") commentId: Int?
+    ): Call<PostLikeCommentResponse>
 
 }

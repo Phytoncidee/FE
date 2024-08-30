@@ -67,7 +67,7 @@ class CommunityFragment : Fragment() {
         // [Retrofit 통신 요청: 커뮤니티 글 목록]
         val call: Call<CommunityPostLResponse> = RetrofitConnection.jsonNetServ.getPostList(
             "Bearer $token",
-            5,
+            2147483647,
             0
         )
 
@@ -80,7 +80,7 @@ class CommunityFragment : Fragment() {
 
                     // <리사이클러뷰에 표시>
                     binding.communityRecyclerView.layoutManager = LinearLayoutManager(context)
-                    binding.communityRecyclerView.adapter = CommunityPostAdapter(context!!, response.body()!!.data.boardList, childFragmentManager)
+                    binding.communityRecyclerView.adapter = CommunityPostAdapter(context!!, response.body()!!.data.boardList, childFragmentManager, token)
                     binding.communityRecyclerView.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
 
                 } else {
@@ -112,7 +112,7 @@ class CommunityFragment : Fragment() {
         // [Retrofit 통신 요청: 커뮤니티 글 목록]
         val call: Call<CommunityPostLResponse> = RetrofitConnection.jsonNetServ.getPostList(
             "Bearer $token",
-            5,
+            2147483647,
             0
         )
 
@@ -125,7 +125,7 @@ class CommunityFragment : Fragment() {
 
                     // <리사이클러뷰에 표시>
                     binding.communityRecyclerView.layoutManager = LinearLayoutManager(context)
-                    binding.communityRecyclerView.adapter = CommunityPostAdapter(context!!, response.body()!!.data.boardList, childFragmentManager)
+                    binding.communityRecyclerView.adapter = CommunityPostAdapter(context!!, response.body()!!.data.boardList, childFragmentManager, token)
                     binding.communityRecyclerView.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
 
                 } else {
