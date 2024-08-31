@@ -5,6 +5,7 @@ import com.example.hikinglog_fe.models.AccommodationBookmarkGetResponse
 import com.example.hikinglog_fe.models.AccommodationBookmarkPostResponse
 import com.example.hikinglog_fe.models.AccommodationDResponse
 import com.example.hikinglog_fe.models.AccommodationLResponse
+import com.example.hikinglog_fe.models.CommentWriteDTO
 import com.example.hikinglog_fe.models.CommentsGetResponse
 import com.example.hikinglog_fe.models.CommunityPostLResponse
 import com.example.hikinglog_fe.models.EShopBookmarkDeleteResponse
@@ -246,7 +247,8 @@ interface RetrofitApiService {
     @POST("/api/boards/{boardId}/comments")
     fun postPostComment(
         @Header("Authorization") auth: String?,
-        @Path("boardId") boardId: Int?
+        @Path("boardId") boardId: Int?,
+        @Body content: CommentWriteDTO
     ): Call<PostLikeCommentResponse>
 
     // [커뮤니티 댓글 삭제]

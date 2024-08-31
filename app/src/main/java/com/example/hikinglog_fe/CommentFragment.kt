@@ -9,13 +9,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hikinglog_fe.adapter.AccommodationAdapter
 import com.example.hikinglog_fe.adapter.CommentAdapter
 import com.example.hikinglog_fe.databinding.FragmentCommentBinding
+import com.example.hikinglog_fe.models.CommentWriteDTO
 import com.example.hikinglog_fe.models.CommentsGetResponse
 import com.example.hikinglog_fe.models.PostLikeCommentResponse
+import com.example.hikinglog_fe.models.PostWriteDTO
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -43,6 +46,8 @@ class CommentFragment : BottomSheetDialogFragment() {
     private var param2: String? = null
     private var boardId: String? = null
 
+    private lateinit var binding: FragmentCommentBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -56,7 +61,17 @@ class CommentFragment : BottomSheetDialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentCommentBinding.inflate(inflater, container, false)
+        binding = FragmentCommentBinding.inflate(inflater, container, false)
+
+        // BottomSheet 확장 설정
+        dialog?.setOnShowListener { dialog ->
+            val bottomSheetDialog = dialog as BottomSheetDialog
+            val bottomSheet = bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet) as View
+            BottomSheetBehavior.from(bottomSheet).apply {
+                state = BottomSheetBehavior.STATE_EXPANDED
+                isFitToContents = true
+            }
+        }
 
         // SharedPreferences 초기화
         sharedPreferences = requireContext().getSharedPreferences("userToken", Context.MODE_PRIVATE)
@@ -65,13 +80,63 @@ class CommentFragment : BottomSheetDialogFragment() {
 
 
         // [[ 댓글 목록 조회]]
-        val call: Call<CommentsGetResponse> = RetrofitConnection.jsonNetServ.getPostComments(
+        getComments()
+
+
+        // [[ 댓글 등록 ]]
+        binding.BtnSendComment.setOnClickListener {
+            val newComment = CommentWriteDTO(
+                content = binding.CommentEditText.text.toString()
+            )
+            val callP: Call<PostLikeCommentResponse> = RetrofitConnection.jsonNetServ.postPostComment(
+                "Bearer $token",
+                boardId!!.toInt(),
+                newComment
+            )
+            callP.enqueue(object : Callback<PostLikeCommentResponse> {
+                override fun onResponse(call: Call<PostLikeCommentResponse>, response: Response<PostLikeCommentResponse>) {
+                    if (response.isSuccessful) {
+                        Log.d("mobileApp", "postPostComment: $response")
+
+                        // EditText 내용 비우기
+                        binding.CommentEditText.text.clear()
+
+                        // 댓글 목록 재조회
+                        getComments()
+                    } else {
+                        // 오류 처리
+                        Log.e("mobileApp", "postPostComment: ${response.code()}")
+                    }
+                }
+                override fun onFailure(call: Call<PostLikeCommentResponse>, t: Throwable) {
+                    // 네트워크 오류 처리
+                    Log.e("mobileApp", "Failed to fetch data(postPostComment)", t)
+                }
+            })
+        }
+
+
+        // [[ 댓글 삭제 ]]
+
+
+
+
+        return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        dialog?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+    }
+
+    private fun getComments() { // >> 댓글 조회 함수 <<
+        val callG: Call<CommentsGetResponse> = RetrofitConnection.jsonNetServ.getPostComments(
             "Bearer $token",
             boardId!!.toInt(),
             2147483647,
             0
         )
-        call.enqueue(object : Callback<CommentsGetResponse> {
+        callG.enqueue(object : Callback<CommentsGetResponse> {
             override fun onResponse(call: Call<CommentsGetResponse>, response: Response<CommentsGetResponse>) {
                 if (response.isSuccessful) {
                     Log.d("mobileApp", "getPostComments: $response")
@@ -90,13 +155,6 @@ class CommentFragment : BottomSheetDialogFragment() {
                 Log.e("mobileApp", "Failed to fetch data(getPostComments)", t)
             }
         })
-
-        // [[ 댓글 등록 ]]
-
-        // [[ 댓글 삭제 ]]
-
-
-        return binding.root
     }
 
     companion object {
