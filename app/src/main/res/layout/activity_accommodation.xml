@@ -47,7 +47,7 @@ android:orientation="vertical">
                 <EditText
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:hint="  산 이름, 지역, 숙박시설 이름 검색"
+                    android:hint="  숙박시설을 검색해보세요!"
                     android:textColorHint="#d0d0d0"
                     android:textColor="@color/black"
                     android:textSize="15dp"

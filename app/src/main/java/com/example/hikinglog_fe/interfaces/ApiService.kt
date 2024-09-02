@@ -52,7 +52,7 @@ interface ApiService {
     ): Call<NationalMountainsResponse>
 
     companion object {
-        private const val BASE_URL = "http://192.168.35.251:8080/"  //"http://10.0.2.2:8080/"  // http://localhost:8080/
+        private const val BASE_URL = "http://192.168.0.25:8080/"  //"http://10.0.2.2:8080/"  // http://localhost:8080/
         val gson : Gson =   GsonBuilder().setLenient().create()
 
         fun create() : ApiService {

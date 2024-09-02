@@ -6,9 +6,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import android.content.Context
 import android.util.Log
+import android.view.View
 import android.widget.Toast
+import androidx.core.content.ContextCompat.startActivity
 import com.bumptech.glide.Glide
 import com.example.hikinglog_fe.AccommodationDetailActivity
+import com.example.hikinglog_fe.CreateCourseActivity
+import com.example.hikinglog_fe.MainActivity
 import com.example.hikinglog_fe.R
 import com.example.hikinglog_fe.RestaurantDetailActivity
 import com.example.hikinglog_fe.RetrofitConnection
@@ -61,7 +65,13 @@ class TourspotAdapter(val context: Context, val datas:MutableList<TourSpot>?): R
         binding.root.setOnClickListener {
             if (isSelected == false){ //미선택인 상황
                 isSelected = true
-                binding.root.setBackgroundResource(R.color.backgroundblue) // 색 변화
+                // >> 색 변화
+                binding.root.setBackgroundResource(R.color.backgroundblue)
+                // >> 데이터 CreateCourseActivity로 넘기기
+                Intent(context, CreateCourseActivity::class.java).apply {
+                    putExtra("selectedData", model.contentId)
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                }.run { context.startActivity(this) }
             }
             else { //선택인 상황에서 취소를 위해 재선택
                 isSelected = false

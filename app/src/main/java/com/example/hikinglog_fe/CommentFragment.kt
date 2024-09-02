@@ -143,7 +143,7 @@ class CommentFragment : BottomSheetDialogFragment() {
 
                     // <리사이클러뷰에 표시>
                     binding.commentRecyclerView.layoutManager = LinearLayoutManager(context)
-                    binding.commentRecyclerView.adapter = CommentAdapter(context!!, response.body()!!.data.commentList, token)
+                    binding.commentRecyclerView.adapter = CommentAdapter(context!!, response.body()!!.data.commentList, token, boardId, binding.commentRecyclerView)
                     binding.commentRecyclerView.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
                 } else {
                     // 오류 처리

@@ -12,12 +12,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.hikinglog_fe.adapter.AccommodationAdapter
 import com.example.hikinglog_fe.adapter.CommunityPostAdapter
 import com.example.hikinglog_fe.databinding.FragmentCommunityBinding
-import com.example.hikinglog_fe.databinding.FragmentHomeBinding
-import com.example.hikinglog_fe.interfaces.ApiService
-import com.example.hikinglog_fe.models.AccommodationLResponse
 import com.example.hikinglog_fe.models.CommunityPostLResponse
 import com.google.gson.JsonObject
 import retrofit2.Call
