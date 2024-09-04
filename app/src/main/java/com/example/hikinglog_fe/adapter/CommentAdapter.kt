@@ -71,8 +71,8 @@ class CommentAdapter(val context: Context, val datas:MutableList<Comment>?, priv
                 Log.e("mobileApp", "Failed to fetch data(getMyProfile)", t)
             }
         })
-        // >> 삭제 버튼 클릭(확인 다이얼로그 -> 확인 -> 삭제)
 
+        // >> 삭제 버튼 클릭(확인 다이얼로그 -> 확인 -> 삭제)
         binding.BtnDelete.setOnClickListener {
             // 다이얼로그
             val eventHandler = object: DialogInterface.OnClickListener{ // 다이얼로그에 속하는 버튼에 쓸 클릭 리스너.. 변수로 받아 여러 버튼에 대해 사용

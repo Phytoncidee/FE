@@ -16,6 +16,8 @@ import com.example.hikinglog_fe.models.EShopBookmarkPostResponse
 import com.example.hikinglog_fe.models.EquipmentShopLResponse
 import com.example.hikinglog_fe.models.MBookmarkGetResponse
 import com.example.hikinglog_fe.models.MImageResponse
+import com.example.hikinglog_fe.models.Mountain
+import com.example.hikinglog_fe.models.MountainDetailResponse
 import com.example.hikinglog_fe.models.NationalMountainsResponse
 import com.example.hikinglog_fe.models.PostAccommodationBMDTO
 import com.example.hikinglog_fe.models.PostEShopBMDTO
@@ -58,6 +60,14 @@ interface RetrofitApiService {
         @Header("Authorization") auth: String?,
         @Path("mountain_Name") mName: String?
     ): Call<NationalMountainsResponse>
+
+    // [산 상세]
+    @GET("/api/mountain/detail")
+    fun getMountainDetail(
+        @Header("Authorization") auth: String?,
+        @Query("name") name: String?,
+        @Query("number") number: String?
+    ): Call<MountainDetailResponse>
 
     // [산 이미지]
     @GET("/api/getI/{mountain_Code}")
