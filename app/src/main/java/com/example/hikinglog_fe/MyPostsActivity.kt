@@ -4,17 +4,10 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.hikinglog_fe.adapter.CommunityPostAdapter
 import com.example.hikinglog_fe.adapter.MyPostsAdapter
-import com.example.hikinglog_fe.adapter.MyPostsPostHolder
-import com.example.hikinglog_fe.databinding.ActivityMyLikesBinding
 import com.example.hikinglog_fe.databinding.ActivityMyPostsBinding
 import com.example.hikinglog_fe.models.CommunityPostLResponse
 import retrofit2.Call

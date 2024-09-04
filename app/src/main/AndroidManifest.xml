@@ -32,9 +32,6 @@
             android:name=".MyPostsActivity"
             android:exported="false" />
         <activity
-            android:name=".MyLikesActivity"
-            android:exported="false" />
-        <activity
             android:name=".SplashActivity"
             android:exported="true"
             android:theme="@style/SplashTheme">

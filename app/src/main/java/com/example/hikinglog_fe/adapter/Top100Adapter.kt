@@ -69,7 +69,6 @@ class Top100Adapter(val context: Context, val datas:MutableList<Top100Item>?, pr
                         Log.e("mobileApp", "getMountainInfo Failure: ${t.message}")
                     }
                 })
-
         }
     }
 }

@@ -275,6 +275,8 @@ interface RetrofitApiService {
         @Header("Authorization") auth: String?
     ): Call<CommunityPostLResponse>
 
+    // [마이페이지_
+
 
     // [마이관광_관광 코스 저장]
     @POST("/api/tour/save")
