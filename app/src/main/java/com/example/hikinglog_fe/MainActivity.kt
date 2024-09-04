@@ -93,21 +93,4 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
-
-    // [Option Menu(액션바 메뉴)]
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_navigation, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            // 알림
-            R.id.menu_alarm -> {
-                val intent = Intent(this, AlarmActivity::class.java)
-                startActivity(intent)
-                true
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
 }
