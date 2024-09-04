@@ -99,10 +99,6 @@
             android:name=".AddPostActivity"
             android:exported="false" />
         <activity
-            android:name=".AlarmActivity"
-            android:exported="false"
-            android:parentActivityName=".MainActivity" />
-        <activity
             android:name=".MainActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
