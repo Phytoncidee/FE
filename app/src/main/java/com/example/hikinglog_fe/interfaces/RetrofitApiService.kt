@@ -5,8 +5,11 @@ import com.example.hikinglog_fe.models.AccommodationBookmarkGetResponse
 import com.example.hikinglog_fe.models.AccommodationBookmarkPostResponse
 import com.example.hikinglog_fe.models.AccommodationDResponse
 import com.example.hikinglog_fe.models.AccommodationLResponse
+import com.example.hikinglog_fe.models.CommentWriteDTO
 import com.example.hikinglog_fe.models.CommentsGetResponse
 import com.example.hikinglog_fe.models.CommunityPostLResponse
+import com.example.hikinglog_fe.models.CourseSaveDTO
+import com.example.hikinglog_fe.models.CourseSaveResponse
 import com.example.hikinglog_fe.models.EShopBookmarkDeleteResponse
 import com.example.hikinglog_fe.models.EShopBookmarkGetResponse
 import com.example.hikinglog_fe.models.EShopBookmarkPostResponse
@@ -20,6 +23,7 @@ import com.example.hikinglog_fe.models.PostLikeCommentResponse
 import com.example.hikinglog_fe.models.PostRestaurantBMDTO
 import com.example.hikinglog_fe.models.PostWriteDTO
 import com.example.hikinglog_fe.models.PostWriteResponseDTO
+import com.example.hikinglog_fe.models.ProfileGetResponse
 import com.example.hikinglog_fe.models.RestaurantBookmarkDeleteResponse
 import com.example.hikinglog_fe.models.RestaurantBookmarkGetResponse
 import com.example.hikinglog_fe.models.RestaurantBookmarkPostResponse
@@ -246,7 +250,8 @@ interface RetrofitApiService {
     @POST("/api/boards/{boardId}/comments")
     fun postPostComment(
         @Header("Authorization") auth: String?,
-        @Path("boardId") boardId: Int?
+        @Path("boardId") boardId: Int?,
+        @Body content: CommentWriteDTO
     ): Call<PostLikeCommentResponse>
 
     // [커뮤니티 댓글 삭제]
@@ -257,4 +262,26 @@ interface RetrofitApiService {
         @Path("commentId") commentId: Int?
     ): Call<PostLikeCommentResponse>
 
+
+    // [프로필 조회]
+    @GET("/api/member/profile")
+    fun getMyProfile(
+        @Header("Authorization") auth: String?
+    ): Call<ProfileGetResponse>
+
+    // [마이페이지_본인 게시물 조회]
+    @GET("/api/mypage/my")
+    fun getMyPosts(
+        @Header("Authorization") auth: String?
+    ): Call<CommunityPostLResponse>
+
+    // [마이페이지_
+
+
+    // [마이관광_관광 코스 저장]
+    @POST("/api/tour/save")
+    fun saveCourse(
+        @Header("Authorization") auth: String?,
+        @Body content: CourseSaveDTO
+    ): Call<CourseSaveResponse>
 }

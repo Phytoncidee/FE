@@ -32,9 +32,6 @@
             android:name=".MyPostsActivity"
             android:exported="false" />
         <activity
-            android:name=".MyLikesActivity"
-            android:exported="false" />
-        <activity
             android:name=".SplashActivity"
             android:exported="true"
             android:theme="@style/SplashTheme">
@@ -107,7 +104,8 @@
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".MainActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
 
         <meta-data
             android:name="com.kakao.vectormap.APP_KEY"

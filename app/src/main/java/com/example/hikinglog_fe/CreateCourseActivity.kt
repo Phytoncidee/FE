@@ -23,7 +23,11 @@ import com.example.hikinglog_fe.adapter.TourspotAdapter
 import com.example.hikinglog_fe.databinding.ActivityCreateCourseBinding
 import com.example.hikinglog_fe.databinding.ActivityMountainInfoBinding
 import com.example.hikinglog_fe.models.AccommodationLResponse
+import com.example.hikinglog_fe.models.AccomoDetail
+import com.example.hikinglog_fe.models.CourseSaveDTO
+import com.example.hikinglog_fe.models.CourseSaveResponse
 import com.example.hikinglog_fe.models.Mountain
+import com.example.hikinglog_fe.models.RestaurantDetail
 import com.example.hikinglog_fe.models.RestaurantLResponse
 import com.example.hikinglog_fe.models.TourismLResponse
 import retrofit2.Call
@@ -52,7 +56,6 @@ class CreateCourseActivity : AppCompatActivity() {
         } else {
             intent.getParcelableExtra("mountain") as? Mountain
         }
-
         Log.d("mobileApp", "CreateCourseActivity Intent: ${mountain}")
 
 
@@ -121,7 +124,89 @@ class CreateCourseActivity : AppCompatActivity() {
 
 
         // [[코스 저장]]
+        // >> Adapter에서 선택된 data 받아오기
+        var datas = intent.getSerializableExtra("selectedData")
+        val courseSaveDTO = CourseSaveDTO(
+            tourTitle = "Mountain Hiking Tour",
+            mountainId = 123,
+            preHikeAccomoIds = listOf("101", "102"),
+            preHikeRestaurantIds = listOf("201", "202"),
+            postHikeAccomoIds = listOf("103", "104"),
+            postHikeRestaurantIds = listOf("203", "204"),
+            accomoDetails = listOf(
+                AccomoDetail(
+                    name = "Pre-Hike Hotel A",
+                    contentId = "101",
+                    add = "123 Mountain St.",
+                    img = "http://example.com/img1.jpg",
+                    img2 = "http://example.com/img2.jpg",
+                    mapX = "127.001",
+                    mapY = "37.501",
+                    tel = "010-1234-5678",
+                    intro = "Comfortable place to stay before your hike."
+                ),
+                AccomoDetail(
+                    name = "Post-Hike Hotel B",
+                    contentId = "103",
+                    add = "456 Valley Rd.",
+                    img = "http://example.com/img3.jpg",
+                    img2 = "http://example.com/img4.jpg",
+                    mapX = "128.001",
+                    mapY = "38.001",
+                    tel = "010-2345-6789",
+                    intro = "Relaxing hotel to rest after your hike."
+                )
+            ),
+            restaurantDetails = listOf(
+                RestaurantDetail(
+                    name = "Pre-Hike Restaurant X",
+                    contentId = "201",
+                    add = "789 Food St.",
+                    img = "http://example.com/restaurant1.jpg",
+                    mapX = "127.500",
+                    mapY = "37.800",
+                    tel = "010-3456-7890",
+                    intro = "Great place for a pre-hike meal."
+                ),
+                RestaurantDetail(
+                    name = "Post-Hike Restaurant Y",
+                    contentId = "203",
+                    add = "321 Gourmet Ave.",
+                    img = "http://example.com/restaurant2.jpg",
+                    mapX = "126.500",
+                    mapY = "37.200",
+                    tel = "010-4567-8901",
+                    intro = "Perfect spot for a post-hike dinner."
+                )
+            )
+        )
+
         binding.BtnSaveCourse.setOnClickListener {
+            // [코스 저장]
+            // [Retrofit 통신 요청: 마이관광 저장]
+            val call: Call<CourseSaveResponse> = RetrofitConnection.jsonNetServ.saveCourse(
+                "Bearer $token",
+                courseSaveDTO
+            )
+
+            // [Retrofit 통신 응답: 마이관광 저장]
+            call.enqueue(object : Callback<CourseSaveResponse> {
+                override fun onResponse(call: Call<CourseSaveResponse>, response: Response<CourseSaveResponse>) {
+                    if (response.isSuccessful) {
+                        Log.d("mobileApp", "saveCourse: $response")
+                    } else {
+                        // 오류 처리
+                        Log.e("mobileApp", "saveCourse Error: ${response.code()}")
+                    }
+                }
+                override fun onFailure(call: Call<CourseSaveResponse>, t: Throwable) {
+                    // 네트워크 오류 처리
+                    Log.e("mobileApp", "Failed to fetch data(saveCourse)", t)
+                }
+            })
+
+
+            // [메인 페이지로 이동]
             val intent = Intent(applicationContext, MainActivity::class.java)
             startActivity(intent)
             true

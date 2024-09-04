@@ -7,7 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import android.content.Context
 import android.os.Build
 import android.util.Log
+import android.view.View
 import androidx.annotation.RequiresApi
+import androidx.core.view.isGone
 import androidx.fragment.app.FragmentManager
 import com.bumptech.glide.Glide
 import com.example.hikinglog_fe.CommentFragment
@@ -19,29 +21,33 @@ import com.example.hikinglog_fe.models.PostLikeCommentResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class CommunityPostHolder(val binding: ItemPostBinding): RecyclerView.ViewHolder(binding.root)
-class CommunityPostAdapter(val context: Context, val datas:MutableList<CommunityPost>?, val fragmentManager: FragmentManager, private val token: String?): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class MyPostsPostHolder(val binding: ItemPostBinding): RecyclerView.ViewHolder(binding.root)
+class MyPostsAdapter(val context: Context, val datas:MutableList<CommunityPost>?, private val token: String?): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun getItemCount(): Int {
         return datas?.size ?: 0
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return CommunityPostHolder(ItemPostBinding.inflate(LayoutInflater.from(parent.context),parent,false))
+        return MyPostsPostHolder(ItemPostBinding.inflate(LayoutInflater.from(parent.context),parent,false))
     }
 
 //    @RequiresApi(Build.VERSION_CODES.O)
 //    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val binding = (holder as CommunityPostHolder).binding
+        val binding = (holder as MyPostsPostHolder).binding
         val model = datas!![position]
 
         // [[커뮤니티 글 내용]]
         binding.postContent.text = model.content
         binding.mountainTag.text = model.tag
         binding.postUsername.text = model.userName
+
+//        val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+//        binding.postDate.text = dateFormat.format(model.createdAt)
 
         // 날짜 변환 코드
 //        val dateTimeString = model.createdAt  // "2024-08-30T16:08:21.350212"
@@ -52,10 +58,11 @@ class CommunityPostAdapter(val context: Context, val datas:MutableList<Community
 //        // 변환된 날짜를 TextView에 설정
 //        binding.postDate.text = formattedDateTime
 
+
         if (model.userImage != "") {
             // <커뮤니티 글 작성자 프로필 표시(Glide)>
             Glide.with(binding.root)
-                .load("${model.userImage}")
+                .load(model.userImage)
                 .override(100, 100) // 이미지 크기 조정
                 .into(binding.postUserprofile)
         }
@@ -63,7 +70,7 @@ class CommunityPostAdapter(val context: Context, val datas:MutableList<Community
         if (model.image != "") {
             // <커뮤니티 글 이미지 표시(Glide)>
             Glide.with(binding.root)
-                .load("${model.image}")
+                .load(model.image)
                 .override(400, 400) // 이미지 크기 조정
                 .into(binding.postImage)
         }
@@ -135,10 +142,7 @@ class CommunityPostAdapter(val context: Context, val datas:MutableList<Community
 
 
         // [[댓글]]
-        // >> 댓글 버튼 클릭
-        binding.BtnPostComment.setOnClickListener {
-            val commentFragment = CommentFragment.newInstance("param1", "param2", model.id.toString())
-            commentFragment.show(fragmentManager, "CommentFragment")
-        }
+        // >> 댓글 버튼 숨기기
+        binding.BtnPostComment.visibility = View.INVISIBLE
     }
 }
