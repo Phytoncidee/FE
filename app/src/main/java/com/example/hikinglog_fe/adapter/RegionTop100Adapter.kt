@@ -18,27 +18,28 @@ import com.example.hikinglog_fe.databinding.ItemTop100MountainBinding
 import com.example.hikinglog_fe.interfaces.ApiService
 import com.example.hikinglog_fe.models.Mountain
 import com.example.hikinglog_fe.models.MountainDetailResponse
+import com.example.hikinglog_fe.models.RegionTop100Mountains
 
 private lateinit var apiService: ApiService
 
-class Top100ViewHolder(val binding: ItemTop100MountainBinding): RecyclerView.ViewHolder(binding.root)
-class Top100Adapter(val context: Context, val datas:MutableList<Top100Item>?, private val token: String): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class RegionTop100ViewHolder(val binding: ItemTop100MountainBinding): RecyclerView.ViewHolder(binding.root)
+class RegionTop100Adapter(val context: Context, val datas:MutableList<RegionTop100Mountains>?, private val token: String): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun getItemCount(): Int {
         return datas?.size ?: 0
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return Top100ViewHolder(ItemTop100MountainBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return RegionTop100ViewHolder(ItemTop100MountainBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val binding = (holder as Top100ViewHolder).binding
+        val binding = (holder as RegionTop100ViewHolder).binding
         val model = datas!![position]
 
         // [[산 정보]]
         binding.mntiname.text = model.frtrlNm
-        binding.mntihigh.text = model.aslAltide
+        binding.mntihigh.text = model.aslAltide.toString()
         binding.mntiadd.text = model.addrNm
 
         // [[산 클릭 시 산 상세로 이동]]

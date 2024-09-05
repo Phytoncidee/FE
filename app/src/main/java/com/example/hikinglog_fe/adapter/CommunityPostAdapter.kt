@@ -42,15 +42,8 @@ class CommunityPostAdapter(val context: Context, val datas:MutableList<Community
         binding.postContent.text = model.content
         binding.mountainTag.text = model.tag
         binding.postUsername.text = model.userName
+        binding.postDate.text = model.createdAt
 
-        // 날짜 변환 코드
-//        val dateTimeString = model.createdAt  // "2024-08-30T16:08:21.350212"
-//        val originalFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
-//        val targetFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
-//        val dateTime = LocalDateTime.parse(dateTimeString, originalFormat)
-//        val formattedDateTime = dateTime.format(targetFormat)
-//        // 변환된 날짜를 TextView에 설정
-//        binding.postDate.text = formattedDateTime
 
         if (model.userImage != "") {
             // <커뮤니티 글 작성자 프로필 표시(Glide)>
