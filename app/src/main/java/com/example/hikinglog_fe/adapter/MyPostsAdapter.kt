@@ -40,8 +40,6 @@ class MyPostsAdapter(val context: Context, val datas:MutableList<CommunityPost>?
         return MyPostsPostHolder(ItemPostBinding.inflate(LayoutInflater.from(parent.context),parent,false))
     }
 
-//    @RequiresApi(Build.VERSION_CODES.O)
-//    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val binding = (holder as MyPostsPostHolder).binding
         val model = datas!![position]
@@ -50,19 +48,7 @@ class MyPostsAdapter(val context: Context, val datas:MutableList<CommunityPost>?
         binding.postContent.text = model.content
         binding.mountainTag.text = model.tag
         binding.postUsername.text = model.userName
-
-//        val dateFormat = SimpleDateFormat("yyyy-MM-dd")
-//        binding.postDate.text = dateFormat.format(model.createdAt)
-//
-
-        // 날짜 변환 코드
-//        val dateTimeString = model.createdAt  // "2024-08-30T16:08:21.350212"
-//        val originalFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
-//        val targetFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
-//        val dateTime = LocalDateTime.parse(dateTimeString, originalFormat)
-//        val formattedDateTime = dateTime.format(targetFormat)
-//        // 변환된 날짜를 TextView에 설정
-//        binding.postDate.text = formattedDateTime
+        binding.postDate.text = model.createdAt
 
 
         if (model.userImage != "") {

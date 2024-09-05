@@ -43,8 +43,6 @@
         </LinearLayout>
 
         <!-- 게시글 이미지 -->
-
-        <!-- 좋아요, 댓글 -->
         <ImageView
             android:id="@+id/post_image"
             android:layout_width="match_parent"
@@ -52,6 +50,7 @@
             android:background="@color/lightgray"
             android:src="@drawable/etc_default_image" />
 
+        <!-- 좋아요, 댓글 -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

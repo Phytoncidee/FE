@@ -14,6 +14,7 @@ import com.example.hikinglog_fe.models.EShopBookmarkDeleteResponse
 import com.example.hikinglog_fe.models.EShopBookmarkGetResponse
 import com.example.hikinglog_fe.models.EShopBookmarkPostResponse
 import com.example.hikinglog_fe.models.EquipmentShopLResponse
+import com.example.hikinglog_fe.models.GetRegionTop100Response
 import com.example.hikinglog_fe.models.MBookmarkGetResponse
 import com.example.hikinglog_fe.models.MImageResponse
 import com.example.hikinglog_fe.models.Mountain
@@ -53,6 +54,13 @@ interface RetrofitApiService {
     fun getTop100Mountains(
         @Header("Authorization") auth: String?
     ): Call<Top100Response>
+
+    // [지역별 100대 명산]
+    @GET("/api/getTop100MountainsByRegion/{region_array_index}")
+    fun getRegionTop100Mountains(
+        @Header("Authorization") auth: String?,
+        @Path("region_array_index") region_array_index: Int?
+    ): Call<GetRegionTop100Response>
 
     // [전체 산 검색]
     @GET("/api/getM/{mountain_Name}")
