@@ -293,8 +293,12 @@ interface RetrofitApiService {
         @Header("Authorization") auth: String?
     ): Call<CommunityPostLResponse>
 
-    // [마이페이지_
-
+    // [마이페이지_본인 게시물 삭제]
+    @DELETE("/api/boards/{boardId}")
+    fun deleteMyPost(
+        @Header("Authorization") auth: String?,
+        @Path("boardId") boardId: Int?
+    ): Call<PostLikeCommentResponse>
 
     // [마이관광_관광 코스 저장]
     @POST("/api/tour/save")
