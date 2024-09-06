@@ -25,27 +25,25 @@
                 android:layout_height="wrap_content"
                 android:text="산행록과 함께\n전국의 산을 정복해보세요! ⛰️"
                 android:fontFamily="@font/nanum_square_round_eb"
-
                 android:textColor="@color/white"
                 android:textSize="22sp"
                 android:textStyle="bold"
                 android:layout_marginTop="50dp"
-                android:layout_marginBottom="50dp"/>
+                android:layout_marginBottom="40dp"/>
 
             <!--검색창-->
-            <EditText
-                android:id="@+id/searchEditText"
-                android:layout_width="290dp"
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/searchView"
+                android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_gravity="center"
+                android:layout_margin="10dp"
                 android:background="@drawable/search_box"
-                android:hint="산 이름 혹은 산 소재지 지역명 검색"
-                android:drawableStart="@drawable/icon_search"
-                android:drawablePadding="8dp"
-                android:paddingLeft="20dp"
-                android:textColorHint="@color/lightgray"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
+                android:focusable="true"
+                app:queryHint="산 이름 혹은 산 소재지 지역명 검색"
+                app:iconifiedByDefault="false"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
         </LinearLayout>
 
         <LinearLayout

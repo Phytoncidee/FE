@@ -3,10 +3,13 @@ package com.example.hikinglog_fe
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hikinglog_fe.adapter.MountainAdapter
@@ -22,6 +25,7 @@ class NationalMountainsActivity : AppCompatActivity() {
     private lateinit var apiService: ApiService
     private lateinit var adapter: MountainAdapter
     private lateinit var sharedPreferences: SharedPreferences
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,14 +84,38 @@ class NationalMountainsActivity : AppCompatActivity() {
 
             // fetchMountains 호출
             fetchMountains(token)
+
+            // SearchView 리스너 설정
+            setOnQueryTextListener(token)
         } else {
             Log.e("TOKEN_ERROR", "No token found in SharedPreferences")
         }
-        
-        // Top100 페이지에서 클릭 후 이동한 경우 -> 검색창에 해당 Top100 산 이름 자동 입력
-        val mountainName: String? = intent.getStringExtra("mountainName")
-        binding.searchEditText.setText(mountainName)
-        
+    }
+
+    private fun setOnQueryTextListener(token: String) {
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            // 검색 버튼 입력시 호출, 검색 버튼이 없으므로 사용안함
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+            // 텍스트 입력, 수정시 호출
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (!newText.isNullOrEmpty()) {
+                    // 먼저 로컬 필터링을 시도
+                    adapter.performSearch(newText)
+
+                    // 만약 로컬 필터링에서 데이터가 없는 경우, API 호출을 통해 검색
+                    if (adapter.itemCount == 0) {
+                        searchMountain(token, newText)
+                    }
+                } else {
+                    // 검색어가 비어있다면 전체 데이터를 다시 로드
+                    fetchMountains(token)
+                }
+                return false
+            }
+        })
     }
 
     private fun fetchMountains(token: String) {
@@ -106,6 +134,39 @@ class NationalMountainsActivity : AppCompatActivity() {
                                 adapter.setData(mountains)
                             } else {
                                 Log.e("API_ERROR", "No mountains found")
+                            }
+                        } else {
+                            Log.e("API_ERROR", "Response body is null")
+                        }
+                    } else {
+                        Log.e("API_ERROR", "Response code: ${response.code()}")
+                    }
+                }
+
+                override fun onFailure(call: Call<NationalMountainsResponse>, t: Throwable) {
+                    t.printStackTrace()
+                    Log.e("API_ERROR", "Failure: ${t.message}")
+                }
+            })
+    }
+
+    private fun searchMountain(token: String, searchText: String) {
+        apiService.getMountainInfo("Bearer $token", searchText)
+            .enqueue(object : Callback<NationalMountainsResponse> {
+                override fun onResponse(
+                    call: Call<NationalMountainsResponse>,
+                    response: Response<NationalMountainsResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        val responseBody = response.body()
+                        if (responseBody != null) {
+                            Log.d("API_SUCCESS", "Response: $responseBody")
+                            val mountains = responseBody.response?.body?.items?.item
+                            if (!mountains.isNullOrEmpty()) {
+                                adapter.setData(mountains)
+                            } else {
+                                Log.e("API_ERROR", "No mountains found")
+                                adapter.setData(emptyList()) // 검색 결과가 없을 때 빈 리스트로 업데이트
                             }
                         } else {
                             Log.e("API_ERROR", "Response body is null")

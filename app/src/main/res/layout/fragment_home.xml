@@ -15,31 +15,35 @@
         android:background="@color/white">
 
         <!-- 홈 베너 -->
+
+        <!-- 홈 메뉴 -->
         <LinearLayout
             android:layout_width="350dp"
             android:layout_height="200dp"
             android:background="@drawable/round_background_lightyellow"
             android:backgroundTint="@color/green"
+            android:gravity="center"
             android:orientation="vertical"
-            android:padding="30dp"
-            android:gravity="center">
+            android:padding="30dp">
+
             <TextView
+                android:id="@+id/bannerName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="김산이님, 환영합니다! 🖐️"
-                android:textColor="@color/white"
                 android:fontFamily="@font/nanum_square_round_eb"
+                android:text="환영합니다! 🖐️"
+                android:textColor="@color/white"
                 android:textSize="20dp" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="산행록이 당신의 등산 여정에 \n함께할게요."
-                android:textColor="@color/white"
                 android:fontFamily="@font/nanum_square_round_eb"
+                android:text="산행록이 당신의 등산 여행을\n즐겁고 풍성하게 만들어 드릴게요."
+                android:textColor="@color/white"
                 android:textSize="20dp" />
         </LinearLayout>
 
-        <!-- 홈 메뉴 -->
         <LinearLayout
             android:layout_width="350dp"
             android:layout_height="wrap_content"
@@ -194,6 +198,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/nanum_square_round_eb" />
             <ImageButton
+                android:id="@+id/btnGoRecord"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/icon_home_move_button"
@@ -214,11 +219,13 @@
                 android:padding="15dp"
                 android:layout_marginRight="20dp">
                 <TextView
+                    android:id="@+id/bringRecord1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="2024.00.00 (월)"
                     android:fontFamily="@font/nanum_square_round_b"/>
                 <TextView
+                    android:id="@+id/bringRecord2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="북한산에서 2번째 등산"
@@ -232,11 +239,13 @@
                 android:orientation="vertical"
                 android:padding="15dp">
                 <TextView
+                    android:id="@+id/bringRecord3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="2024.00.00 (월)"
                     android:fontFamily="@font/nanum_square_round_b"/>
                 <TextView
+                    android:id="@+id/bringRecord4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="북한산에서 2번째 등산"

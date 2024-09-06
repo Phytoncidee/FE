@@ -10,135 +10,121 @@
     android:layout_marginTop="50dp"
     tools:context=".DirectRecordActivity">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/icon_backbtn" />
-
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:text="등반한 산"
-            android:textStyle="bold"
-            android:textSize="18sp" />
-
-        <EditText
-            android:id="@+id/mountainName_Record"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:paddingLeft="8dp"
-            android:ems="10"
-            android:layout_gravity="bottom"
-            android:layout_marginTop="15dp"
-            android:hint="산 이름을 입력해주세요."
-            android:background="@drawable/edit_text_box"
-            android:inputType="text" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:text="날짜"
-            android:textStyle="bold"
-            android:textSize="18sp" />
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_marginTop="15dp"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginEnd="8dp"
-                android:padding="8dp"
-                android:text="날짜를 선택해주세요."
-                android:textColor="#928E8E"
-                android:textSize="18dp"/>
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:src="@drawable/icon_calender"
-                android:background="@android:color/transparent"
-                android:padding="8dp"
-                android:textSize="16sp" />
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:text="소요시간"
-            android:textStyle="bold"
-            android:textSize="18sp" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:orientation="horizontal">
+                android:layout_marginTop="50dp"
+                android:text="등반한 산"
+                android:textStyle="bold"
+                android:textSize="18sp" />
 
             <EditText
-                android:layout_width="60dp"
+                android:id="@+id/mountainName"
+                android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:paddingLeft="8dp"
                 android:ems="10"
                 android:layout_gravity="bottom"
                 android:layout_marginTop="15dp"
+                android:hint="산 이름을 입력해주세요."
                 android:background="@drawable/edit_text_box"
                 android:inputType="text" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_marginLeft="10dp"
-                android:text="시간"
+                android:layout_marginTop="30dp"
+                android:text="날짜"
                 android:textStyle="bold"
                 android:textSize="18sp" />
 
-            <EditText
-                android:layout_width="60dp"
-                android:layout_height="50dp"
-                android:paddingLeft="8dp"
-                android:ems="10"
-                android:layout_gravity="bottom"
-                android:background="@drawable/edit_text_box"
-                android:layout_marginLeft="10dp"
-                android:inputType="text" />
+            <DatePicker
+                android:id="@+id/spinnerDate"
+                android:datePickerMode="spinner"
+                android:calendarViewShown="false"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_marginLeft="10dp"
-                android:text="분"
+                android:layout_marginTop="30dp"
+                android:text="소요시간"
                 android:textStyle="bold"
                 android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/editTextHour"
+                    android:layout_width="60dp"
+                    android:layout_height="50dp"
+                    android:paddingLeft="8dp"
+                    android:ems="10"
+                    android:layout_gravity="bottom"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/edit_text_box"
+                    android:inputType="number"
+                    android:hint="0"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="10dp"
+                    android:text="시간"
+                    android:textStyle="bold"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/editTextMinute"
+                    android:layout_width="60dp"
+                    android:layout_height="50dp"
+                    android:paddingLeft="8dp"
+                    android:ems="10"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/edit_text_box"
+                    android:layout_marginLeft="10dp"
+                    android:inputType="number"
+                    android:hint="0"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="10dp"
+                    android:text="분"
+                    android:textStyle="bold"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnAddRecord"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/button_register"
+                android:layout_marginTop="50dp"
+                android:text="추가하기"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/white" />
+
         </LinearLayout>
 
-
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="@drawable/button_register"
-            android:layout_marginTop="50dp"
-            android:text="추가하기"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="@color/white" />
-
-    </LinearLayout>
+    </ScrollView>
 </LinearLayout>
