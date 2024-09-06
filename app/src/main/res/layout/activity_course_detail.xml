@@ -58,13 +58,6 @@
                     android:id="@+id/beforeHikingRecyclerView"
                     android:layout_marginTop="20dp" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="3dp"
-                    android:padding="10dp"
-                    android:background="#e0e0e0"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="20dp"/>
 
 
                 <!-- 산 정보 -->
@@ -78,23 +71,10 @@
                 <ImageView
                     android:layout_width="250dp"
                     android:layout_height="150dp"
-                    android:src="@drawable/etc_default_image"
+                    android:src="@drawable/etc_logo"
                     android:layout_gravity="center"
                     android:layout_marginVertical="20dp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/nanum_square_round_b"
-                    android:text="산 이름"
-                    android:textSize="20dp"
-                    android:paddingHorizontal="30dp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="산 소개"
-                    android:textSize="15dp"
-                    android:paddingHorizontal="30dp"
-                    android:layout_marginTop="10dp"/>
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -106,12 +86,14 @@
                         android:text="소재지"
                         android:textSize="15dp"
                         android:textColor="@color/gray"
-                        android:layout_marginRight="10dp"/>
+                        android:layout_marginRight="10dp"
+                        android:layout_marginVertical="10dp"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="산 주소~~~~~~~~~"
-                        android:textSize="15dp"/>
+                        android:text=""
+                        android:textSize="15dp"
+                        android:layout_marginVertical="10dp"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -124,12 +106,14 @@
                         android:text="높이"
                         android:textSize="15dp"
                         android:textColor="@color/gray"
-                        android:layout_marginRight="10dp"/>
+                        android:layout_marginRight="10dp"
+                        android:layout_marginVertical="5dp"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2000m"
-                        android:textSize="15dp"/>
+                        android:text=""
+                        android:textSize="15dp"
+                        android:layout_marginVertical="5dp"/>
                 </LinearLayout>
                 <ImageButton
                     android:layout_width="wrap_content"

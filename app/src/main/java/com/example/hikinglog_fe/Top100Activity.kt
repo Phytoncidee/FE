@@ -1,6 +1,7 @@
 package com.example.hikinglog_fe
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -13,8 +14,10 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.hikinglog_fe.adapter.RegionTop100Adapter
 import com.example.hikinglog_fe.adapter.Top100Adapter
 import com.example.hikinglog_fe.databinding.ActivityTop100Binding
+import com.example.hikinglog_fe.models.GetRegionTop100Response
 import com.example.hikinglog_fe.models.Top100Response
 import com.example.hikinglog_fe.utils.parseEscapedJson
 import com.google.gson.annotations.JsonAdapter
@@ -23,15 +26,22 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class Top100Activity : AppCompatActivity() {
+    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var token: String
+    private lateinit var binding: ActivityTop100Binding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityTop100Binding.inflate(layoutInflater)
+        binding = ActivityTop100Binding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // SharedPreferences 초기화
+        sharedPreferences = getSharedPreferences("userToken", Context.MODE_PRIVATE)
+        token = sharedPreferences.getString("token", null)!!
 
         // [Call객체를 통해 Retrofit 통신_요청]
         val call: Call<Top100Response> = RetrofitConnection.xmlNetServ.getTop100Mountains(
-            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMUBuYXZlci5jb20iLCJ1aWQiOjEsImV4cCI6MTcyMzI2MTk0MSwiZW1haWwiOiJ1c2VyMUBuYXZlci5jb20ifQ.7jJ8Y5eu95xmPEIrh1Q2KjLgxLnAOVFolMMHK7bI6QLRMdoIpAyd8kOPmVungVa_N_GzbCsDKglTKjTwCzdVng"
+            "Bearer $token"
         )
 
         // [Call객체를 통해 Retrofit 통신_응답] (return된 값 처리)
@@ -44,7 +54,7 @@ class Top100Activity : AppCompatActivity() {
                     Log.d("mobileApp", "${response.body()}")
 
                     binding.top100RecyclerView.layoutManager = LinearLayoutManager(applicationContext)
-                    binding.top100RecyclerView.adapter = Top100Adapter(this@Top100Activity, response.body()!!.body!!.items!!.item)
+                    binding.top100RecyclerView.adapter = Top100Adapter(this@Top100Activity, response.body()!!.body!!.items!!.item, token!!)
                     binding.top100RecyclerView.addItemDecoration(DividerItemDecoration(applicationContext, LinearLayoutManager.VERTICAL))
 
                 } else {
@@ -70,26 +80,46 @@ class Top100Activity : AppCompatActivity() {
 
         binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-
-                //아이템이 클릭 되면 맨 위부터 position 0번부터 순서대로 동작
-                when (position) {
-                    0 -> {
-
-                    }
-
-                    1 -> {
-
-                    }
-                    //...
-                    else -> {
-
-                    }
+                if (position in 0..16) {
+                    getRegionTop100(position)
                 }
             }
-
             override fun onNothingSelected(parent: AdapterView<*>) {
 
             }
         }
+    } //onCreate()
+
+    fun getRegionTop100(index : Int){
+        // [Call객체를 통해 Retrofit 통신_요청]
+        val call: Call<GetRegionTop100Response> = RetrofitConnection.jsonNetServ.getRegionTop100Mountains(
+            "Bearer $token",
+            index
+        )
+
+        // [Call객체를 통해 Retrofit 통신_응답] (return된 값 처리)
+        call.enqueue(object : Callback<GetRegionTop100Response> {
+            override fun onResponse(call: Call<GetRegionTop100Response>, response: Response<GetRegionTop100Response>) {
+
+                if (response.isSuccessful) {
+
+                    Log.d("mobileApp", "getRegionTop100Mountains: $response")
+                    Log.d("mobileApp", "getRegionTop100Mountains: ${response.body()}")
+
+                    binding.top100RecyclerView.layoutManager = LinearLayoutManager(applicationContext)
+                    binding.top100RecyclerView.adapter = RegionTop100Adapter(this@Top100Activity, response.body()!!.data, token!!)
+                    binding.top100RecyclerView.addItemDecoration(DividerItemDecoration(applicationContext, LinearLayoutManager.VERTICAL))
+
+                } else {
+                    // 오류 처리
+                    Log.e("mobileApp", "getRegionTop100Mountains Error: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<GetRegionTop100Response>, t: Throwable) {
+                // 네트워크 오류 처리
+                Log.e("mobileApp", "Failed to fetch data(getRegionTop100Mountains)", t)
+            }
+        })
     }
 }

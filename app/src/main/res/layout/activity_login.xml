@@ -44,7 +44,8 @@
                 android:background="@drawable/edit_text_box"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:textColor="@color/black"/>
 
             <EditText
                 android:id="@+id/editTextPassword"
@@ -55,7 +56,8 @@
                 android:textSize="14sp"
                 android:background="@drawable/edit_text_box"
                 android:hint="비밀번호를 입력해주세요"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:textColor="@color/black"/>
 
             <Button
                 android:id="@+id/btnLogin"

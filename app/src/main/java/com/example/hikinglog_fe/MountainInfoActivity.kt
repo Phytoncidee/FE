@@ -3,6 +3,7 @@ package com.example.hikinglog_fe
 import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.Color
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -158,7 +159,18 @@ class MountainInfoActivity : AppCompatActivity() {
         } else {
             Log.e("MountainInfoActivity", "KakaoMap 객체가 초기화되지 않았습니다.")
         }
-    }
+
+
+        // [[마이관광 이동 버튼 클릭]]
+        binding.buttonMakeCourse.setOnClickListener {
+            val context = binding.root.context
+            val intent = Intent(context, CreateCourseActivity::class.java).apply {
+                putExtra("mountain", mountain)
+            }
+            context.startActivity(intent)
+        }
+
+    } // onCreate()
 
     private fun displayMountainInfo(mountain: Mountain) {
         // 산의 상세 정보를 표시

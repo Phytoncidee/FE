@@ -1,37 +1,35 @@
 package com.example.hikinglog_fe.adapter
 
+import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.hikinglog_fe.MountainInfoActivity
+import com.example.hikinglog_fe.NationalMountainsActivity
 import com.example.hikinglog_fe.RetrofitConnection
-import com.example.hikinglog_fe.databinding.ItemMountainBinding
-import com.example.hikinglog_fe.models.MImageResponse
-import com.example.hikinglog_fe.models.MSearchResponse
 import com.example.hikinglog_fe.models.Top100Item
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import android.content.Context
-import android.widget.Toast
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.hikinglog_fe.NationalMountainsActivity
 import com.example.hikinglog_fe.databinding.ItemTop100MountainBinding
-import com.example.hikinglog_fe.models.MBookmarkGetResponse
-import com.example.hikinglog_fe.models.Top100Response
+import com.example.hikinglog_fe.interfaces.ApiService
+import com.example.hikinglog_fe.models.Mountain
+import com.example.hikinglog_fe.models.MountainDetailResponse
+
+private lateinit var apiService: ApiService
 
 class Top100ViewHolder(val binding: ItemTop100MountainBinding): RecyclerView.ViewHolder(binding.root)
-class Top100Adapter(val context: Context, val datas:MutableList<Top100Item>?): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class Top100Adapter(val context: Context, val datas:MutableList<Top100Item>?, private val token: String): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
     override fun getItemCount(): Int {
         return datas?.size ?: 0
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return Top100ViewHolder(ItemTop100MountainBinding.inflate(LayoutInflater.from(parent.context),parent,false))
+        return Top100ViewHolder(ItemTop100MountainBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -43,74 +41,60 @@ class Top100Adapter(val context: Context, val datas:MutableList<Top100Item>?): R
         binding.mntihigh.text = model.aslAltide
         binding.mntiadd.text = model.addrNm
 
-
-        // [[리사이클러 뷰 클릭 -> 산 상세 페이지로 이동]] ===수정===> [산 목록 페이지_검색창에 산 이름 입력된 형태로 이동]
+        // [[산 클릭 시 산 상세로 이동]]
         binding.root.setOnClickListener {
-            Intent(context, NationalMountainsActivity::class.java).apply {
-                putExtra("mountainName", binding.mntiname.text) // 산 이름 전달
-            }.run { context.startActivity(this) }
+            // [Top100 산 이름, 코드 =>  산 상세 api로 Mountian Data Class 얻어오기]
+            // [Retrofit 통신 요청: 숙소 목록 검색]
+            Log.d("mobileApp", "Mountian 얻어올 데이터 있는지 확인: ${model.frtrlNm}/${model.mtnCd}/${model.addrNm}")
+            val call: Call<MountainDetailResponse> = RetrofitConnection.jsonNetServ.getMountainDetail(
+                "Bearer $token",
+                model.frtrlNm,
+                model.mtnCd
+            )
+            // [Retrofit 통신 응답: 숙소 목록 검색]
+            call.enqueue(object : Callback<MountainDetailResponse> {
+                override fun onResponse(call: Call<MountainDetailResponse>, response: Response<MountainDetailResponse>) {
+                    if (response.isSuccessful) {
+                        Log.d("mobileApp", "getMountainDetail: $response")
+
+                        val data = response.body()!!.data
+                        val mountain = Mountain(
+                            mntiadd = data.mntiadd,
+                            mntiadmin = data.mntiadmin,
+                            mntiadminnum = data.mntiadminnum,
+                            mntidetails = data.mntidetails,
+                            mntihigh = data.mntihigh,
+                            mntilistno = data.mntilistno,
+                            mntiname = data.mntiname,
+                            mntinfdt = data.mntinfdt,
+                            mntisname = data.mntisname,
+                            mntisummary = data.mntisummary,
+                            mntitop = data.mntitop
+                        )
+
+                        Log.d("mobileApp", "산 상세로 넘어가는 Mountian: $mountain")
+                        // >> 산 상세 페이지에 data 넘겨주기 <<
+                        Intent(context, MountainInfoActivity::class.java).apply {
+                            putExtra("mountain", mountain) // 산 상세 페이지에서 사용할 "mountain" 전달
+                        }.run { context.startActivity(this) }
+
+                    } else {
+                        // 오류 처리
+                        Log.e("mobileApp", "getMountainDetail Error: ${response.code()}")
+
+                        // data 없는 경우 >>전국 산 검색창으로 이동<< -> 검색 결과 중 직접 선택
+                        Intent(context, NationalMountainsActivity::class.java).apply {
+                            putExtra("mountainName", binding.mntiname.text) // 산 이름 전달
+                        }.run { context.startActivity(this) }
+                        Toast.makeText(context, "검색 결과를 통해 상세 정보를 열람하세요!", Toast.LENGTH_LONG).show()
+                    }
+                }
+                override fun onFailure(call: Call<MountainDetailResponse>, t: Throwable) {
+                    // 네트워크 오류 처리
+                    Log.e("mobileApp", "Failed to fetch data(getMountainDetail)", t)
+                }
+            })
+
         }
     }
 }
-
-
-//        // [[산 이미지]]
-//        // <Retrofit 통신 요청_산 검색>
-//        val callI : Call<MSearchResponse> = RetrofitConnection.jsonNetServ.getMountain(
-//            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMUBuYXZlci5jb20iLCJ1aWQiOjEsImV4cCI6MTcyMzI2MTk0MSwiZW1haWwiOiJ1c2VyMUBuYXZlci5jb20ifQ.7jJ8Y5eu95xmPEIrh1Q2KjLgxLnAOVFolMMHK7bI6QLRMdoIpAyd8kOPmVungVa_N_GzbCsDKglTKjTwCzdVng",
-//            model.frtrlNm
-//        )
-//
-//        // <Retrofit 통신 응답_산 검색: (해당 이름으로 검색 -> mntilistno 얻어서 이미지 api 통신)>
-//        callI.enqueue(object : Callback<MSearchResponse> {
-//                override fun onResponse(call: Call<MSearchResponse>, response: Response<MSearchResponse>) {
-//
-//                    if (response.isSuccessful) {
-//
-//                        Log.d("mobileApp", "MSearchResponse: $response")
-////                        Log.d("mobileApp", "MSearchResponse: ${response.body()}")
-//
-//                        // <Retrofit 통신 요청_산 이미지: mntilistno 통해 imgfilename 얻어옴>
-//                        val call : Call<MImageResponse> = RetrofitConnection.jsonNetServ.getMountainImage(
-//                            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMUBuYXZlci5jb20iLCJ1aWQiOjEsImV4cCI6MTcyMzI2MTk0MSwiZW1haWwiOiJ1c2VyMUBuYXZlci5jb20ifQ.7jJ8Y5eu95xmPEIrh1Q2KjLgxLnAOVFolMMHK7bI6QLRMdoIpAyd8kOPmVungVa_N_GzbCsDKglTKjTwCzdVng",
-//                            response.body()!!.response!!.body!!.items!!.itemList[0]!!.mntilistno
-//                        )
-//
-//                        // <Retrofit 통신 응답_산 이미지>
-//                        call.enqueue(object : Callback<MImageResponse> {
-//                            override fun onResponse(call: Call<MImageResponse>, response: Response<MImageResponse>) {
-//
-//                                if (response.isSuccessful) {
-//
-//                                    Log.d("mobileApp", "MImageResponse: $response")
-//                                    Log.d("mobileApp", "MImageResponse: ${response.body()!!.response.body.items.itemList[0].imgfilename}")
-//
-//                                    Glide.with(binding.root)
-//                                        .load("http://www.forest.go.kr/images/data/down/mountain/${response.body()!!.response.body.items.itemList[0].imgfilename}")
-//                                        .override(50, 50) // 이미지 크기 조정
-//                                        .into(binding.mntImg)
-//
-//                                } else {
-//                                    // 오류 처리
-//                                    Log.e("mobileApp", "Error: ${response.code()}")
-//                                }
-//                            }
-//
-//                            override fun onFailure(call: Call<MImageResponse>, t: Throwable) {
-//                                // 네트워크 오류 처리
-//                                Log.e("mobileApp", "Failed to fetch data(getMountainImage)", t)
-//                            }
-//                        })
-//
-//
-//                    } else {
-//                        // 오류 처리
-//                        Log.e("mobileApp", "Error: ${response.code()}")
-//                    }
-//                }
-//
-//                override fun onFailure(call: Call<MSearchResponse>, t: Throwable) {
-//                    // 네트워크 오류 처리
-//                    Log.e("mobileApp", "Failed to fetch data(getMountain)", t)
-//                }
-//            })

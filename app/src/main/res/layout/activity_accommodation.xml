@@ -41,15 +41,29 @@ android:orientation="vertical">
                 android:text="가까운 숙박시설을 이용하세요!"
                 android:textColor="@color/white"
                 android:layout_marginTop="5dp" />
-            <EditText
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="  산 이름, 지역, 숙박시설 이름 검색"
-                android:textColorHint="#d0d0d0"
-                android:background="@drawable/round_background_lightyellow2"
-                android:drawableLeft="@drawable/icon_search"
-                android:padding="5dp"
-                android:layout_marginTop="20dp"/>
+                android:layout_height="wrap_content">
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="  숙박시설을 검색해보세요!"
+                    android:textColorHint="#d0d0d0"
+                    android:textColor="@color/black"
+                    android:textSize="15dp"
+                    android:background="@drawable/round_background_lightyellow2"
+                    android:padding="7dp"
+                    android:layout_marginTop="20dp"
+                    android:id="@+id/searchEditText"
+                    android:layout_weight="1"/>
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/button_searchstore"
+                    android:backgroundTint="@color/green"
+                    android:layout_marginTop="10dp"
+                android:id="@+id/btnSearch"/>
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout

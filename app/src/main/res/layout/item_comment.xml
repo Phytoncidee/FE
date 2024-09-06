@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/white">
 
     <LinearLayout
         android:orientation="horizontal"
@@ -13,7 +14,8 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/icon_community_default_profile" />
+            android:src="@drawable/icon_community_default_profile"
+            android:id="@+id/commentUserProfile"/>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -28,13 +30,23 @@
                 android:text="댓글 작성자"
                 android:textSize="15dp"
                 android:fontFamily="@font/nanum_square_round_eb"
-                android:layout_marginBottom="5dp"/>
+                android:layout_marginBottom="5dp"
+                android:id="@+id/commentUserName"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="댓글 내용~~~~~~~~~"
-                android:fontFamily="@font/nanum_square_round_b"/>
+                android:text="댓글 내용"
+                android:fontFamily="@font/nanum_square_round_b"
+                android:id="@+id/commentContent"/>
         </LinearLayout>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/button_delete"
+            android:background="@color/white"
+            android:visibility="invisible"
+            android:id="@+id/BtnDelete"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

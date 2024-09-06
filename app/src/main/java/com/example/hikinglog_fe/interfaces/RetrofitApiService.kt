@@ -1,39 +1,45 @@
 package com.example.hikinglog_fe.interfaces
 
 import com.example.hikinglog_fe.models.AccommodationBookmarkDeleteResponse
-import com.example.hikinglog_fe.models.AccommodationBookmarkGetBookmark
 import com.example.hikinglog_fe.models.AccommodationBookmarkGetResponse
 import com.example.hikinglog_fe.models.AccommodationBookmarkPostResponse
 import com.example.hikinglog_fe.models.AccommodationDResponse
 import com.example.hikinglog_fe.models.AccommodationLResponse
+import com.example.hikinglog_fe.models.CommentWriteDTO
+import com.example.hikinglog_fe.models.CommentsGetResponse
 import com.example.hikinglog_fe.models.CommunityPostLResponse
+import com.example.hikinglog_fe.models.CourseSaveDTO
+import com.example.hikinglog_fe.models.CourseSaveResponse
 import com.example.hikinglog_fe.models.EShopBookmarkDeleteResponse
 import com.example.hikinglog_fe.models.EShopBookmarkGetResponse
 import com.example.hikinglog_fe.models.EShopBookmarkPostResponse
 import com.example.hikinglog_fe.models.EquipmentShopLResponse
+import com.example.hikinglog_fe.models.GetRegionTop100Response
 import com.example.hikinglog_fe.models.MBookmarkGetResponse
 import com.example.hikinglog_fe.models.MImageResponse
-import com.example.hikinglog_fe.models.MSearchResponse
+import com.example.hikinglog_fe.models.Mountain
+import com.example.hikinglog_fe.models.MountainDetailResponse
+import com.example.hikinglog_fe.models.NationalMountainsResponse
 import com.example.hikinglog_fe.models.PostAccommodationBMDTO
 import com.example.hikinglog_fe.models.PostEShopBMDTO
+import com.example.hikinglog_fe.models.PostLikeCommentResponse
 import com.example.hikinglog_fe.models.PostRestaurantBMDTO
 import com.example.hikinglog_fe.models.PostWriteDTO
 import com.example.hikinglog_fe.models.PostWriteResponseDTO
+import com.example.hikinglog_fe.models.ProfileGetResponse
 import com.example.hikinglog_fe.models.RestaurantBookmarkDeleteResponse
 import com.example.hikinglog_fe.models.RestaurantBookmarkGetResponse
 import com.example.hikinglog_fe.models.RestaurantBookmarkPostResponse
 import com.example.hikinglog_fe.models.RestaurantDResponse
 import com.example.hikinglog_fe.models.RestaurantLResponse
 import com.example.hikinglog_fe.models.Top100Response
-import com.google.gson.JsonObject
+import com.example.hikinglog_fe.models.TourismLResponse
 import okhttp3.MultipartBody
-import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
-import retrofit2.http.Headers
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
@@ -49,12 +55,27 @@ interface RetrofitApiService {
         @Header("Authorization") auth: String?
     ): Call<Top100Response>
 
+    // [지역별 100대 명산]
+    @GET("/api/getTop100MountainsByRegion/{region_array_index}")
+    fun getRegionTop100Mountains(
+        @Header("Authorization") auth: String?,
+        @Path("region_array_index") region_array_index: Int?
+    ): Call<GetRegionTop100Response>
+
     // [전체 산 검색]
     @GET("/api/getM/{mountain_Name}")
     fun getMountain(
         @Header("Authorization") auth: String?,
         @Path("mountain_Name") mName: String?
-    ): Call<MSearchResponse>
+    ): Call<NationalMountainsResponse>
+
+    // [산 상세]
+    @GET("/api/mountain/detail")
+    fun getMountainDetail(
+        @Header("Authorization") auth: String?,
+        @Query("name") name: String?,
+        @Query("number") number: String?
+    ): Call<MountainDetailResponse>
 
     // [산 이미지]
     @GET("/api/getI/{mountain_Code}")
@@ -140,6 +161,13 @@ interface RetrofitApiService {
         @Path("storeId") storeId: Int?
     ): Call<AccommodationBookmarkDeleteResponse>
 
+    // [숙박시설 검색]
+    @GET("api/store/search-stay?")
+    fun searchStay(
+        @Header("Authorization") auth: String?,
+        @Query("keyword") keyword: String?
+    ): Call<AccommodationLResponse>
+
 
     // [음식점 목록 조회]
     @GET("/api/store/restaurant-list")
@@ -179,6 +207,22 @@ interface RetrofitApiService {
         @Path("storeId") storeId: Int?
     ): Call<RestaurantBookmarkDeleteResponse>
 
+    // [음식점 검색]
+    @GET("api/store/search-restaurant?")
+    fun searchRestaurant(
+        @Header("Authorization") auth: String?,
+        @Query("keyword") keyword: String?
+    ): Call<RestaurantLResponse>
+
+
+    // [관광지 목록 조회]
+    @GET("/api/store/tour-list")
+    fun getTourpList(
+        @Header("Authorization") auth: String?,
+        @Query("longitude") longitude: Double?,
+        @Query("latitude") latitude: Double?
+    ): Call<TourismLResponse>
+
 
     // [커뮤니티 글 목록 조회]
     @GET("/api/boards")
@@ -197,4 +241,65 @@ interface RetrofitApiService {
         @Part("data") data: PostWriteDTO
     ): Call<PostWriteResponseDTO<String>>
 
+    // [커뮤니티 좋아요 등록]
+    @POST("/api/boards/{boardId}/like")
+    fun postPostLike(
+        @Header("Authorization") auth: String?,
+        @Path("boardId") boardId: Int?
+    ): Call<PostLikeCommentResponse>
+
+    // [커뮤니티 좋아요 삭제]
+    @DELETE("/api/boards/{boardId}/like")
+    fun deletePostLike(
+        @Header("Authorization") auth: String?,
+        @Path("boardId") boardId: Int?
+    ): Call<PostLikeCommentResponse>
+
+    // [커뮤니티 댓글 목록 조회]
+    @GET("/api/boards/{boardId}/comments")
+    fun getPostComments(
+        @Header("Authorization") auth: String?,
+        @Path("boardId") boardId: Int?,
+        @Query("size") size: Int?,
+        @Query("page") page: Int?
+    ): Call<CommentsGetResponse>
+
+    // [커뮤니티 댓글 등록]
+    @POST("/api/boards/{boardId}/comments")
+    fun postPostComment(
+        @Header("Authorization") auth: String?,
+        @Path("boardId") boardId: Int?,
+        @Body content: CommentWriteDTO
+    ): Call<PostLikeCommentResponse>
+
+    // [커뮤니티 댓글 삭제]
+    @DELETE("/api/boards/{boardId}/comments/{commentId}")
+    fun deletePostComment(
+        @Header("Authorization") auth: String?,
+        @Path("boardId") boardId: Int?,
+        @Path("commentId") commentId: Int?
+    ): Call<PostLikeCommentResponse>
+
+
+    // [프로필 조회]
+    @GET("/api/member/profile")
+    fun getMyProfile(
+        @Header("Authorization") auth: String?
+    ): Call<ProfileGetResponse>
+
+    // [마이페이지_본인 게시물 조회]
+    @GET("/api/mypage/my")
+    fun getMyPosts(
+        @Header("Authorization") auth: String?
+    ): Call<CommunityPostLResponse>
+
+    // [마이페이지_
+
+
+    // [마이관광_관광 코스 저장]
+    @POST("/api/tour/save")
+    fun saveCourse(
+        @Header("Authorization") auth: String?,
+        @Body content: CourseSaveDTO
+    ): Call<CourseSaveResponse>
 }

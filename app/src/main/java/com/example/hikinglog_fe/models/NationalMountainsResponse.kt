@@ -16,7 +16,10 @@ data class Header(
     val resultMsg: String?
 )
 data class Body(
-    val items: Items?
+    val items: Items?,
+    val numOfRows: Int?,
+    val pageNo: Int?,
+    val totalCount: Int?
 )
 
 data class Items(

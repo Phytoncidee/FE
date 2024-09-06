@@ -1,6 +1,8 @@
 package com.example.hikinglog_fe
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -10,11 +12,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.hikinglog_fe.adapter.AccommodationAdapter
 import com.example.hikinglog_fe.adapter.CommunityPostAdapter
 import com.example.hikinglog_fe.databinding.FragmentCommunityBinding
-import com.example.hikinglog_fe.databinding.FragmentHomeBinding
-import com.example.hikinglog_fe.models.AccommodationLResponse
 import com.example.hikinglog_fe.models.CommunityPostLResponse
 import com.google.gson.JsonObject
 import retrofit2.Call
@@ -32,9 +31,14 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class CommunityFragment : Fragment() {
+    private lateinit var sharedPreferences: SharedPreferences
+
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+
+    private lateinit var binding : FragmentCommunityBinding
+    private lateinit var token : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,12 +52,18 @@ class CommunityFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentCommunityBinding.inflate(inflater, container, false)
+        binding = FragmentCommunityBinding.inflate(inflater, container, false)
+
+        // SharedPreferences 초기화
+        sharedPreferences = requireContext().getSharedPreferences("userToken", Context.MODE_PRIVATE)
+        // 저장된 데이터 읽기
+        token = sharedPreferences.getString("token", "")!!
+
 
         // [Retrofit 통신 요청: 커뮤니티 글 목록]
         val call: Call<CommunityPostLResponse> = RetrofitConnection.jsonNetServ.getPostList(
-            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMUBuYXZlci5jb20iLCJ1aWQiOjEsImV4cCI6MTcyMzQ5NjM5MiwiZW1haWwiOiJ1c2VyMUBuYXZlci5jb20ifQ.TKguWwv_0JcaNgtzinEpn7GRLYusUUnX9s6ZlOiFS00HJOMKbSGdGfbrUNqyrGExqdEQuOGy2Z11ZZUvF28jAg",
-            5,
+            "Bearer $token",
+            2147483647,
             0
         )
 
@@ -66,7 +76,7 @@ class CommunityFragment : Fragment() {
 
                     // <리사이클러뷰에 표시>
                     binding.communityRecyclerView.layoutManager = LinearLayoutManager(context)
-                    binding.communityRecyclerView.adapter = CommunityPostAdapter(context!!, response.body()!!.data.boardList)
+                    binding.communityRecyclerView.adapter = CommunityPostAdapter(context!!, response.body()!!.data.boardList, childFragmentManager, token)
                     binding.communityRecyclerView.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
 
                 } else {
@@ -89,13 +99,45 @@ class CommunityFragment : Fragment() {
             startActivity(Intent(context, AddPostActivity::class.java)) //플로팅 버튼 눌러 데이터 추가 화면(AddPostActivity)으로 넘어갔다 finish() 후 돌아옴. -> onStart()에서 처리 -> 작성한 게시물 불러옴
         }
 
-        // [comment fragment 화면 확인용 임시 버튼 클릭 -> CommentFragment]
-//        binding.commentBtn.setOnClickListener {
-//            val commentFragment = CommentFragment.newInstance("param1", "param2")
-//            commentFragment.show(childFragmentManager, "CommentFragment")
-//        }
-
         return binding.root
+    }
+
+    override fun onStart() { //작성한 게시물 포함 커뮤니티 목록 다시 불러오기
+        super.onStart()
+
+        // [Retrofit 통신 요청: 커뮤니티 글 목록]
+        val call: Call<CommunityPostLResponse> = RetrofitConnection.jsonNetServ.getPostList(
+            "Bearer $token",
+            2147483647,
+            0
+        )
+
+        // [Retrofit 통신 응답: 커뮤니티 글 목록]
+        call.enqueue(object : Callback<CommunityPostLResponse> {
+            override fun onResponse(call: Call<CommunityPostLResponse>, response: Response<CommunityPostLResponse>) {
+
+                if (response.isSuccessful) {
+                    Log.d("mobileApp", "getPostList: $response")
+
+                    // <리사이클러뷰에 표시>
+                    binding.communityRecyclerView.layoutManager = LinearLayoutManager(context)
+                    binding.communityRecyclerView.adapter = CommunityPostAdapter(context!!, response.body()!!.data.boardList, childFragmentManager, token)
+                    binding.communityRecyclerView.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
+
+                } else {
+                    // 오류 처리
+//                    Log.e("mobileApp", "getPostList Error: ${response.code()}")
+                    val errorBody = response.errorBody()?.string()
+                    Log.e("mobileApp", "getPostList Error: ${response.code()}, Error Body: ${errorBody}")
+                }
+            }
+
+            override fun onFailure(call: Call<CommunityPostLResponse>, t: Throwable) {
+                // 네트워크 오류 처리
+                Log.e("mobileApp", "Failed to fetch data(getPostList)", t)
+            }
+        })
+
     }
 
     companion object {

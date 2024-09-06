@@ -25,4 +25,6 @@ data class CommunityPost(
     val liked: Boolean,
     val commentNum: Int,
     val userid: String,
+    val userName: String,
+    val userImage: String,
 )

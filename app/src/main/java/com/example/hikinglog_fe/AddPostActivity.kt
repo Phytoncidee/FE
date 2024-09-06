@@ -1,6 +1,8 @@
 package com.example.hikinglog_fe
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
@@ -28,11 +30,16 @@ import java.io.File
 class AddPostActivity : AppCompatActivity() {
     lateinit var binding: ActivityAddPostBinding
     var selectedImageUri: Uri? = null
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddPostBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // SharedPreferences 초기화
+        sharedPreferences = getSharedPreferences("userToken", Context.MODE_PRIVATE)
+        val token = sharedPreferences.getString("token", null)
 
         // [이미지 선택 버튼]
         val requestLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
@@ -75,7 +82,7 @@ class AddPostActivity : AppCompatActivity() {
 
                     // >> 서버에 넘겨 저장
                     val call: Call<PostWriteResponseDTO<String>> = RetrofitConnection.jsonNetServ.postCommunityPost(
-                        "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMUBuYXZlci5jb20iLCJ1aWQiOjEsImV4cCI6MTcyMzQ5NjM5MiwiZW1haWwiOiJ1c2VyMUBuYXZlci5jb20ifQ.TKguWwv_0JcaNgtzinEpn7GRLYusUUnX9s6ZlOiFS00HJOMKbSGdGfbrUNqyrGExqdEQuOGy2Z11ZZUvF28jAg",
+                        "Bearer $token",
                         imagePart,
                         newPost
                     )

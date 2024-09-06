@@ -5,7 +5,7 @@ xmlns:tools="http://schemas.android.com/tools"
 xmlns:app="http://schemas.android.com/apk/res-auto"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-tools:context=".FavoritesActivity"
+tools:context=".MyBookmarksActivity"
 android:background="@color/green"
 android:orientation="vertical">
     <LinearLayout
@@ -48,56 +48,37 @@ android:orientation="vertical">
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_gravity="center">
-                <Button
-                    android:layout_width="55dp"
+                android:layout_gravity="center"
+                android:padding="10dp">
+
+                <ImageButton
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="전체"
-                    android:textColor="@color/white"
-                    android:backgroundTint="@color/navy"
-                    android:layout_marginRight="10dp"
-                    android:fontFamily="@font/nanum_square_round_b"
-                    android:textSize="12dp"
-                    android:padding="0dp"/>
-                <Button
-                    android:layout_width="45dp"
+                    android:src="@drawable/button_mybookmark_mountain"
+                    android:background="@color/white"
+                    android:id="@+id/BtnMountain"
+                    android:layout_marginHorizontal="15dp"/>
+                <ImageButton
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="산"
-                    android:textColor="@color/black"
-                    android:backgroundTint="@color/lightgray"
-                    android:layout_marginRight="10dp"
-                    android:fontFamily="@font/nanum_square_round_b"
-                    android:textSize="12dp"
-                    android:padding="0dp"/>
-                <Button
-                    android:layout_width="65dp"
+                    android:src="@drawable/button_mybookmark_light_restaurant"
+                    android:background="@color/white"
+                    android:id="@+id/BtnRestaurant"
+                    android:layout_marginHorizontal="15dp"/>
+                <ImageButton
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="음식점"
-                    android:textColor="@color/black"
-                    android:backgroundTint="@color/lightgray"
-                    android:layout_marginRight="10dp"
-                    android:fontFamily="@font/nanum_square_round_b"
-                    android:textSize="12dp"
-                    android:padding="0dp"/>
-                <Button
-                    android:layout_width="55dp"
+                    android:src="@drawable/button_mybookmark_light_accommodation"
+                    android:background="@color/white"
+                    android:id="@+id/BtnAccommodation"
+                    android:layout_marginHorizontal="15dp"/>
+                <ImageButton
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="숙박"
-                    android:textColor="@color/black"
-                    android:backgroundTint="@color/lightgray"
-                    android:layout_marginRight="10dp"
-                    android:fontFamily="@font/nanum_square_round_b"
-                    android:textSize="12dp"
-                    android:padding="0dp"/>
-                <Button
-                    android:layout_width="75dp"
-                    android:layout_height="wrap_content"
-                    android:text="등산용품"
-                    android:textColor="@color/black"
-                    android:backgroundTint="@color/lightgray"
-                    android:fontFamily="@font/nanum_square_round_b"
-                    android:textSize="12dp"
-                    android:padding="0dp"/>
+                    android:src="@drawable/button_mybookmark_light_equipment"
+                    android:background="@color/white"
+                    android:id="@+id/BtnEquipment"
+                    android:layout_marginHorizontal="15dp"/>
 
             </LinearLayout>
 
@@ -105,7 +86,7 @@ android:orientation="vertical">
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/favoritesRecyclerView" />
+                android:id="@+id/BookmarksRecyclerView" />
         </LinearLayout>
     </LinearLayout>
 
