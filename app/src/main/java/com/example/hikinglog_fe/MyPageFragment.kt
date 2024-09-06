@@ -51,6 +51,11 @@ class MyPageFragment : Fragment() {
             }
         }
 
+        binding.btnDirectRecord.setOnClickListener {
+            val intent = Intent(context, DirectRecordActivity::class.java)
+            startActivity(intent)
+        }
+
         binding.myfavoritesBtn.setOnClickListener {
             val intent = Intent(context, FavoritesActivity::class.java)
             startActivity(intent)

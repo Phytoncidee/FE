@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,10 +12,14 @@ import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.example.hikinglog_fe.databinding.FragmentHomeBinding
 import com.example.hikinglog_fe.interfaces.ApiService
+import com.example.hikinglog_fe.models.HikingRecord
 import com.example.hikinglog_fe.models.ProfileResponse
+import com.example.hikinglog_fe.models.RecordListResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -30,6 +35,7 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var apiService: ApiService
+    private var latestRecords: List<HikingRecord> = emptyList()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,8 +54,8 @@ class HomeFragment : Fragment() {
 
         if (token != null) {
             fetchUserProfile(token)
+            fetchHikingRecords(token)
         }
-
 
         binding.famousMountainBtn.setOnClickListener {
             val intent = Intent(context, Top100Activity::class.java)
@@ -84,6 +90,11 @@ class HomeFragment : Fragment() {
             true
         }
 
+        binding.btnGoRecord.setOnClickListener {
+            val intent = Intent(context, HikingRecordActivity::class.java)
+            startActivity(intent)
+        }
+
         return binding.root
     }
 
@@ -105,6 +116,50 @@ class HomeFragment : Fragment() {
                 t.printStackTrace()
             }
         })
+
+    }
+
+    private fun fetchHikingRecords(token: String) {
+        apiService.getHikingRecords("Bearer $token").enqueue(object: Callback<RecordListResponse>{
+            override fun onResponse(
+                call: Call<RecordListResponse>,
+                response: Response<RecordListResponse>
+            ) {
+                if(response.isSuccessful){
+                    val result = response.body()
+                    result?.let {
+                        if (it.status == 200) {
+                            latestRecords = it.data.sortedByDescending { record ->
+                                SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(record.date)
+                            }.take(2)
+                            updateHomeScreen(latestRecords)
+                        }
+                    }
+                } else {
+                    Log.e("HomeFragment", "Failed to fetch records: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<RecordListResponse>, t: Throwable) {
+                Log.e("HomeFragment", "Failed to fetch records", t)
+            }
+
+        })
+    }
+
+    private fun updateHomeScreen(latestRecords: List<HikingRecord>) {
+        val record1 = latestRecords.getOrNull(0)
+        val record2 = latestRecords.getOrNull(1)
+
+        if (record1 != null) {
+            binding.bringRecord1.text = record1.date
+            binding.bringRecord2.text = "${record1.mname}에서 ${record1.number}번째 등산"
+        }
+
+        if (record2 != null) {
+            binding.bringRecord3.text = record2.date
+            binding.bringRecord4.text = "${record2.mname}에서 ${record2.number}번째 등산"
+        }
 
     }
 

@@ -198,6 +198,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/nanum_square_round_eb" />
             <ImageButton
+                android:id="@+id/btnGoRecord"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/icon_home_move_button"
@@ -218,11 +219,13 @@
                 android:padding="15dp"
                 android:layout_marginRight="20dp">
                 <TextView
+                    android:id="@+id/bringRecord1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="2024.00.00 (월)"
                     android:fontFamily="@font/nanum_square_round_b"/>
                 <TextView
+                    android:id="@+id/bringRecord2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="북한산에서 2번째 등산"
@@ -236,11 +239,13 @@
                 android:orientation="vertical"
                 android:padding="15dp">
                 <TextView
+                    android:id="@+id/bringRecord3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="2024.00.00 (월)"
                     android:fontFamily="@font/nanum_square_round_b"/>
                 <TextView
+                    android:id="@+id/bringRecord4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="북한산에서 2번째 등산"

@@ -41,7 +41,8 @@ class RegisterActivity : AppCompatActivity() {
             val calendar = Calendar.getInstance()
             calendar.set(year, monthOfYear, dayOfMonth)
             val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-            selectedDate = dateFormat.format(calendar.time)        }
+            selectedDate = dateFormat.format(calendar.time)
+        }
 
         binding.btnRegister.setOnClickListener {
             Log.d("RegisterActivity", "가입하기 버튼 클릭됨")

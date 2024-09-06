@@ -1,5 +1,6 @@
 package com.example.hikinglog_fe.adapter
 
+import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.hikinglog_fe.MountainInfoActivity
@@ -14,7 +16,13 @@ import com.example.hikinglog_fe.R
 import com.example.hikinglog_fe.databinding.ItemMountainBinding
 import com.example.hikinglog_fe.interfaces.ApiService
 import com.example.hikinglog_fe.models.Mountain
+import com.example.hikinglog_fe.models.MountainAddBookmarkErrorResponse
+import com.example.hikinglog_fe.models.MountainAddBookmarkRequest
+import com.example.hikinglog_fe.models.MountainAddBookmarkResponse
+import com.example.hikinglog_fe.models.MountainCheckBookmarkResponse
+import com.example.hikinglog_fe.models.MountainDeleteBookmarkResponse
 import com.example.hikinglog_fe.models.NationalMountainsImageResponse
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -52,7 +60,7 @@ class MountainAdapter(private val apiService: ApiService, private val token: Str
             // 기본 이미지 설정
             binding.mntImg.setImageResource(R.drawable.etc_default_mountain)
 
-            binding.root.setOnClickListener{
+            binding.root.setOnClickListener {
                 val context = binding.root.context
                 val intent = Intent(context, MountainInfoActivity::class.java).apply {
                     putExtra("mountain", mntData)
@@ -64,14 +72,18 @@ class MountainAdapter(private val apiService: ApiService, private val token: Str
             // 이미지 API 호출
             apiService.getMountainImage("Bearer $token", mntData.mntilistno).enqueue(object :
                 Callback<NationalMountainsImageResponse> {
-                override fun onResponse(call: Call<NationalMountainsImageResponse>, response: Response<NationalMountainsImageResponse>) {
+                override fun onResponse(
+                    call: Call<NationalMountainsImageResponse>,
+                    response: Response<NationalMountainsImageResponse>
+                ) {
                     if (response.isSuccessful) {
                         val responseBody = response.body()
                         if (responseBody != null) {
                             val images = responseBody.response?.body?.items?.item
                             if (!images.isNullOrEmpty()) {
                                 // 이미지 URL을 설정
-                                val imageUrl = "https://www.forest.go.kr/images/data/down/mountain/${images[0].imgfilename}"
+                                val imageUrl =
+                                    "https://www.forest.go.kr/images/data/down/mountain/${images[0].imgfilename}"
 
                                 Log.d("MountainAdapter", "Image URL: $imageUrl")
 
@@ -83,12 +95,16 @@ class MountainAdapter(private val apiService: ApiService, private val token: Str
                                 // 액티비티를 클릭하면 이미지 URL도 전달
                                 binding.root.setOnClickListener {
                                     val context = binding.root.context
-                                    val intent = Intent(context, MountainInfoActivity::class.java).apply {
-                                        putExtra("mountain", mntData)
-                                        putExtra("image_url", imageUrl) // 이미지 URL을 추가로 전달
-                                    }
+                                    val intent =
+                                        Intent(context, MountainInfoActivity::class.java).apply {
+                                            putExtra("mountain", mntData)
+                                            putExtra("image_url", imageUrl) // 이미지 URL을 추가로 전달
+                                        }
                                     context.startActivity(intent)
-                                    Log.d("MountainAdapter", "OnClick - Mountain: $mntData, Image URL: $imageUrl")
+                                    Log.d(
+                                        "MountainAdapter",
+                                        "OnClick - Mountain: $mntData, Image URL: $imageUrl"
+                                    )
                                 }
                             }
 
@@ -105,8 +121,122 @@ class MountainAdapter(private val apiService: ApiService, private val token: Str
                     Log.e("API_ERROR", "Image API failure: ${t.message}")
                 }
             })
+
+            // 산 즐겨찾기
+            var isBookmarked = false
+
+            // 산 즐겨찾기 조회
+            val call = apiService.checkMtnBookmark("Bearer $token", size = 10, page = 0)
+            call.enqueue(object : Callback<MountainCheckBookmarkResponse> {
+                override fun onResponse(
+                    call: Call<MountainCheckBookmarkResponse>,
+                    response: Response<MountainCheckBookmarkResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        Log.d("mobileApp", "getMountainBookmark: $response")
+                        // 즐겨찾기 여부 저장
+                        for (i in 0..response.body()!!.data.bookmarkList.size - 1) { // bookmarkList에 해당 산이 존재하는지 확인
+                            if (response.body()!!.data.bookmarkList[i].mntilistno == mntData.mntilistno) {
+                                isBookmarked = true // false -> true 변경
+                                Log.d(
+                                    "mobileApp",
+                                    "${response.body()!!.data.bookmarkList[i].id}: isBookmarked가 true로 변경!!"
+                                )
+                            }
+                        }
+
+                        // 즐겨찾기 버튼 표시
+                        if (isBookmarked == true) { // 등록
+                            binding.btnMBookmark.setImageResource(android.R.drawable.btn_star_big_on)
+                            Log.d(
+                                "mobileApp",
+                                "${mntData.mntilistno}: isBookmarked가 true로 유지되는 중!!"
+                            )
+                        } else { // 미등록
+                            binding.btnMBookmark.setImageResource(android.R.drawable.btn_star_big_off)
+                        }
+                    } else {
+                        // 오류처리
+                        Log.e("mobileApp", "getMountainBookmark: ${response.code()}")
+                    }
+                }
+
+                override fun onFailure(call: Call<MountainCheckBookmarkResponse>, t: Throwable) {
+                    // 네트워크 오류 처리
+                    Log.e("mobileApp", "Failed to fetch data(getMountainBookmark)", t)
+                }
+            })
+
+            // 즐겨찾기 등록/삭제 -> 표시
+            binding.btnMBookmark.setOnClickListener {
+                if (isBookmarked == false) {    // 미등록
+                    binding.btnMBookmark.setImageResource(android.R.drawable.btn_star_big_on)
+                    isBookmarked = true
+
+                    // 즐겨찾기 등록
+                    val bookmarkRequest = MountainAddBookmarkRequest(
+                        name = mntData.mntiname ?: "",
+                        location = mntData.mntiadd ?: "",
+                        info = mntData.mntidetails ?: "",
+                        high = mntData.mntihigh ?: 0.0,
+                        image = ""  // imageUrl
+                    )
+                    apiService.addMtnBookmark("Bearer $token", mntData.mntilistno, bookmarkRequest)
+                        .enqueue(object : Callback<MountainAddBookmarkResponse> {
+                            override fun onResponse(
+                                call: Call<MountainAddBookmarkResponse>,
+                                response: Response<MountainAddBookmarkResponse>
+                            ) {
+                                if (response.isSuccessful) {
+                                    Log.d("mobileApp", "postMountainBookmark: $response")
+                                    Toast.makeText(binding.root.context, "즐겨찾기에 추가되었습니다.", Toast.LENGTH_SHORT).show()
+                                } else {
+                                    // 오류 처리
+                                    Log.e("mobileApp", "postMountainBookmark: ${response.code()}")
+                                }
+                            }
+
+                            override fun onFailure(
+                                call: Call<MountainAddBookmarkResponse>,
+                                t: Throwable
+                            ) {
+                                // 네트워크 오류 처리
+                                Log.e("mobileApp", "Failed to fetch data(postMountainBookmark)", t)
+                            }
+
+                        })
+                } else {    // 등록
+                    binding.btnMBookmark.setImageResource(android.R.drawable.btn_star_big_off)
+                    isBookmarked = false
+
+                    // 즐겨찾기 삭제
+                    apiService.deleteMtnBookmark("Bearer $token", mntData.mntilistno).enqueue(object : Callback<MountainDeleteBookmarkResponse> {
+                        override fun onResponse(
+                            call: Call<MountainDeleteBookmarkResponse>,
+                            response: Response<MountainDeleteBookmarkResponse>
+                        ) {
+                            if (response.isSuccessful) {
+                                Log.d("mobileApp", "deleteMountainBookmark: $response")
+                                Toast.makeText(binding.root.context, "즐겨찾기에서 삭제되었습니다.", Toast.LENGTH_SHORT).show()
+                            } else {
+                                // 오류 처리
+                                Log.e("mobileApp", "deleteMountainBookmark: ${response.code()}")
+                            }
+                        }
+
+                        override fun onFailure(
+                            call: Call<MountainDeleteBookmarkResponse>,
+                            t: Throwable
+                        ) {
+                            // 네트워크 오류 처리
+                            Log.e("mobileApp", "Failed to fetch data(deleteMountainBookmark)", t)
+                        }
+                    })
+                }
+            }
         }
     }
+
     override fun getFilter(): Filter {
         return object : Filter() {
             // 입력 받은 문자열에 대한 처리
@@ -137,10 +267,8 @@ class MountainAdapter(private val apiService: ApiService, private val token: Str
         }
     }
 
-
     // 검색 텍스트가 변경 되면 Activity에서 호출됨
     fun performSearch(query: String) {
         filter.filter(query)
     }
-
 }
