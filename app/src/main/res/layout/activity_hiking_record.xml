@@ -17,31 +17,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="20dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="등산기록 ✍️"
-                android:textStyle="bold"
-                android:textSize="24sp"
-                android:fontFamily="@font/nanum_square_round_eb" />
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
-            <TextView
-                android:id="@+id/addRecord"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="추가하기"
-                android:textColor="#8F8E8E" />
-        </LinearLayout>
+            android:text="등산기록 ✍️"
+            android:textStyle="bold"
+            android:textSize="22dp"
+            android:fontFamily="@font/nanum_square_round_eb"
+            android:layout_marginBottom="20dp"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/hikingRecordRecyclerView"

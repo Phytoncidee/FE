@@ -1,13 +1,16 @@
 package com.example.hikinglog_fe.interfaces
 
+import com.example.hikinglog_fe.models.DeleteRecordResponse
 import com.example.hikinglog_fe.models.DirectRecordRequest
 import com.example.hikinglog_fe.models.DirectRecordResponse
+import com.example.hikinglog_fe.models.HikingRecordDetailResponse
 import com.example.hikinglog_fe.models.LoginRequest
 import com.example.hikinglog_fe.models.LoginResponse
 import com.example.hikinglog_fe.models.MountainAddBookmarkRequest
 import com.example.hikinglog_fe.models.MountainAddBookmarkResponse
 import com.example.hikinglog_fe.models.MountainCheckBookmarkResponse
 import com.example.hikinglog_fe.models.MountainDeleteBookmarkResponse
+import com.example.hikinglog_fe.models.MountainDetailResponse
 import com.example.hikinglog_fe.models.NationalMountainsImageResponse
 import com.example.hikinglog_fe.models.NationalMountainsResponse
 import com.example.hikinglog_fe.models.ProfileResponse
@@ -61,24 +64,49 @@ interface ApiService {
         @Path("mountain_Name") mountainName: String
     ): Call<NationalMountainsResponse>
 
+    @GET("/api/mountain/detail")
+    fun getMountainDetail(
+        @Header("Authorization") token: String,
+        @Query("name") name: String?,
+        @Query("number") number: String?
+    ): Call<MountainDetailResponse>
+
+    // 등산기록 저장
     @POST("api/record/hiking")
     fun recordHiking(
         @Header("Authorization") token: String,
         @Body request: DirectRecordRequest
     ): Call<DirectRecordResponse>
 
+    // 등산기록 목록
     @GET("/api/record/list")
     fun getHikingRecords(
         @Header("Authorization") token: String
     ): Call<RecordListResponse>
 
+    // 등산기록 삭제
+    @DELETE("api/record/delete")
+    fun deleteHikingRecords(
+        @Header("Authorization") token: String,
+        @Query("id") id: Int
+    ): Call<DeleteRecordResponse>
+
+    // 등산기록 상세
+    @GET("/api/record/detail")
+    fun getDetailRecord(
+        @Header("Authorization") token: String,
+        @Query("id") id: Int
+    ): Call<HikingRecordDetailResponse>
+
+    // 산 즐겨찾기 조회
     @GET("/api/bookmarks/mountain")
-    fun checkMtnBookmark(
+    fun getMtnBookmark(
         @Header("Authorization") token: String,
         @Query("size") size: Int,
         @Query("page") page: Int
     ): Call<MountainCheckBookmarkResponse>
 
+    // 산 즐겨찾기 등록
     @POST("/api/bookmarks/mountain/{mountainId}")
     fun addMtnBookmark(
         @Header("Authorization") token: String,

@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.example.hikinglog_fe.databinding.ActivityMountainInfoBinding
 import com.example.hikinglog_fe.interfaces.ApiService
 import com.example.hikinglog_fe.models.Mountain
+import com.example.hikinglog_fe.models.MountainDetailResponse
 import com.example.hikinglog_fe.models.TrailResponse
 import com.kakao.vectormap.KakaoMap
 import com.kakao.vectormap.LatLng
@@ -34,7 +35,6 @@ class MountainInfoActivity : AppCompatActivity() {
     private lateinit var kakaoMap: KakaoMap
     private lateinit var apiService: ApiService
     private lateinit var sharedPreferences: SharedPreferences
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -102,7 +102,26 @@ class MountainInfoActivity : AppCompatActivity() {
                 }
             })
         }
+
+        // [[마이관광 이동 버튼 클릭]]
+        binding.buttonMakeCourse.setOnClickListener {
+            val context = binding.root.context
+            val intent = Intent(context, CreateCourseActivity::class.java).apply {
+                putExtra("mountain", mountain)
+            }
+            context.startActivity(intent)
+        }
+
+        binding.btnDirectRecord.setOnClickListener {
+            val context = binding.root.context
+            val intent = Intent(context, DirectRecordActivity::class.java).apply{
+                putExtra("name", mountain!!.mntiname)
+                putExtra("number", mountain!!.mntilistno)
+            }
+            startActivity(intent)
+        }
     }
+
     private fun fetchTrailData(token: String, mntiname: String?, mntiadd: String?) {
         val call = apiService.getTrail("Bearer $token", mntiname!!, mntiadd!!)
 
@@ -158,16 +177,6 @@ class MountainInfoActivity : AppCompatActivity() {
             kakaoMap.moveCamera(CameraUpdateFactory.fitMapPoints(latLngBounds, 100))
         } else {
             Log.e("MountainInfoActivity", "KakaoMap 객체가 초기화되지 않았습니다.")
-        }
-
-
-        // [[마이관광 이동 버튼 클릭]]
-        binding.buttonMakeCourse.setOnClickListener {
-            val context = binding.root.context
-            val intent = Intent(context, CreateCourseActivity::class.java).apply {
-                putExtra("mountain", mountain)
-            }
-            context.startActivity(intent)
         }
 
     } // onCreate()
