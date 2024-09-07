@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hikinglog_fe.adapter.BookMarkAccommodationAdapter
 import com.example.hikinglog_fe.adapter.BookMarkEShopAdapter
+import com.example.hikinglog_fe.adapter.BookMarkMountainAdapter
 import com.example.hikinglog_fe.adapter.BookMarkRestaurantAdapter
+import com.example.hikinglog_fe.adapter.MountainAdapter
 import com.example.hikinglog_fe.adapter.Top100Adapter
 import com.example.hikinglog_fe.databinding.ActivityMyBookmarksBinding
 import com.example.hikinglog_fe.interfaces.ApiService
@@ -18,6 +20,7 @@ import com.example.hikinglog_fe.models.EShopBookmarkGetResponse
 import com.example.hikinglog_fe.models.EquipmentShopLResponse
 import com.example.hikinglog_fe.models.MBookmarkGetResponse
 import com.example.hikinglog_fe.models.Mountain
+import com.example.hikinglog_fe.models.MountainCheckBookmarkResponse
 import com.example.hikinglog_fe.models.PostWriteDTO
 import com.example.hikinglog_fe.models.RestaurantBookmarkGetResponse
 import com.example.hikinglog_fe.models.Top100Response
@@ -96,7 +99,32 @@ class MyBookmarksActivity : AppCompatActivity() {
     } //onCreate()
 
     private fun MountainBookmark() {
-        // 효민이가 산 즐겨찾기 목록 조회, 삭제 구현해줘!!!
+        // 산 즐겨찾기
+        val call = apiService.getMtnBookmark("Bearer $token", size = 10, page = 0)
+        call.enqueue(object : Callback<MountainCheckBookmarkResponse> {
+            override fun onResponse(
+                call: Call<MountainCheckBookmarkResponse>,
+                response: Response<MountainCheckBookmarkResponse>
+            ) {
+                if (response.isSuccessful) {
+                    Log.d("mobileApp", "getMountainBookmark: $response")
+                    Log.d("mobileApp", "getRestaurantBookmark: ${response.body()!!.data.bookmarkList}")
+                    // 즐겨찾기된 등산용품점 목록 recyclerview에 표시
+                    binding.BookmarksRecyclerView.layoutManager = LinearLayoutManager(applicationContext)
+                    binding.BookmarksRecyclerView.adapter = BookMarkMountainAdapter(this@MyBookmarksActivity, response.body()!!.data.bookmarkList, token, binding.BookmarksRecyclerView, apiService)
+                    binding.BookmarksRecyclerView.addItemDecoration(DividerItemDecoration(applicationContext, LinearLayoutManager.VERTICAL))
+                } else {
+                    // 오류처리
+                    Log.e("mobileApp", "getMountainBookmark: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<MountainCheckBookmarkResponse>, t: Throwable) {
+                // 네트워크 오류 처리
+                Log.e("mobileApp", "Failed to fetch data(getMountainBookmark)", t)
+
+            }
+        })
     }
 
     private fun RestaurantBookmark() {

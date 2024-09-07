@@ -1,5 +1,6 @@
 package com.example.hikinglog_fe
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -11,8 +12,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hikinglog_fe.adapter.HikingRecordAdapter
 import com.example.hikinglog_fe.databinding.ActivityHikingRecordBinding
 import com.example.hikinglog_fe.interfaces.ApiService
+import com.example.hikinglog_fe.models.DeleteRecordResponse
 import com.example.hikinglog_fe.models.RecordListResponse
 import com.example.hikinglog_fe.models.HikingRecord
+import com.example.hikinglog_fe.models.HikingRecordDetailResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -25,7 +28,7 @@ class HikingRecordActivity : AppCompatActivity() {
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var apiService: ApiService
 
-    private var recordList: List<HikingRecord> = emptyList()
+    private var recordList: MutableList<HikingRecord> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,24 +40,17 @@ class HikingRecordActivity : AppCompatActivity() {
 
         // SharedPreferences 초기화
         sharedPreferences = getSharedPreferences("userToken", Context.MODE_PRIVATE)
-        val token = sharedPreferences.getString("token", null)
+        val token = sharedPreferences.getString("token", null)!!
 
-        if (token != null) {
-            loadRecords(token)
-        } else {
-            Log.e("TOKEN_ERROR", "No token found in SharedPreferences")
-        }
+        loadRecords(token)
 
         // 리사이클러뷰 설정
-        adapter = HikingRecordAdapter(recordList)
+        adapter = HikingRecordAdapter(recordList) { record ->
+            // 다이얼로그로 삭제 확인받기
+            showDeleteDialog(record, token)
+        }
         binding.hikingRecordRecyclerView.adapter = adapter
         binding.hikingRecordRecyclerView.layoutManager = LinearLayoutManager(this)
-
-
-        binding.addRecord.setOnClickListener {
-            val intent = Intent(this, DirectRecordActivity::class.java)
-            startActivity(intent)
-        }
 
     }
 
@@ -69,12 +65,11 @@ class HikingRecordActivity : AppCompatActivity() {
                     Log.d("HikingRecordActivity", "Response Body: ${result?.data}")
                     if (result != null && result.status == 200) {
                         // 받아온 데이터를 날짜 기준으로 정렬
-                        recordList = result.data.sortedByDescending { record ->
+                        recordList.clear()
+                        recordList.addAll(result.data.sortedByDescending { record ->
                             SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(record.date)
-                        }
-                        // 어댑터에 정렬된 데이터 설정
-                        adapter = HikingRecordAdapter(recordList)
-                        binding.hikingRecordRecyclerView.adapter = adapter
+                        })
+                        adapter.notifyDataSetChanged()
                     } else {
                         showToast("기록 목록을 가져오는 데 실패했습니다.")
                     }
@@ -90,6 +85,65 @@ class HikingRecordActivity : AppCompatActivity() {
             }
 
         })
+    }
+
+    private fun showDeleteDialog(record: HikingRecord, token: String) {
+        AlertDialog.Builder(this)
+            .setMessage("${record.mname} 등산 기록을 삭제하시겠습니까?")
+            .setPositiveButton("확인") {_, _ ->
+                deleteRecord(record, token)
+            }
+            .setNegativeButton("취소", null)
+            .show()
+    }
+
+    private fun deleteRecord(record: HikingRecord, token: String) {
+        // 1. 먼저 상세조회를 통해 rid값 얻기
+        apiService.getDetailRecord("Bearer $token", record.rid).enqueue(object : Callback<HikingRecordDetailResponse> {
+            override fun onResponse(
+                call: Call<HikingRecordDetailResponse>,
+                response: Response<HikingRecordDetailResponse>
+            ) {
+                if(response.isSuccessful) {
+                    val detailResponse = response.body()
+                    if (detailResponse != null && detailResponse.status == 200) {
+                        // 상세조회 성공
+                        val rid = detailResponse.data.rid
+                        performDelete(token, rid)
+                    } else {
+                        Log.d("HikingRecordActivity", "상세정보를 가져오지 못했습니다.")
+                    }
+                } else {
+                    Log.d("HikingRecordActivity", "Error: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<HikingRecordDetailResponse>, t: Throwable) {
+                Log.e("HikingRecordActivity", "Failed to fetch data - 상세조회", t)
+            }
+        })
+    }
+
+    // 실제 삭제 수행
+    private fun performDelete(token: String, rid: Int) {
+        apiService.deleteHikingRecords("Bearer $token", rid).enqueue(object : Callback<DeleteRecordResponse> {
+            override fun onResponse(
+                call: Call<DeleteRecordResponse>,
+                response: Response<DeleteRecordResponse>
+            ) {
+                if (response.isSuccessful){
+                    // 삭제 성공 후 리스트 갱신
+                    loadRecords(token)
+                } else {
+                    Log.e("HikingRecordActivity", "Error: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<DeleteRecordResponse>, t: Throwable) {
+                Log.e("HikingRecordActivity", "Failed to delete record", t)
+            }
+        })
+
     }
 
 

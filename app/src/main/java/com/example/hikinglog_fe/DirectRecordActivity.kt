@@ -11,6 +11,7 @@ import com.example.hikinglog_fe.databinding.ActivityDirectRecordBinding
 import com.example.hikinglog_fe.interfaces.ApiService
 import com.example.hikinglog_fe.models.DirectRecordRequest
 import com.example.hikinglog_fe.models.DirectRecordResponse
+import com.example.hikinglog_fe.models.NationalMountainsResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -30,12 +31,19 @@ class DirectRecordActivity : AppCompatActivity() {
         binding = ActivityDirectRecordBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Intent로 전달된 산 이름과 고유번호를 받아옴
+        val mountainName = intent.getStringExtra("name")!!
+        val mountainNumber = intent.getLongExtra("number", 0)
+
+        // 등반한 산 이름 설정
+        binding.mountainName.text = "${mountainName} 등산 기록"
+
         // ApiService 초기화
         apiService = ApiService.create()
 
         // SharedPreferences 초기화
         sharedPreferences = getSharedPreferences("userToken", Context.MODE_PRIVATE)
-        val token = sharedPreferences.getString("token", null)
+        val token = sharedPreferences.getString("token", null)!!
 
         binding.spinnerDate.init(2024, 0, 1) { view, year, monthOfYear, dayOfMonth ->
             // 날짜를 yyyy-MM-dd 형식으로 변환
@@ -47,16 +55,10 @@ class DirectRecordActivity : AppCompatActivity() {
 
         // 추가하기 버튼 클릭시
         binding.btnAddRecord.setOnClickListener {
-            val name = binding.mountainName.text.toString()
-
-            if (name.isBlank()) {
-                showToast("산 이름을 입력해주세요.")
-                return@setOnClickListener
-            }
-
             // PT 시간 형식으로 변환
             val hour = binding.editTextHour.text.toString().toIntOrNull() ?: 0
-            val minute = binding.editTextMinute.text.toString().toIntOrNull() ?: 0
+            val minute =
+                binding.editTextMinute.text.toString().toIntOrNull() ?: 0
 
             // PT 형식으로 변환
             val durationString = buildString {
@@ -65,19 +67,13 @@ class DirectRecordActivity : AppCompatActivity() {
                 if (minute > 0 || hour == 0) append("${minute}M") // 기본값으로 "PT0M"을 추가
             }
 
-
             val request = DirectRecordRequest(
-                mountainName = name,
+                mountainName = mountainName,
+                mountainNumber = mountainNumber,
                 date = selectedDate,
                 time = durationString
             )
-
-            if (token != null) {
-                submitMountainRecord(token, request)
-            } else {
-                showToast("로그인이 필요합니다.")
-                Log.e("TOKEN_ERROR", "No token found in SharedPreferences")
-            }
+            submitMountainRecord(token, request)
         }
     }
 

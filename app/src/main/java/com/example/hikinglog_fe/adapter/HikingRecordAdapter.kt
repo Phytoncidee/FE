@@ -7,7 +7,10 @@ import com.example.hikinglog_fe.databinding.ItemHikingrecordBinding
 import com.example.hikinglog_fe.models.HikingRecord
 
 
-class HikingRecordAdapter(private val recordList: List<HikingRecord>) : RecyclerView.Adapter<HikingRecordAdapter.HikingRecordViewHolder>() {
+class HikingRecordAdapter(
+    private val recordList: List<HikingRecord>,
+    private val onItemClick: (HikingRecord) -> Unit
+) : RecyclerView.Adapter<HikingRecordAdapter.HikingRecordViewHolder>() {
 
     inner class HikingRecordViewHolder(private val binding: ItemHikingrecordBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(record: HikingRecord) {
@@ -23,7 +26,9 @@ class HikingRecordAdapter(private val recordList: List<HikingRecord>) : Recycler
     }
 
     override fun onBindViewHolder(holder: HikingRecordViewHolder, position: Int) {
-        holder.bind(recordList[position])
+        val record = recordList[position]
+        holder.bind(record)
+        holder.itemView.setOnClickListener{ onItemClick(record) }
     }
 
     override fun getItemCount(): Int {
@@ -35,4 +40,6 @@ class HikingRecordAdapter(private val recordList: List<HikingRecord>) : Recycler
         val remainingMinutes =  time % 60
         return "${hours}시간 ${remainingMinutes}분"
     }
+
+
 }

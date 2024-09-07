@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +13,9 @@ import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.example.hikinglog_fe.databinding.FragmentMyPageBinding
 import com.example.hikinglog_fe.interfaces.ApiService
+import com.example.hikinglog_fe.models.HikingRecordDetailResponse
 import com.example.hikinglog_fe.models.ProfileResponse
+import com.example.hikinglog_fe.models.RecordListResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -39,6 +42,7 @@ class MyPageFragment : Fragment() {
 
         if (token != null) {
             fetchUserProfile(token)
+            fetchHikingRecords(token)
             binding.btnAuth.setImageResource(R.drawable.button_logout) // 로그아웃 이미지로 변경
             binding.btnAuth.setOnClickListener {
                 logout()
@@ -49,11 +53,6 @@ class MyPageFragment : Fragment() {
                 val intent = Intent(context, LoginActivity::class.java)
                 startActivity(intent)
             }
-        }
-
-        binding.btnDirectRecord.setOnClickListener {
-            val intent = Intent(context, DirectRecordActivity::class.java)
-            startActivity(intent)
         }
 
         // 내 활동_내가 작성한 게시물
@@ -104,6 +103,75 @@ class MyPageFragment : Fragment() {
         })
 
     }
+
+    private fun fetchHikingRecords(token: String) {
+        apiService.getHikingRecords("Bearer $token").enqueue(object : Callback<RecordListResponse> {
+            override fun onResponse(
+                call: Call<RecordListResponse>,
+                response: Response<RecordListResponse>
+            ) {
+                if(response.isSuccessful) {
+                    val result = response.body()
+                    if (result != null && result.status == 200) {
+                        val records = result.data
+                        var totalCount = 0
+                        var totalTime = 0
+                        var recordsToFetch = records.size
+                        var fetchedRecords = 0
+
+                        // 각 등산기록의 상세정보 조회
+                        for (record in records){
+                            apiService.getDetailRecord("Bearer $token", record.rid).enqueue(object : Callback<HikingRecordDetailResponse>{
+                                override fun onResponse(
+                                    call: Call<HikingRecordDetailResponse>,
+                                    response: Response<HikingRecordDetailResponse>
+                                ) {
+                                    if (response.isSuccessful) {
+                                        val detailResponse = response.body()
+                                        if (detailResponse != null && detailResponse.status == 200) {
+                                            val detail = detailResponse.data // 단일 객체
+                                            totalCount += 1
+                                            totalTime += detail.time
+
+                                            fetchedRecords += 1
+
+                                            // 모든 기록의 상세정보 조회한 후 UI 업데이트
+                                            if (fetchedRecords == recordsToFetch) {
+                                                updateUI(totalCount, totalTime)
+                                            }
+                                        } else {
+                                            Log.d("MyPageFragment","상세정보를 가져오지 못했습니다.")
+                                        }
+                                    } else {
+                                        // 서버 오류
+                                        Log.d("MyPageFragment","Error: ${response.code()}")
+                                    }
+                                }
+
+                                override fun onFailure(
+                                    call: Call<HikingRecordDetailResponse>,
+                                    t: Throwable
+                                ) {
+                                    // 네트워크 오류
+                                    Log.e("MyPageFragment", "Failed to fetch data - 상세조회", t)
+                                }
+                            })
+                        }
+                    }
+
+                }
+            }
+            override fun onFailure(call: Call<RecordListResponse>, t: Throwable) {
+                Log.e("MyPageFragment", "Failed to fetch data - 목록 조회", t)
+            }
+        })
+    }
+
+    private fun updateUI(totalCount: Int, totalTime: Int) {
+        binding.hikingCount.text = totalCount.toString()
+        binding.hikingHeight.text = totalTime.toString()
+    }
+
 
     private fun logout() {
         with(sharedPreferences.edit()) {

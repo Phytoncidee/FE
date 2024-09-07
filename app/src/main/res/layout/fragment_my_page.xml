@@ -54,14 +54,14 @@
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@+id/userName"
                     android:layout_marginLeft="15dp"/>
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:background="@android:color/transparent"
-                    android:src="@drawable/icon_setting_icon" />
+<!--                <ImageButton-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_alignParentEnd="true"-->
+<!--                    android:layout_alignParentRight="true"-->
+<!--                    android:layout_centerVertical="true"-->
+<!--                    android:background="@android:color/transparent"-->
+<!--                    android:src="@drawable/icon_setting_icon" />-->
             </RelativeLayout>
 
             <!-- 배너들 -->
@@ -104,7 +104,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="5"
+                        android:text="0"
                         android:textSize="20dp"
                         android:textStyle="bold"
                         android:id="@+id/hikingCount"/>
@@ -128,7 +128,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2500"
+                        android:text="0"
                         android:textStyle="bold"
                         android:textSize="20dp"
                         android:id="@+id/hikingHeight"/>
@@ -136,66 +136,19 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="20dp"
-                        android:text="시간 올랐어요!"
+                        android:text="분 올랐어요!"
                         android:textStyle="bold" />
                 </LinearLayout>
 
             </LinearLayout>
 
 
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/button_banner_mytourism"
-                android:background="@color/white"
-                android:layout_marginTop="20dp"/>
-
-            <!-- 등산 기록 -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="오늘의 등산\n기록을 시작할까요?"
-                android:layout_gravity="start"
-                android:textStyle="bold"
-                android:textSize="24dp"
-                android:layout_marginTop="20dp"
-                android:fontFamily="@font/nanum_square_round_eb"
-                android:textColor="@color/black"/>
-
-          <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="20dp" >
-                <Button
-                    android:id="@+id/btnDirectRecord"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="직접 입력"
-                    android:background="@color/green"
-                    android:textColor="@color/white"
-                    android:textSize="16dp"
-                    android:fontFamily="@font/nanum_square_round_eb"
-                    android:padding="16dp"/>
-
-<!--                 <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:background="@android:color/white"/>
-
-                <Button
-                    android:id="@+id/btnRealtimeRecord"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="실시간 시작"
-                    android:background="@color/green"
-                    android:textColor="@color/white"
-                    android:textSize="16dp"
-                    android:fontFamily="@font/nanum_square_round_eb"
-                    android:padding="16dp"/> -->
-            </LinearLayout>
+<!--            <ImageButton-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:src="@drawable/button_banner_mytourism"-->
+<!--                android:background="@color/white"-->
+<!--                android:layout_marginTop="20dp"/>-->
 
             <!-- 내 활동 -->
             <TextView
