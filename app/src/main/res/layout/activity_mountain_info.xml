@@ -59,6 +59,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:padding="20dp"
                     android:text="화산이 잉태한 남한 최고(最高)의 영산"
                     android:textSize="16sp"
                     android:textColor="@color/black"
@@ -116,6 +117,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/trailInfoLayout"
                     android:layout_width="350dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -123,7 +125,7 @@
                     android:layout_marginTop="10dp"
                     android:background="@drawable/xml_mountain_info_district">
 
-                <TextView
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="등산경로"
@@ -133,13 +135,15 @@
                         android:layout_marginTop="20dp"
                         android:layout_marginStart="30dp" />
 
+                    <!-- 등산로 정보가 있는 경우 보여줄 맵뷰 -->
                     <com.kakao.vectormap.MapView
                         android:id="@+id/mntiTrailView"
                         android:layout_width="300dp"
                         android:layout_height="300dp"
                         android:layout_gravity="center"
                         android:layout_marginTop="30dp"
-                        android:layout_marginBottom="20dp"/>
+                        android:layout_marginBottom="20dp" />
+
                 </LinearLayout>
 
                 <!-- 등산 기록 -->
@@ -192,8 +196,6 @@
                         android:padding="16dp"/>
                 </LinearLayout>
 
-
-
                 <RelativeLayout
                     android:layout_width="350dp"
                     android:layout_height="140dp"
@@ -245,13 +247,71 @@
 
                 </RelativeLayout>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <LinearLayout
+                    android:layout_width="350dp"
+                    android:layout_height="140dp"
                     android:layout_gravity="center"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginBottom="20dp"
-                    android:src="@drawable/mock_weather" />
+                    android:background="@drawable/xml_weather"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="현재 산 주변 날씨"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/nanum_square_round_eb"
+                        android:textSize="20dp"
+                        android:textStyle="bold"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+<!--                        <com.airbnb.lottie.LottieAnimationView-->
+<!--                            android:id="@+id/weatherAnimation"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            app:lottie_autoPlay="true"-->
+<!--                            app:lottie_loop="true" />-->
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                            <TextView
+                                android:id="@+id/temperature"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="온도"
+                                android:textSize="16dp"
+                                android:textColor="@color/black"/>
+                            <TextView
+                                android:id="@+id/rain"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="강수"
+                                android:textSize="16dp"
+                                android:textColor="@color/black"/>
+                            <TextView
+                                android:id="@+id/wind"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="바람"
+                                android:textSize="16dp"
+                                android:textColor="@color/black"/>
+                            <TextView
+                                android:id="@+id/dust"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="미세먼지"
+                                android:textSize="16dp"
+                                android:textColor="@color/black"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
 
             </LinearLayout>
         </LinearLayout>
