@@ -36,12 +36,14 @@ import com.example.hikinglog_fe.models.TourismLResponse
 import okhttp3.MultipartBody
 import org.json.JSONObject
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -313,4 +315,12 @@ interface RetrofitApiService {
         @Header("Authorization") auth: String?,
         @Path("userId") userId: Int?
     ): Call<List<MyTourLResponse>>
+
+    // [마이관광_상태변경]
+    @PUT("/api/tour/update-status/{tourId}")
+    fun putStatus(
+        @Header("Authorization") auth: String?,
+        @Path("tourId") tourId: Int?,
+        @Query("status") status: String?
+    ): Call<Response<Void>>
 }
