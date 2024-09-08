@@ -148,19 +148,40 @@ class HomeFragment : Fragment() {
     }
 
     private fun updateHomeScreen(latestRecords: List<HikingRecord>) {
+
+
         val record1 = latestRecords.getOrNull(0)
         val record2 = latestRecords.getOrNull(1)
 
         if (record1 != null) {
             binding.bringRecord1.text = record1.date
             binding.bringRecord2.text = "${record1.mname}에서 ${record1.number}번째 등산"
+            binding.firstRecordLayout.visibility = View.VISIBLE
+        } else {
+            binding.firstRecordLayout.visibility = View.GONE
         }
 
         if (record2 != null) {
             binding.bringRecord3.text = record2.date
             binding.bringRecord4.text = "${record2.mname}에서 ${record2.number}번째 등산"
+            binding.secondRecordLayout.visibility = View.VISIBLE
+        } else {
+            binding.secondRecordLayout.visibility = View.GONE
         }
 
+        if (record1 == null && record2 == null) {
+            binding.recordContainer.visibility = View.GONE
+        }
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        val token = sharedPreferences.getString("token", null)
+        if (token != null) {
+            fetchHikingRecords(token)
+        }
     }
 
     companion object {
