@@ -18,6 +18,7 @@ import com.example.hikinglog_fe.models.RecordListResponse
 import com.example.hikinglog_fe.models.RegisterRequest
 import com.example.hikinglog_fe.models.RegisterResponse
 import com.example.hikinglog_fe.models.TrailResponse
+import com.example.hikinglog_fe.models.WeatherResponse
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import retrofit2.Call
@@ -126,6 +127,13 @@ interface ApiService {
         @Query("mntiname") mntiname: String,
         @Query("mntiadd") mntiadd: String
     ): Call<TrailResponse>
+
+    // 날씨
+    @GET("api/weather")
+    fun getWeather(
+        @Header("Authorization") token: String,
+        @Query("address") address: String
+    ): Call<WeatherResponse>
 
     companion object {
         private const val BASE_URL = "http://192.168.0.10:8080/"    // http://localhost:8080/

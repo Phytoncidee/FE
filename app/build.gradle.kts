@@ -69,6 +69,9 @@ dependencies {
     // 이미지 처리-Glide 라이브러리
     implementation("com.github.bumptech.glide:glide:4.16.0")
 
+    // Lottie - 날씨
+    implementation("com.airbnb.android:lottie:5.0.2")
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation("androidx.viewpager2:viewpager2:1.1.0")

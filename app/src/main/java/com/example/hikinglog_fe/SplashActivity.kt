@@ -16,13 +16,20 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val pref = getSharedPreferences("userToken", MODE_PRIVATE)
+        val token = pref.getString("token", null)
+
         val mainExe : Executor = ContextCompat.getMainExecutor(this)
         val backgroundExe : ScheduledExecutorService = Executors.newSingleThreadScheduledExecutor()
         backgroundExe.schedule(
             // 쓰레드, 시간, 단위
             {
                 mainExe.execute({ // 쓰레드 형태로 실행
-                    val intent = Intent(applicationContext, LoginActivity::class.java)
+                    val intent = if (token.isNullOrEmpty()) {
+                        Intent(applicationContext, LoginActivity::class.java)
+                    } else {
+                        Intent(applicationContext, MainActivity::class.java)
+                    }
                     startActivity(intent)
                     finish()
                 })

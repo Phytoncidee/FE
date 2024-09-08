@@ -7,6 +7,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.hikinglog_fe.databinding.ActivityMountainInfoBinding
@@ -14,6 +15,7 @@ import com.example.hikinglog_fe.interfaces.ApiService
 import com.example.hikinglog_fe.models.Mountain
 import com.example.hikinglog_fe.models.MountainDetailResponse
 import com.example.hikinglog_fe.models.TrailResponse
+import com.example.hikinglog_fe.models.WeatherResponse
 import com.kakao.vectormap.KakaoMap
 import com.kakao.vectormap.LatLng
 import com.kakao.vectormap.MapView
@@ -46,7 +48,7 @@ class MountainInfoActivity : AppCompatActivity() {
 
         // SharedPreferences 초기화
         sharedPreferences = getSharedPreferences("userToken", Context.MODE_PRIVATE)
-        val token = sharedPreferences.getString("token", null)
+        val token = sharedPreferences.getString("token", null)!!
 
         // Intent에서 Mountain 데이터를 받아옴
         val mountain = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -64,6 +66,7 @@ class MountainInfoActivity : AppCompatActivity() {
         } else {
             Log.d("MountainInfoActivity", "Mountain 객체를 받음: $mountain")
             displayMountainInfo(mountain)
+            fetchWeatherData(token, mountain.mntiadd)
 
             // 이미지 URL을 사용하여 이미지 로드
             if (!imageUrl.isNullOrEmpty()) {
@@ -96,9 +99,7 @@ class MountainInfoActivity : AppCompatActivity() {
                     // KakaoMap 객체를 얻어 옵니다.
                     kakaoMap = map
 
-                    if (token != null && mountain != null) {
-                        fetchTrailData(token, mountain.mntiname, mountain.mntiadd)
-                    }
+                    fetchTrailData(token, mountain.mntiname, mountain.mntiadd)
                 }
             })
         }
@@ -120,6 +121,37 @@ class MountainInfoActivity : AppCompatActivity() {
             }
             startActivity(intent)
         }
+
+
+    }
+
+    private fun fetchWeatherData(token: String, mntiadd: String?) {
+        apiService.getWeather("Bearer $token", mntiadd!!)
+            .enqueue(object : Callback<WeatherResponse>{
+                override fun onResponse(
+                    call: Call<WeatherResponse>,
+                    response: Response<WeatherResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        val weatherData = response.body()?.data
+                        if (weatherData != null) {
+                            Log.d("MountainInfoActivity", "Weather data received: $weatherData")
+                            binding.temperature.text = weatherData.temperature.toString()
+                            binding.rain.text = weatherData.rain
+                            binding.wind.text = weatherData.wind
+                            binding.dust.text = weatherData.dust
+                        } else {
+                            Log.d("MountainInfoActivity", "Weather data is null")
+                        }
+                    } else {
+                        Log.d("MountainInfoActivity", "Weather - Error: ${response.code()}")
+                    }
+                }
+
+                override fun onFailure(call: Call<WeatherResponse>, t: Throwable) {
+                    Log.e("MountainInfoActivity", "날씨 데이터를 가져오는데 실패했습니다.", t)
+                }
+            })
     }
 
     private fun fetchTrailData(token: String, mntiname: String?, mntiadd: String?) {
@@ -134,12 +166,23 @@ class MountainInfoActivity : AppCompatActivity() {
                     val trailData = response.body()?.data
                     if (trailData != null) {
                         Log.d("MountainInfoActivity", "Trail data received: $trailData")
-                        val trailPoints = trailData.map {
-                            LatLng.from(it[1], it[0]) // LatLng 객체 생성 (위도, 경도)
+                        if (trailData.isEmpty()){
+                            // 데이터가 비어 있는 경우
+                            Log.d("MountainInfoActivity", "No trail data available")
+                            binding.trailInfoLayout.visibility = View.GONE
+                        } else {
+                            // 비어 있지 않은 경우
+                            val trailPoints = trailData.map {
+                                LatLng.from(it[1], it[0]) // LatLng 객체 생성 (위도, 경도)
+                            }
+                            binding.trailInfoLayout.visibility = View.VISIBLE
+                            binding.mntiTrailView.visibility = View.VISIBLE
+
+                            drawPolyline(trailPoints)
                         }
-                        drawPolyline(trailPoints)
                     } else {
                         Log.e("MountainInfoActivity", "Trail data is null. Full response: ${response.body()}")
+
                     }
                 } else {
                     Log.e("MountainInfoActivity", "Response Error: ${response.code()} ${response.message()}")

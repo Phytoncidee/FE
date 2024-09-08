@@ -49,8 +49,8 @@ class LoginActivity : AppCompatActivity() {
                     call: Call<LoginResponse>,
                     response: Response<LoginResponse>
                 ) {
-                    Log.d("로그인 통신 성공", response.toString())
-                    Log.d("로그인 통신 성공", response.body().toString())
+                    val message = response.body()?.message
+                    Log.d("로그인 통신 성공", "메시지: $message")
 
                     when (response.code()) {
                         200 -> {
