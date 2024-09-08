@@ -210,7 +210,9 @@
                     android:src="@drawable/icon_home_move_button"
                     android:background="@color/white" />
             </LinearLayout>
+
             <LinearLayout
+                android:id="@+id/recordContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -243,6 +245,7 @@
                     android:layout_height="wrap_content"/>
 
                 <LinearLayout
+                    android:id="@+id/secondRecordLayout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/round_background_lightyellow"
