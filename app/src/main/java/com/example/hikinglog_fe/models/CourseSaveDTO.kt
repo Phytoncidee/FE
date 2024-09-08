@@ -2,18 +2,19 @@ package com.example.hikinglog_fe.models
 
 // 메인 데이터 클래스
 data class CourseSaveDTO(
+    val userId: String,
     val tourTitle: String,
     val mountainId: Int,
-    val preHikeAccomoIds: List<String>,
-    val preHikeRestaurantIds: List<String>,
-    val postHikeAccomoIds: List<String>,
-    val postHikeRestaurantIds: List<String>,
-    val accomoDetails: List<AccomoDetail>,
-    val restaurantDetails: List<RestaurantDetail>
+    val preHikeAccomoIds: Array<String>,
+    val preHikeRestaurantIds: Array<String>,
+    val postHikeAccomoIds: Array<String>,
+    val postHikeRestaurantIds: Array<String>,
+    val tourspotDetail: Array<TourspotDetail>,
+    val restaurantDetails: Array<RestaurantDetail>
 )
 
-// Accommodation Detail 클래스
-data class AccomoDetail(
+// Tourspot Detail 클래스
+data class TourspotDetail(
     val name: String,
     val contentId: String,
     val add: String,
@@ -21,8 +22,7 @@ data class AccomoDetail(
     val img2: String,
     val mapX: String,
     val mapY: String,
-    val tel: String,
-    val intro: String
+    val tel: String
 )
 
 // Restaurant Detail 클래스

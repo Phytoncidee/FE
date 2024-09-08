@@ -1,5 +1,6 @@
 package com.example.hikinglog_fe
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -10,35 +11,41 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.hikinglog_fe.adapter.AccommodationAdapter
-import com.example.hikinglog_fe.adapter.RestaurantAdapter
-import com.example.hikinglog_fe.adapter.RestaurantAdapter2
-import com.example.hikinglog_fe.adapter.TourspotAdapter
+import com.example.hikinglog_fe.adapter.PostRestaurantAdapter
+import com.example.hikinglog_fe.adapter.PostTourspotAdapter
+import com.example.hikinglog_fe.adapter.PreRestaurantAdapter
+import com.example.hikinglog_fe.adapter.PreTourspotAdapter
 import com.example.hikinglog_fe.databinding.ActivityCreateCourseBinding
-import com.example.hikinglog_fe.databinding.ActivityMountainInfoBinding
-import com.example.hikinglog_fe.models.AccommodationLResponse
-import com.example.hikinglog_fe.models.AccomoDetail
+import com.example.hikinglog_fe.interfaces.OnDataPassListener
 import com.example.hikinglog_fe.models.CourseSaveDTO
-import com.example.hikinglog_fe.models.CourseSaveResponse
 import com.example.hikinglog_fe.models.Mountain
+import com.example.hikinglog_fe.models.Restaurant
 import com.example.hikinglog_fe.models.RestaurantDetail
 import com.example.hikinglog_fe.models.RestaurantLResponse
+import com.example.hikinglog_fe.models.TourSpot
 import com.example.hikinglog_fe.models.TourismLResponse
+import com.example.hikinglog_fe.models.TourspotDetail
+import org.json.JSONArray
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.Locale
 
-class CreateCourseActivity : AppCompatActivity() {
+class CreateCourseActivity : AppCompatActivity(), OnDataPassListener {
     private lateinit var binding: ActivityCreateCourseBinding
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var token : String
+    private lateinit var PreTourspot: TourSpot
+    private lateinit var PostTourspot: TourSpot
+    private lateinit var PreRestaurant: Restaurant
+    private lateinit var PostRestaurant: Restaurant
+    private lateinit var jsonData : JSONObject
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -122,76 +129,23 @@ class CreateCourseActivity : AppCompatActivity() {
             }
         })
 
-
+        jsonData = JSONObject()
         // [[코스 저장]]
-        // >> Adapter에서 선택된 data 받아오기
-        var datas = intent.getSerializableExtra("selectedData")
-        val courseSaveDTO = CourseSaveDTO(
-            tourTitle = "Mountain Hiking Tour",
-            mountainId = 123,
-            preHikeAccomoIds = listOf("101", "102"),
-            preHikeRestaurantIds = listOf("201", "202"),
-            postHikeAccomoIds = listOf("103", "104"),
-            postHikeRestaurantIds = listOf("203", "204"),
-            accomoDetails = listOf(
-                AccomoDetail(
-                    name = "Pre-Hike Hotel A",
-                    contentId = "101",
-                    add = "123 Mountain St.",
-                    img = "http://example.com/img1.jpg",
-                    img2 = "http://example.com/img2.jpg",
-                    mapX = "127.001",
-                    mapY = "37.501",
-                    tel = "010-1234-5678",
-                    intro = "Comfortable place to stay before your hike."
-                ),
-                AccomoDetail(
-                    name = "Post-Hike Hotel B",
-                    contentId = "103",
-                    add = "456 Valley Rd.",
-                    img = "http://example.com/img3.jpg",
-                    img2 = "http://example.com/img4.jpg",
-                    mapX = "128.001",
-                    mapY = "38.001",
-                    tel = "010-2345-6789",
-                    intro = "Relaxing hotel to rest after your hike."
-                )
-            ),
-            restaurantDetails = listOf(
-                RestaurantDetail(
-                    name = "Pre-Hike Restaurant X",
-                    contentId = "201",
-                    add = "789 Food St.",
-                    img = "http://example.com/restaurant1.jpg",
-                    mapX = "127.500",
-                    mapY = "37.800",
-                    tel = "010-3456-7890",
-                    intro = "Great place for a pre-hike meal."
-                ),
-                RestaurantDetail(
-                    name = "Post-Hike Restaurant Y",
-                    contentId = "203",
-                    add = "321 Gourmet Ave.",
-                    img = "http://example.com/restaurant2.jpg",
-                    mapX = "126.500",
-                    mapY = "37.200",
-                    tel = "010-4567-8901",
-                    intro = "Perfect spot for a post-hike dinner."
-                )
-            )
-        )
-
         binding.BtnSaveCourse.setOnClickListener {
+            // >> 받은 데이터를 처리
+            createJsonData(PreTourspot, PostTourspot, PreRestaurant, PostRestaurant)
             // [코스 저장]
             // [Retrofit 통신 요청: 마이관광 저장]
-            val call: Call<CourseSaveResponse> = RetrofitConnection.jsonNetServ.saveCourse(
+            Log.d("mobileApp", "token 확인: $token")
+            Log.d("mobileApp", "jsonData 확인: $jsonData")
+            val call: Call<List<String>> = RetrofitConnection.jsonNetServ.saveCourse(
                 "Bearer $token",
-                courseSaveDTO
+                jsonData
             )
 
             // [Retrofit 통신 응답: 마이관광 저장]
-            call.enqueue(object : Callback<CourseSaveResponse> {
-                override fun onResponse(call: Call<CourseSaveResponse>, response: Response<CourseSaveResponse>) {
+            call.enqueue(object : Callback<List<String>> {
+                override fun onResponse(call: Call<List<String>>, response: Response<List<String>>) {
                     if (response.isSuccessful) {
                         Log.d("mobileApp", "saveCourse: $response")
                     } else {
@@ -199,12 +153,11 @@ class CreateCourseActivity : AppCompatActivity() {
                         Log.e("mobileApp", "saveCourse Error: ${response.code()}")
                     }
                 }
-                override fun onFailure(call: Call<CourseSaveResponse>, t: Throwable) {
+                override fun onFailure(call: Call<List<String>>, t: Throwable) {
                     // 네트워크 오류 처리
                     Log.e("mobileApp", "Failed to fetch data(saveCourse)", t)
                 }
             })
-
 
             // [메인 페이지로 이동]
             val intent = Intent(applicationContext, MainActivity::class.java)
@@ -212,6 +165,112 @@ class CreateCourseActivity : AppCompatActivity() {
             true
         }
     } //onCreate()
+
+    override fun preRestaurantToActivity(preRestaurant: Restaurant) {
+        PreRestaurant = preRestaurant
+    }
+    override fun postRestaurantToActivity(postrestaurant: Restaurant) {
+        PostRestaurant = postrestaurant
+    }
+    override fun preTourspotToActivity(preTourspot: TourSpot) {
+        PreTourspot = preTourspot
+    }
+    override fun postTourspotToActivity(postTourspot: TourSpot) {
+        PostTourspot = postTourspot
+    }
+
+    private fun createJsonData(preTourspot: TourSpot?, postTourspot: TourSpot?, prerestaurant: Restaurant?, postrestaurant: Restaurant?){
+        Log.d("mobileApp", "createJsonData()에서 받은 data 확인: ${preTourspot}, ${postTourspot}, ${prerestaurant}, ${postrestaurant}")
+        // 기본 정보 채우기
+        jsonData.put("userId", "1")
+        jsonData.put("tourTitle", "마이관광 저장 안드로이드")
+        jsonData.put("mountainId", 123)
+
+        // 선택된 tour와 restaurant의 id 추가
+        val preHikeTourIds = JSONArray()
+        preTourspot?.let {
+            preHikeTourIds.put(preTourspot.contentId.toString())
+        }
+        jsonData.put("preHikeTourIds", preHikeTourIds)
+
+        val postHikeTourIds = JSONArray()
+        postTourspot?.let {
+            postHikeTourIds.put(postTourspot.contentId.toString())
+        }
+        jsonData.put("postHikeTourIds", postHikeTourIds)
+
+        val preHikeRestaurantIds = JSONArray()
+        prerestaurant?.let {
+            preHikeRestaurantIds.put(prerestaurant.contentId.toString())
+        }
+        jsonData.put("preHikeRestaurantIds", preHikeRestaurantIds)
+
+        val postHikeRestaurantIds = JSONArray()
+        postrestaurant?.let {
+            postHikeRestaurantIds.put(postrestaurant.contentId.toString())
+        }
+        jsonData.put("postHikeRestaurantIds", postHikeRestaurantIds)
+
+        // 선택된 tour와 restaurant 정보 추가
+        val tourDetails = JSONArray()
+        preTourspot?.let {
+            val tourDetail = JSONObject().apply {
+                put("name", it.name)
+                put("contentId", it.contentId.toString())
+                put("add", it.add)
+                put("img", it.img)
+                put("img2", it.img2)
+                put("mapX", it.mapX.toString())
+                put("mapY", it.mapY.toString())
+                put("tel", it.tel)
+            }
+            tourDetails.put(tourDetail)
+        }
+        postTourspot?.let {
+            val tourDetail = JSONObject().apply {
+                put("name", it.name)
+                put("contentId", it.contentId.toString())
+                put("add", it.add)
+                put("img", it.img)
+                put("img2", it.img2)
+                put("mapX", it.mapX.toString())
+                put("mapY", it.mapY.toString())
+                put("tel", it.tel)
+            }
+            tourDetails.put(tourDetail)
+        }
+
+        val restaurantDetails = JSONArray()
+        prerestaurant?.let {
+            val restaurantDetail = JSONObject().apply {
+                put("name", it.name)
+                put("contentId", it.contentId.toString())
+                put("add", it.add)
+                put("img", it.img)
+                put("mapX", it.mapX.toString())
+                put("mapY", it.mapY.toString())
+                put("tel", it.tel)
+                put("intro", "")
+
+            }
+            restaurantDetails.put(restaurantDetail)
+        }
+        postrestaurant?.let {
+            val restaurantDetail = JSONObject().apply {
+                put("name", it.name)
+                put("contentId", it.contentId.toString())
+                put("add", it.add)
+                put("img", it.img)
+                put("mapX", it.mapX.toString())
+                put("mapY", it.mapY.toString())
+                put("tel", it.tel)
+                put("intro", "")
+            }
+            restaurantDetails.put(restaurantDetail)
+        }
+        jsonData.put("tourDetails", tourDetails)
+        jsonData.put("restaurantDetails", restaurantDetails)
+    }
 
 
 
@@ -240,22 +299,22 @@ class CreateCourseActivity : AppCompatActivity() {
                         override fun onResponse(call: Call<RestaurantLResponse>, response: Response<RestaurantLResponse>) {
 
                             if (response.isSuccessful) {
-                                Log.d("mobileApp", "getRestaurantList1: $response")
+                                Log.d("mobileApp", "getPreRestaurantList: $response")
 
                                 // <리사이클러뷰에 표시>
                                 binding.befHFoodRecyclerView.layoutManager = LinearLayoutManager(applicationContext)
-                                binding.befHFoodRecyclerView.adapter = RestaurantAdapter2(this@CreateCourseActivity, response.body()!!.data, token)
+                                binding.befHFoodRecyclerView.adapter = PreRestaurantAdapter(this@CreateCourseActivity,this@CreateCourseActivity, response.body()!!.data, token)
                                 binding.befHFoodRecyclerView.addItemDecoration(DividerItemDecoration(applicationContext, LinearLayoutManager.VERTICAL))
 
                             } else {
                                 // 오류 처리
-                                Log.e("mobileApp", "getRestaurantList Error: ${response.code()}")
+                                Log.e("mobileApp", "getPreRestaurantList Error: ${response.code()}")
                             }
                         }
 
                         override fun onFailure(call: Call<RestaurantLResponse>, t: Throwable) {
                             // 네트워크 오류 처리
-                            Log.e("mobileApp", "Failed to fetch data(getRestaurantList)", t)
+                            Log.e("mobileApp", "Failed to fetch data(getPreRestaurantList)", t)
                         }
                     })
 
@@ -277,7 +336,7 @@ class CreateCourseActivity : AppCompatActivity() {
 
                                 // <리사이클러뷰에 표시>
                                 binding.befHTourismRecyclerView.layoutManager = LinearLayoutManager(applicationContext)
-                                binding.befHTourismRecyclerView.adapter = TourspotAdapter(this@CreateCourseActivity, response.body()!!.data)
+                                binding.befHTourismRecyclerView.adapter = PreTourspotAdapter(this@CreateCourseActivity, this@CreateCourseActivity, response.body()!!.data)
                                 binding.befHTourismRecyclerView.addItemDecoration(DividerItemDecoration(applicationContext, LinearLayoutManager.VERTICAL))
 
                             } else {
@@ -302,7 +361,6 @@ class CreateCourseActivity : AppCompatActivity() {
                         "Bearer $token",
                         longitude,
                         latitude
-                        // 산에 맞게 위도, 경도 받아서 넘겨주는 처리 필요
                     )
 
                     // [Retrofit 통신 응답: 음식점 목록]
@@ -310,22 +368,22 @@ class CreateCourseActivity : AppCompatActivity() {
                         override fun onResponse(call: Call<RestaurantLResponse>, response: Response<RestaurantLResponse>) {
 
                             if (response.isSuccessful) {
-                                Log.d("mobileApp", "getRestaurantList2: $response")
+                                Log.d("mobileApp", "getPostRestaurantList: $response")
 
                                 // <리사이클러뷰에 표시>
                                 binding.aftHFoodRecyclerView.layoutManager = LinearLayoutManager(applicationContext)
-                                binding.aftHFoodRecyclerView.adapter = RestaurantAdapter2(this@CreateCourseActivity, response.body()!!.data, token)
+                                binding.aftHFoodRecyclerView.adapter = PostRestaurantAdapter(this@CreateCourseActivity, this@CreateCourseActivity,response.body()!!.data, token)
                                 binding.aftHFoodRecyclerView.addItemDecoration(DividerItemDecoration(applicationContext, LinearLayoutManager.VERTICAL))
 
                             } else {
                                 // 오류 처리
-                                Log.e("mobileApp", "getRestaurantList2 Error: ${response.code()}")
+                                Log.e("mobileApp", "getPostRestaurantList Error: ${response.code()}")
                             }
                         }
 
                         override fun onFailure(call: Call<RestaurantLResponse>, t: Throwable) {
                             // 네트워크 오류 처리
-                            Log.e("mobileApp", "Failed to fetch data(getRestaurantList2)", t)
+                            Log.e("mobileApp", "Failed to fetch data(getPostRestaurantList)", t)
                         }
                     })
 
@@ -337,7 +395,6 @@ class CreateCourseActivity : AppCompatActivity() {
                         "Bearer $token",
                         longitude,
                         latitude
-                        // 현재 위도, 경도 받아서 넘겨주는 처리 필요
                     )
 
                     // [Retrofit 통신 응답: 관광지 목록]
@@ -349,7 +406,7 @@ class CreateCourseActivity : AppCompatActivity() {
 
                                 // <리사이클러뷰에 표시>
                                 binding.aftHTourismRecyclerView.layoutManager = LinearLayoutManager(applicationContext)
-                                binding.aftHTourismRecyclerView.adapter = TourspotAdapter(this@CreateCourseActivity, response.body()!!.data)
+                                binding.aftHTourismRecyclerView.adapter = PostTourspotAdapter(this@CreateCourseActivity,this@CreateCourseActivity, response.body()!!.data)
                                 binding.aftHTourismRecyclerView.addItemDecoration(DividerItemDecoration(applicationContext, LinearLayoutManager.VERTICAL))
 
                             } else {

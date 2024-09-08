@@ -9,7 +9,6 @@ import com.example.hikinglog_fe.models.CommentWriteDTO
 import com.example.hikinglog_fe.models.CommentsGetResponse
 import com.example.hikinglog_fe.models.CommunityPostLResponse
 import com.example.hikinglog_fe.models.CourseSaveDTO
-import com.example.hikinglog_fe.models.CourseSaveResponse
 import com.example.hikinglog_fe.models.EShopBookmarkDeleteResponse
 import com.example.hikinglog_fe.models.EShopBookmarkGetResponse
 import com.example.hikinglog_fe.models.EShopBookmarkPostResponse
@@ -17,8 +16,8 @@ import com.example.hikinglog_fe.models.EquipmentShopLResponse
 import com.example.hikinglog_fe.models.GetRegionTop100Response
 import com.example.hikinglog_fe.models.MBookmarkGetResponse
 import com.example.hikinglog_fe.models.MImageResponse
-import com.example.hikinglog_fe.models.Mountain
 import com.example.hikinglog_fe.models.MountainDetailResponse
+import com.example.hikinglog_fe.models.MyTourLResponse
 import com.example.hikinglog_fe.models.NationalMountainsResponse
 import com.example.hikinglog_fe.models.PostAccommodationBMDTO
 import com.example.hikinglog_fe.models.PostEShopBMDTO
@@ -35,6 +34,7 @@ import com.example.hikinglog_fe.models.RestaurantLResponse
 import com.example.hikinglog_fe.models.Top100Response
 import com.example.hikinglog_fe.models.TourismLResponse
 import okhttp3.MultipartBody
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -304,6 +304,13 @@ interface RetrofitApiService {
     @POST("/api/tour/save")
     fun saveCourse(
         @Header("Authorization") auth: String?,
-        @Body content: CourseSaveDTO
-    ): Call<CourseSaveResponse>
+        @Body content: JSONObject
+    ): Call<List<String>>
+
+    // [마이관광_목록]
+    @GET("/api/tour/tours/user/{userId}")
+    fun getMyTours(
+        @Header("Authorization") auth: String?,
+        @Path("userId") userId: Int?
+    ): Call<List<MyTourLResponse>>
 }
