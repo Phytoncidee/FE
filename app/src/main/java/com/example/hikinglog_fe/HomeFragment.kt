@@ -156,13 +156,21 @@ class HomeFragment : Fragment() {
         if (record1 != null) {
             binding.bringRecord1.text = record1.date
             binding.bringRecord2.text = "${record1.mname}에서 ${record1.number}번째 등산"
+            binding.firstRecordLayout.visibility = View.VISIBLE
+        } else {
+            binding.firstRecordLayout.visibility = View.GONE
         }
 
         if (record2 != null) {
             binding.bringRecord3.text = record2.date
             binding.bringRecord4.text = "${record2.mname}에서 ${record2.number}번째 등산"
+            binding.secondRecordLayout.visibility = View.VISIBLE
         } else {
             binding.secondRecordLayout.visibility = View.GONE
+        }
+
+        if (record1 == null && record2 == null) {
+            binding.recordContainer.visibility = View.GONE
         }
 
     }

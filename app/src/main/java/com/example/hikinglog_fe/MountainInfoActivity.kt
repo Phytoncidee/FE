@@ -136,7 +136,7 @@ class MountainInfoActivity : AppCompatActivity() {
                         val weatherData = response.body()?.data
                         if (weatherData != null) {
                             Log.d("MountainInfoActivity", "Weather data received: $weatherData")
-                            binding.temperature.text = weatherData.temperature.toString()
+                            binding.temperature.text = "${weatherData.temperature}°"
                             binding.rain.text = weatherData.rain
                             binding.wind.text = weatherData.wind
                             binding.dust.text = weatherData.dust
@@ -223,6 +223,8 @@ class MountainInfoActivity : AppCompatActivity() {
         }
 
     } // onCreate()
+
+
 
     private fun displayMountainInfo(mountain: Mountain) {
         // 산의 상세 정보를 표시

@@ -15,12 +15,14 @@ import com.example.hikinglog_fe.models.NationalMountainsImageResponse
 import com.example.hikinglog_fe.models.NationalMountainsResponse
 import com.example.hikinglog_fe.models.ProfileResponse
 import com.example.hikinglog_fe.models.RecordListResponse
+import com.example.hikinglog_fe.models.RegionMountainResponse
 import com.example.hikinglog_fe.models.RegisterRequest
 import com.example.hikinglog_fe.models.RegisterResponse
 import com.example.hikinglog_fe.models.TrailResponse
 import com.example.hikinglog_fe.models.WeatherResponse
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -31,6 +33,7 @@ import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
+import java.util.concurrent.TimeUnit
 
 interface ApiService {
     @POST("api/member/login")
@@ -135,15 +138,28 @@ interface ApiService {
         @Query("address") address: String
     ): Call<WeatherResponse>
 
+    // 전체 산 지역별 목록
+    @GET("/api/getMByRegion/{region_array_index}")
+    fun getMtnByRegion(
+        @Header("Authorization") token: String,
+        @Path("region_array_index") region_array_index: Int
+    ): Call<RegionMountainResponse>
+
     companion object {
         private const val BASE_URL = "http://192.168.0.10:8080/"    // http://localhost:8080/
         val gson : Gson =   GsonBuilder().setLenient().create()
+
+        private val client: OkHttpClient = OkHttpClient.Builder()
+            .connectTimeout(100, TimeUnit.SECONDS) // 연결 타임아웃
+            .readTimeout(100, TimeUnit.SECONDS)    // 읽기 타임아웃
+            .writeTimeout(100, TimeUnit.SECONDS)   // 쓰기 타임아웃
+            .build()
 
         fun create() : ApiService {
 
             return Retrofit.Builder()
                 .baseUrl(BASE_URL)
-                //.client(client)
+                .client(client)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build()
                 .create(ApiService::class.java)

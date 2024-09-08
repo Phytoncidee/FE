@@ -11,11 +11,15 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hikinglog_fe.adapter.MountainAdapter
+import com.example.hikinglog_fe.adapter.RegionAllMtnAdapter
+import com.example.hikinglog_fe.adapter.RegionTop100Adapter
 import com.example.hikinglog_fe.databinding.ActivityNationalMountainsBinding
 import com.example.hikinglog_fe.interfaces.ApiService
 import com.example.hikinglog_fe.models.NationalMountainsResponse
+import com.example.hikinglog_fe.models.RegionMountainResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -25,6 +29,7 @@ class NationalMountainsActivity : AppCompatActivity() {
     private lateinit var apiService: ApiService
     private lateinit var adapter: MountainAdapter
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var token: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,25 +41,67 @@ class NationalMountainsActivity : AppCompatActivity() {
 
         // SharedPreferences 초기화
         sharedPreferences = getSharedPreferences("userToken", Context.MODE_PRIVATE)
-        val token = sharedPreferences.getString("token", null)
-
-        if (token != null) {
-            // 어댑터 초기화, ApiService 전달
-            adapter = MountainAdapter(apiService, token)
-            binding.allMountainsRecyclerView.adapter = adapter
-            binding.allMountainsRecyclerView.layoutManager = LinearLayoutManager(this)
-
-            // Spinner 구현
+        token = sharedPreferences.getString("token", null)!!
 
 
-            // fetchMountains 호출
-            fetchMountains(token)
+        // 어댑터 초기화, ApiService 전달
+        adapter = MountainAdapter(apiService, token)
+        binding.allMountainsRecyclerView.adapter = adapter
+        binding.allMountainsRecyclerView.layoutManager = LinearLayoutManager(this)
 
-            // SearchView 리스너 설정
-            setOnQueryTextListener(token)
-        } else {
-            Log.e("TOKEN_ERROR", "No token found in SharedPreferences")
+        // Spinner 구현
+        val items = resources.getStringArray(R.array.region_array)
+
+        val myAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, items)
+
+        binding.spinner.adapter = myAdapter
+
+        binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                if (position in 0..16) {
+                    getMByRegion(position)
+                }
+            }
+            override fun onNothingSelected(parent: AdapterView<*>) {
+
+            }
         }
+
+        // fetchMountains 호출
+        fetchMountains(token)
+
+        // SearchView 리스너 설정
+        setOnQueryTextListener(token)
+
+    }
+
+    private fun getMByRegion(index: Int) {
+        apiService.getMtnByRegion("Bearer $token", index)
+            .enqueue(object : Callback<RegionMountainResponse>{
+                override fun onResponse(
+                    call: Call<RegionMountainResponse>,
+                    response: Response<RegionMountainResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        Log.d("NationalMountainsActivity", "RegionMountains: $response")
+                        Log.d("NationalMountainsActivity", "RegionMountains: ${response.body()}")
+
+                        binding.allMountainsRecyclerView.layoutManager = LinearLayoutManager(applicationContext)
+                        binding.allMountainsRecyclerView.adapter = RegionAllMtnAdapter(this@NationalMountainsActivity, response.body()!!.data, token)
+                        binding.allMountainsRecyclerView.addItemDecoration(DividerItemDecoration(applicationContext, LinearLayoutManager.VERTICAL))
+                    } else {
+                        // 오류 처리
+                        Log.e("NationalMountainsActivity", "RegionMountains Error: ${response.code()}")
+                    }
+                }
+
+                override fun onFailure(call: Call<RegionMountainResponse>, t: Throwable) {
+                    // 네트워크 오류 처리
+                    Log.e("NationalMountainsActivity", "Failed to fetch data(RegionMountains)", t)
+                }
+
+            })
+
     }
 
     private fun setOnQueryTextListener(token: String) {
@@ -98,19 +145,19 @@ class NationalMountainsActivity : AppCompatActivity() {
                             if (!mountains.isNullOrEmpty()) {
                                 adapter.setData(mountains)
                             } else {
-                                Log.e("API_ERROR", "No mountains found")
+                                Log.e("NationalMountainsActivity", "No mountains found")
                             }
                         } else {
-                            Log.e("API_ERROR", "Response body is null")
+                            Log.e("NationalMountainsActivity", "Response body is null")
                         }
                     } else {
-                        Log.e("API_ERROR", "Response code: ${response.code()}")
+                        Log.e("NationalMountainsActivity", "Response code: ${response.code()}")
                     }
                 }
 
                 override fun onFailure(call: Call<NationalMountainsResponse>, t: Throwable) {
                     t.printStackTrace()
-                    Log.e("API_ERROR", "Failure: ${t.message}")
+                    Log.e("NationalMountainsActivity", "Failure: ${t.message}")
                 }
             })
     }
@@ -130,20 +177,20 @@ class NationalMountainsActivity : AppCompatActivity() {
                             if (!mountains.isNullOrEmpty()) {
                                 adapter.setData(mountains)
                             } else {
-                                Log.e("API_ERROR", "No mountains found")
+                                Log.e("NationalMountainsActivity", "No mountains found")
                                 adapter.setData(emptyList()) // 검색 결과가 없을 때 빈 리스트로 업데이트
                             }
                         } else {
-                            Log.e("API_ERROR", "Response body is null")
+                            Log.e("NationalMountainsActivity", "Response body is null")
                         }
                     } else {
-                        Log.e("API_ERROR", "Response code: ${response.code()}")
+                        Log.e("NationalMountainsActivity", "Response code: ${response.code()}")
                     }
                 }
 
                 override fun onFailure(call: Call<NationalMountainsResponse>, t: Throwable) {
                     t.printStackTrace()
-                    Log.e("API_ERROR", "Failure: ${t.message}")
+                    Log.e("NationalMountainsActivity", "Failure: ${t.message}")
                 }
             })
     }
