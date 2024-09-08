@@ -48,6 +48,15 @@ class PreRestaurantAdapter(val context: Context, private val listener: OnDataPas
                 .override(100, 100) // 이미지 크기 조정
                 .into(binding.ImgRestaurant)
         }
+        else {
+            if (model.img2 != "") {
+                // <음식점 이미지 표시(Glide)>
+                Glide.with(binding.root)
+                    .load("${model.img2}")
+                    .override(100, 100) // 이미지 크기 조정
+                    .into(binding.ImgRestaurant)
+            }
+        }
 
 
         var isSelected : Boolean = false

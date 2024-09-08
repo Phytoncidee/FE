@@ -51,6 +51,15 @@ class RestaurantAdapter(val context: Context, val datas:MutableList<Restaurant>?
                 .override(100, 100) // 이미지 크기 조정
                 .into(binding.ImgRestaurant)
         }
+        else {
+            if (model.img2 != "") {
+                // <음식점 이미지 표시(Glide)>
+                Glide.with(binding.root)
+                    .load("${model.img2}")
+                    .override(100, 100) // 이미지 크기 조정
+                    .into(binding.ImgRestaurant)
+            }
+        }
 
 
         // [[리사이클러 뷰 클릭 -> 음식점 상세 페이지로 이동]]

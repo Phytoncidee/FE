@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -24,6 +25,7 @@ import com.example.hikinglog_fe.databinding.ActivityCreateCourseBinding
 import com.example.hikinglog_fe.interfaces.OnDataPassListener
 import com.example.hikinglog_fe.models.CourseSaveDTO
 import com.example.hikinglog_fe.models.Mountain
+import com.example.hikinglog_fe.models.ProfileGetResponse
 import com.example.hikinglog_fe.models.Restaurant
 import com.example.hikinglog_fe.models.RestaurantDetail
 import com.example.hikinglog_fe.models.RestaurantLResponse
@@ -46,6 +48,9 @@ class CreateCourseActivity : AppCompatActivity(), OnDataPassListener {
     private lateinit var PreRestaurant: Restaurant
     private lateinit var PostRestaurant: Restaurant
     private lateinit var jsonData : JSONObject
+    private lateinit var courseName: String
+    private lateinit var mountain: Mountain
+    private var userId = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,12 +63,32 @@ class CreateCourseActivity : AppCompatActivity(), OnDataPassListener {
         token = sharedPreferences.getString("token", "")!!
 
         // [[Intent에서 Mountain 데이터를 받아옴]]
-        val mountain = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            intent.getParcelableExtra("mountain", Mountain::class.java)
+        mountain = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getParcelableExtra("mountain", Mountain::class.java)!!
         } else {
-            intent.getParcelableExtra("mountain") as? Mountain
+            (intent.getParcelableExtra("mountain") as? Mountain)!!
         }
         Log.d("mobileApp", "CreateCourseActivity Intent: ${mountain}")
+
+        // >> 현재 로그인한 사용자 프로필 조회 -> userid 얻어오기
+        val call: Call<ProfileGetResponse> = RetrofitConnection.jsonNetServ.getMyProfile(
+            "Bearer $token"
+        )
+        call.enqueue(object : Callback<ProfileGetResponse> {
+            override fun onResponse(call: Call<ProfileGetResponse>, response: Response<ProfileGetResponse>) {
+                if (response.isSuccessful) {
+                    Log.d("mobileApp", "getMyProfile: $response")
+                    userId = response.body()!!.data.userid
+                } else {
+                    // 오류 처리
+                    Log.e("mobileApp", "getMyProfile: ${response.code()}")
+                }
+            }
+            override fun onFailure(call: Call<ProfileGetResponse>, t: Throwable) {
+                // 네트워크 오류 처리
+                Log.e("mobileApp", "Failed to fetch data(getMyProfile)", t)
+            }
+        })
 
 
         // [[입산 전 위치 선택 버튼 클릭 -> 지도로 이동하여 위치 선택]]
@@ -113,7 +138,6 @@ class CreateCourseActivity : AppCompatActivity(), OnDataPassListener {
 
 
         // [[입력받은 코스명 저장]]
-        var courseName: String = ""
         binding.courseName.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) { // 텍스트가 변경된 후 실행
                 courseName = s.toString()
@@ -182,9 +206,14 @@ class CreateCourseActivity : AppCompatActivity(), OnDataPassListener {
     private fun createJsonData(preTourspot: TourSpot?, postTourspot: TourSpot?, prerestaurant: Restaurant?, postrestaurant: Restaurant?){
         Log.d("mobileApp", "createJsonData()에서 받은 data 확인: ${preTourspot}, ${postTourspot}, ${prerestaurant}, ${postrestaurant}")
         // 기본 정보 채우기
-        jsonData.put("userId", "1")
-        jsonData.put("tourTitle", "마이관광 저장 안드로이드")
-        jsonData.put("mountainId", 123)
+        if (userId == 0){
+            Log.d("mobileApp", "사용자 userId 조회 실패")
+        } else {
+            jsonData.put("userId", userId)
+        }
+        jsonData.put("userId", userId)
+        jsonData.put("tourTitle", courseName)
+        jsonData.put("mountainId", mountain.mntilistno)
 
         // 선택된 tour와 restaurant의 id 추가
         val preHikeTourIds = JSONArray()

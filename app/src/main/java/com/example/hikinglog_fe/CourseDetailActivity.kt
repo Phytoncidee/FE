@@ -52,12 +52,13 @@ class CourseDetailActivity : AppCompatActivity() {
                     binding.titleMyTour.text = response.body()!!.tourTitle
 
                     // <<입산 전 음식점, 관광지 리사이클러뷰에 표시>>
-//                    binding.beforeHikingRecyclerView.layoutManager = LinearLayoutManager(this)
+//                    binding.beforeHikingRecyclerView.layoutManager = LinearLayoutManager(this@CourseDetailActivity)
 //                    binding.beforeHikingRecyclerView.adapter = RestaurantAdapter(this@CourseDetailActivity, response.body()!!., childFragmentManager, token)
-//                    binding.beforeHikingRecyclerView.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
+//                    binding.beforeHikingRecyclerView.addItemDecoration(DividerItemDecoration(this@CourseDetailActivity, LinearLayoutManager.VERTICAL))
 
-                    // <<산 정보 표시>>
+                    // <<산 정보 표시>> (사진, 소재지, 높이, 실시간 등산 기록)
 
+                    
                     // <<하산 후 음식점, 관광지 리사이클러뷰에 표시>>
 
                 } else {

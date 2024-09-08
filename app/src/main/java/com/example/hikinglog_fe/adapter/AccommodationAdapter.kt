@@ -49,6 +49,15 @@ class AccommodationAdapter(val context: Context, val datas:MutableList<Accommoda
                 .override(100, 100) // 이미지 크기 조정
                 .into(binding.imgAccommodation)
         }
+        else {
+            if (model.img2 != "") {
+                // <숙박시설 이미지 표시(Glide)>
+                Glide.with(binding.root)
+                    .load("${model.img2}")
+                    .override(100, 100) // 이미지 크기 조정
+                    .into(binding.imgAccommodation)
+            }
+        }
 
 
         // [[리사이클러 뷰 클릭 -> 숙박시설 상세 페이지로 이동]]

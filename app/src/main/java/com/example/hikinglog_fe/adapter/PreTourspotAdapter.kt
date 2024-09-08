@@ -38,6 +38,15 @@ class PreTourspotAdapter(val context: Context, private val listener: OnDataPassL
                 .override(100, 100) // 이미지 크기 조정
                 .into(binding.ImgTourspot)
         }
+        else {
+            if (model.img2 != "") {
+                // <관광지 이미지 표시(Glide)>
+                Glide.with(binding.root)
+                    .load("${model.img2}")
+                    .override(100, 100) // 이미지 크기 조정
+                    .into(binding.ImgTourspot)
+            }
+        }
 
         var isSelected : Boolean = false
 
