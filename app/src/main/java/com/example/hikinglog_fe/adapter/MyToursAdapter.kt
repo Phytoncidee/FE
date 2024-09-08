@@ -5,14 +5,18 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.example.hikinglog_fe.AccommodationDetailActivity
 import com.example.hikinglog_fe.CommentFragment
+import com.example.hikinglog_fe.CourseDetailActivity
 import com.example.hikinglog_fe.R
 import com.example.hikinglog_fe.RetrofitConnection
 import com.example.hikinglog_fe.databinding.ItemMytourismBinding
@@ -48,7 +52,14 @@ class MyToursAdapter(val context: Context, val datas:List<MyTourLResponse>?, val
             binding.mytourismState.setImageResource(R.drawable.button_complete)
         }
 
+        // [[마이관광 상세 이동]]
+        binding.root.setOnClickListener{
+            Intent(context, CourseDetailActivity::class.java).apply {
+                putExtra("tourId", model.tourId) // tourId 전달
+            }.run { context.startActivity(this) }
+        }
 
+        // [[마이관광 상태 변화]]
         binding.mytourismState.setOnClickListener {
             if(status == "COMPLETED"){ //완료 -> 예정
                 status = "PREPARING"

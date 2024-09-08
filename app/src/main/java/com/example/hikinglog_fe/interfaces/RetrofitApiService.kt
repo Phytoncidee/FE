@@ -17,6 +17,7 @@ import com.example.hikinglog_fe.models.GetRegionTop100Response
 import com.example.hikinglog_fe.models.MBookmarkGetResponse
 import com.example.hikinglog_fe.models.MImageResponse
 import com.example.hikinglog_fe.models.MountainDetailResponse
+import com.example.hikinglog_fe.models.MyTourDResponse
 import com.example.hikinglog_fe.models.MyTourLResponse
 import com.example.hikinglog_fe.models.NationalMountainsResponse
 import com.example.hikinglog_fe.models.PostAccommodationBMDTO
@@ -323,4 +324,18 @@ interface RetrofitApiService {
         @Path("tourId") tourId: Int?,
         @Query("status") status: String?
     ): Call<Response<Void>>
+
+    // [마이관광_상세]
+    @GET("/api/tour/details/{tourId}")
+    fun getMyTourDetail(
+        @Header("Authorization") auth: String?,
+        @Path("tourId") tourId: Int?
+    ): Call<MyTourDResponse>
+
+    // [마이관광_삭제]
+    @DELETE("/api/tour/delete/{tourId}")
+    fun deleteMyTour(
+        @Header("Authorization") auth: String?,
+        @Path("tourId") tourId: Int?
+    ): Call<String>
 }

@@ -115,12 +115,6 @@ class CommentFragment : BottomSheetDialogFragment() {
             })
         }
 
-
-        // [[ 댓글 삭제 ]]
-
-
-
-
         return binding.root
     }
 
