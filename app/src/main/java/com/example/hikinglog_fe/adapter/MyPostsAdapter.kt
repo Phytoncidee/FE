@@ -22,6 +22,7 @@ import com.example.hikinglog_fe.RetrofitConnection
 import com.example.hikinglog_fe.databinding.ItemPostBinding
 import com.example.hikinglog_fe.models.CommentsGetResponse
 import com.example.hikinglog_fe.models.CommunityPost
+import com.example.hikinglog_fe.models.CommunityPostLResponse
 import com.example.hikinglog_fe.models.PostLikeCommentResponse
 import retrofit2.Call
 import retrofit2.Callback
@@ -31,7 +32,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class MyPostsPostHolder(val binding: ItemPostBinding): RecyclerView.ViewHolder(binding.root)
-class MyPostsAdapter(val context: Context, val datas:MutableList<CommunityPost>?, private val token: String?): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class MyPostsAdapter(val context: Context, val datas:MutableList<CommunityPost>?, private val token: String?, private val recyclerView: RecyclerView): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun getItemCount(): Int {
         return datas?.size ?: 0
     }
@@ -132,80 +133,81 @@ class MyPostsAdapter(val context: Context, val datas:MutableList<CommunityPost>?
             }
         }
 
-//    // [[삭제]]
-//    // >> 게시물 클릭(확인 다이얼로그 -> 확인 -> 삭제)
-//    binding.root.setOnClickListener {
-//        // 다이얼로그
-//        val eventHandler = object: DialogInterface.OnClickListener{ // 다이얼로그에 속하는 버튼에 쓸 클릭 리스너.. 변수로 받아 여러 버튼에 대해 사용
-//            override fun onClick(dialog: DialogInterface?, which: Int) { //which에 어떤 버튼 눌렸는지 저장
-//                if (which == DialogInterface.BUTTON_POSITIVE) { //positive 버튼 누른 경우
-//                    // >> 삭제
-//                    val callD: Call<PostLikeCommentResponse> = RetrofitConnection.jsonNetServ.deletePostComment(
-//                        "Bearer $token",
-//                        boardId!!.toInt(),
-//                        model.id
-//                    )
-//                    callD.enqueue(object : Callback<PostLikeCommentResponse> {
-//                        override fun onResponse(call: Call<PostLikeCommentResponse>, response: Response<PostLikeCommentResponse>) {
-//                            if (response.isSuccessful) {
-//                                Log.d("mobileApp", "deletePostComment: $response")
-//                                // (댓글 재조회)
-//                                val callG: Call<CommentsGetResponse> = RetrofitConnection.jsonNetServ.getPostComments(
-//                                    "Bearer $token",
-//                                    boardId!!.toInt(),
-//                                    2147483647,
-//                                    0
-//                                )
-//                                callG.enqueue(object : Callback<CommentsGetResponse> {
-//                                    override fun onResponse(call: Call<CommentsGetResponse>, response: Response<CommentsGetResponse>) {
-//                                        if (response.isSuccessful) {
-//                                            Log.d("mobileApp", "getPostComments: $response")
-//
-//                                            // <리사이클러뷰에 표시>
-//                                            recyclerView.layoutManager = LinearLayoutManager(context)
-//                                            recyclerView.adapter = CommentAdapter(context!!, response.body()!!.data.commentList, token, boardId, recyclerView)
-//                                            recyclerView.addItemDecoration(
-//                                                DividerItemDecoration(context, LinearLayoutManager.VERTICAL)
-//                                            )
-//                                        } else {
-//                                            // 오류 처리
-//                                            Log.e("mobileApp", "getPostComments: ${response.code()}")
-//                                        }
-//                                    }
-//                                    override fun onFailure(call: Call<CommentsGetResponse>, t: Throwable) {
-//                                        // 네트워크 오류 처리
-//                                        Log.e("mobileApp", "Failed to fetch data(getPostComments)", t)
-//                                    }
-//                                }) // (댓글 재조회) <<
-//                            } else {
-//                                // 오류 처리
-//                                Log.e("mobileApp", "deletePostComment: ${response.code()}")
-//                            }
-//                        }
-//                        override fun onFailure(call: Call<PostLikeCommentResponse>, t: Throwable) {
-//                            // 네트워크 오류 처리
-//                            Log.e("mobileApp", "Failed to fetch data(deletePostComment)", t)
-//                        }
-//                    }) // 삭제 <<
-//                }
-//                else if (which == DialogInterface.BUTTON_NEGATIVE) { //negative 버튼 누른 경우
-//                    Log.d("mobileapp", "댓글 삭제 취소") //그냥 다이얼로그만 닫음
-//                }
-//            }
-//        }
-//        AlertDialog.Builder(context).run(){
-//            setTitle("댓글 삭제 확인")
-//            setIcon(android.R.drawable.ic_dialog_alert)
-//
-//            setMessage("정말로 삭제하시겠습니까?")
-//
-//            setPositiveButton("예", eventHandler)
-//            setNegativeButton("아니오", eventHandler)
-//
-//            show()
-//        }
-//    }
-//
+    // [[삭제]]
+    // >> 게시물 클릭(확인 다이얼로그 -> 확인 -> 삭제)
+    binding.root.setOnClickListener {
+        // 다이얼로그
+        val eventHandler = object: DialogInterface.OnClickListener{ // 다이얼로그에 속하는 버튼에 쓸 클릭 리스너.. 변수로 받아 여러 버튼에 대해 사용
+            override fun onClick(dialog: DialogInterface?, which: Int) { //which에 어떤 버튼 눌렸는지 저장
+                if (which == DialogInterface.BUTTON_POSITIVE) { //positive 버튼 누른 경우
+                    // >> 삭제
+                    val callD: Call<PostLikeCommentResponse> = RetrofitConnection.jsonNetServ.deleteMyPost(
+                        "Bearer $token",
+                        model.id
+                    )
+                    callD.enqueue(object : Callback<PostLikeCommentResponse> {
+                        override fun onResponse(call: Call<PostLikeCommentResponse>, response: Response<PostLikeCommentResponse>) {
+                            if (response.isSuccessful) {
+                                Log.d("mobileApp", "deleteMyPost: $response")
+                                // (내 게시물 재조회)
+                                // [Retrofit 통신 요청: 커뮤니티 글 목록]
+                                val call: Call<CommunityPostLResponse> = RetrofitConnection.jsonNetServ.getMyPosts(
+                                    "Bearer $token"
+                                )
+                                // [Retrofit 통신 응답: 커뮤니티 글 목록]
+                                call.enqueue(object : Callback<CommunityPostLResponse> {
+                                    override fun onResponse(call: Call<CommunityPostLResponse>, response: Response<CommunityPostLResponse>) {
+
+                                        if (response.isSuccessful) {
+                                            Log.d("mobileApp", "getMyPosts: $response")
+
+                                            // <리사이클러뷰에 표시>
+                                            recyclerView.layoutManager = LinearLayoutManager(context)
+                                            recyclerView.adapter = MyPostsAdapter(context, response.body()!!.data.boardList,  token, recyclerView)
+                                            recyclerView.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
+
+                                        } else {
+                                            // 오류 처리
+                                            val errorBody = response.errorBody()?.string()
+                                            Log.e("mobileApp", "getMyPosts Error: ${response.code()}, Error Body: ${errorBody}")
+                                        }
+                                    }
+
+                                    override fun onFailure(call: Call<CommunityPostLResponse>, t: Throwable) {
+                                        // 네트워크 오류 처리
+                                        Log.e("mobileApp", "Failed to fetch data(getMyPosts)", t)
+                                    }
+                                })
+                                // (내 게시물 재조회) <<
+                            } else {
+                                // 오류 처리
+                                Log.e("mobileApp", "deleteMyPost: ${response.code()}")
+                            }
+                        }
+                        override fun onFailure(call: Call<PostLikeCommentResponse>, t: Throwable) {
+                            // 네트워크 오류 처리
+                            Log.e("mobileApp", "Failed to fetch data(deleteMyPost)", t)
+                        }
+                    }) // 삭제 <<
+                }
+                else if (which == DialogInterface.BUTTON_NEGATIVE) { //negative 버튼 누른 경우
+                    Log.d("mobileapp", "게시물 삭제 취소") //그냥 다이얼로그만 닫음
+                }
+            }
+        }
+        AlertDialog.Builder(context).run(){
+            setTitle("게시물 삭제 확인")
+            setIcon(android.R.drawable.ic_dialog_alert)
+
+            setMessage("정말로 삭제하시겠습니까?")
+
+            setPositiveButton("예", eventHandler)
+            setNegativeButton("아니오", eventHandler)
+
+            show()
+        }
+    }
+
 
         // [[댓글]]
         // >> 댓글 버튼 숨기기

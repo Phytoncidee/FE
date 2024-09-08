@@ -9,7 +9,6 @@ import com.example.hikinglog_fe.models.CommentWriteDTO
 import com.example.hikinglog_fe.models.CommentsGetResponse
 import com.example.hikinglog_fe.models.CommunityPostLResponse
 import com.example.hikinglog_fe.models.CourseSaveDTO
-import com.example.hikinglog_fe.models.CourseSaveResponse
 import com.example.hikinglog_fe.models.EShopBookmarkDeleteResponse
 import com.example.hikinglog_fe.models.EShopBookmarkGetResponse
 import com.example.hikinglog_fe.models.EShopBookmarkPostResponse
@@ -17,8 +16,9 @@ import com.example.hikinglog_fe.models.EquipmentShopLResponse
 import com.example.hikinglog_fe.models.GetRegionTop100Response
 import com.example.hikinglog_fe.models.MBookmarkGetResponse
 import com.example.hikinglog_fe.models.MImageResponse
-import com.example.hikinglog_fe.models.Mountain
 import com.example.hikinglog_fe.models.MountainDetailResponse
+import com.example.hikinglog_fe.models.MyTourDResponse
+import com.example.hikinglog_fe.models.MyTourLResponse
 import com.example.hikinglog_fe.models.NationalMountainsResponse
 import com.example.hikinglog_fe.models.PostAccommodationBMDTO
 import com.example.hikinglog_fe.models.PostEShopBMDTO
@@ -35,13 +35,16 @@ import com.example.hikinglog_fe.models.RestaurantLResponse
 import com.example.hikinglog_fe.models.Top100Response
 import com.example.hikinglog_fe.models.TourismLResponse
 import okhttp3.MultipartBody
+import org.json.JSONObject
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -293,13 +296,46 @@ interface RetrofitApiService {
         @Header("Authorization") auth: String?
     ): Call<CommunityPostLResponse>
 
-    // [마이페이지_
-
+    // [마이페이지_본인 게시물 삭제]
+    @DELETE("/api/boards/{boardId}")
+    fun deleteMyPost(
+        @Header("Authorization") auth: String?,
+        @Path("boardId") boardId: Int?
+    ): Call<PostLikeCommentResponse>
 
     // [마이관광_관광 코스 저장]
     @POST("/api/tour/save")
     fun saveCourse(
         @Header("Authorization") auth: String?,
-        @Body content: CourseSaveDTO
-    ): Call<CourseSaveResponse>
+        @Body content: JSONObject
+    ): Call<List<String>>
+
+    // [마이관광_목록]
+    @GET("/api/tour/tours/user/{userId}")
+    fun getMyTours(
+        @Header("Authorization") auth: String?,
+        @Path("userId") userId: Int?
+    ): Call<List<MyTourLResponse>>
+
+    // [마이관광_상태변경]
+    @PUT("/api/tour/update-status/{tourId}")
+    fun putStatus(
+        @Header("Authorization") auth: String?,
+        @Path("tourId") tourId: Int?,
+        @Query("status") status: String?
+    ): Call<Response<Void>>
+
+    // [마이관광_상세]
+    @GET("/api/tour/details/{tourId}")
+    fun getMyTourDetail(
+        @Header("Authorization") auth: String?,
+        @Path("tourId") tourId: Int?
+    ): Call<MyTourDResponse>
+
+    // [마이관광_삭제]
+    @DELETE("/api/tour/delete/{tourId}")
+    fun deleteMyTour(
+        @Header("Authorization") auth: String?,
+        @Path("tourId") tourId: Int?
+    ): Call<String>
 }

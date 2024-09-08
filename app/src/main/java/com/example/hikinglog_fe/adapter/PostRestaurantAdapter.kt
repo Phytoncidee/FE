@@ -8,15 +8,11 @@ import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import com.bumptech.glide.Glide
-import com.example.hikinglog_fe.AccommodationDetailActivity
+import com.example.hikinglog_fe.CreateCourseActivity
 import com.example.hikinglog_fe.R
-import com.example.hikinglog_fe.RestaurantDetailActivity
 import com.example.hikinglog_fe.RetrofitConnection
 import com.example.hikinglog_fe.databinding.ItemRestaurantBinding
-import com.example.hikinglog_fe.models.AccommodationBookmarkDeleteResponse
-import com.example.hikinglog_fe.models.AccommodationBookmarkGetResponse
-import com.example.hikinglog_fe.models.AccommodationBookmarkPostResponse
-import com.example.hikinglog_fe.models.PostAccommodationBMDTO
+import com.example.hikinglog_fe.interfaces.OnDataPassListener
 import com.example.hikinglog_fe.models.PostRestaurantBMDTO
 import com.example.hikinglog_fe.models.Restaurant
 import com.example.hikinglog_fe.models.RestaurantBookmarkDeleteResponse
@@ -26,18 +22,18 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class RestaurantHolder2(val binding: ItemRestaurantBinding): RecyclerView.ViewHolder(binding.root)
-class RestaurantAdapter2(val context: Context, val datas:MutableList<Restaurant>?, private val token: String?): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class PostRestaurantHolder(val binding: ItemRestaurantBinding): RecyclerView.ViewHolder(binding.root)
+class PostRestaurantAdapter(val context: Context, private val listener: OnDataPassListener, val datas:MutableList<Restaurant>?, private val token: String?): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun getItemCount(): Int {
         return datas?.size ?: 0
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return RestaurantHolder2(ItemRestaurantBinding.inflate(LayoutInflater.from(parent.context),parent,false))
+        return PostRestaurantHolder(ItemRestaurantBinding.inflate(LayoutInflater.from(parent.context),parent,false))
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val binding = (holder as RestaurantHolder2).binding
+        val binding = (holder as PostRestaurantHolder).binding
         val model = datas!![position]
 
         // [[음식점 정보]]
@@ -52,6 +48,15 @@ class RestaurantAdapter2(val context: Context, val datas:MutableList<Restaurant>
                 .override(100, 100) // 이미지 크기 조정
                 .into(binding.ImgRestaurant)
         }
+        else {
+            if (model.img2 != "") {
+                // <음식점 이미지 표시(Glide)>
+                Glide.with(binding.root)
+                    .load("${model.img2}")
+                    .override(100, 100) // 이미지 크기 조정
+                    .into(binding.ImgRestaurant)
+            }
+        }
 
 
         var isSelected : Boolean = false
@@ -63,6 +68,18 @@ class RestaurantAdapter2(val context: Context, val datas:MutableList<Restaurant>
                 // 색 변화
                 binding.root.setBackgroundResource(R.color.backgroundblue)
                 binding.BtnResBookmark.setBackgroundResource(R.color.backgroundblue)
+                // >> 데이터 CreateCourseActivity로 넘기기
+                val postRestaurant = Restaurant(
+                    name = model.name,
+                    contentId = model.contentId,
+                    add = model.add,
+                    img = model.img,
+                    img2 = model.img2,
+                    mapX = model.mapX,
+                    mapY = model.mapY,
+                    tel = model.tel
+                )
+                listener.postRestaurantToActivity(postRestaurant)
             }
             else { //선택인 상황에서 취소를 위해 재선택
                 isSelected = false

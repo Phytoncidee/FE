@@ -40,7 +40,7 @@ class MyPostsActivity : AppCompatActivity() {
 
                     // <리사이클러뷰에 표시>
                     binding.communityRecyclerView.layoutManager = LinearLayoutManager(applicationContext)
-                    binding.communityRecyclerView.adapter = MyPostsAdapter(this@MyPostsActivity, response.body()!!.data.boardList,  token)
+                    binding.communityRecyclerView.adapter = MyPostsAdapter(this@MyPostsActivity, response.body()!!.data.boardList,  token, binding.communityRecyclerView)
                     binding.communityRecyclerView.addItemDecoration(DividerItemDecoration(applicationContext, LinearLayoutManager.VERTICAL))
 
                 } else {

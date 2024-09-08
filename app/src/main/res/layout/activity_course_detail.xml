@@ -23,18 +23,20 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="관광 코스명"
+                    android:text=""
                     android:textColor="@color/white"
                     android:textSize="30dp"
                     android:fontFamily="@font/nanum_square_round_eb"
                     android:layout_marginTop="20dp"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:id="@+id/titleMyTour"/>
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/button_edit_course"
+                    android:src="@drawable/button_delete_mytour"
                     android:backgroundTint="@color/green"
-                    android:layout_marginTop="20dp"/>
+                    android:layout_marginTop="20dp"
+                    android:id="@+id/BtnDelete"/>
             </LinearLayout>
 
             <LinearLayout
@@ -52,12 +54,17 @@
                     android:fontFamily="@font/nanum_square_round_eb"
                     android:text="🔆 입산 전 "
                     android:textSize="20dp" />
+
                 <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/befRestaurantRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/beforeHikingRecyclerView"
                     android:layout_marginTop="20dp" />
-
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/befTourRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp" />
 
 
                 <!-- 산 정보 -->
@@ -68,68 +75,78 @@
                     android:fontFamily="@font/nanum_square_round_eb"
                     android:text="🏔️ 산 정보 "
                     android:textSize="20dp" />
+
                 <ImageView
                     android:layout_width="250dp"
                     android:layout_height="150dp"
-                    android:src="@drawable/etc_logo"
                     android:layout_gravity="center"
-                    android:layout_marginVertical="20dp"/>
+                    android:layout_marginVertical="20dp"
+                    android:src="@drawable/etc_logo" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:paddingHorizontal="30dp">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="소재지"
-                        android:textSize="15dp"
-                        android:textColor="@color/gray"
+                        android:layout_marginVertical="10dp"
                         android:layout_marginRight="10dp"
-                        android:layout_marginVertical="10dp"/>
+                        android:text="소재지"
+                        android:textColor="@color/gray"
+                        android:textSize="15dp" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginVertical="10dp"
                         android:text=""
                         android:textSize="15dp"
-                        android:layout_marginVertical="10dp"/>
+                        android:id="@+id/mntAdd"/>
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:paddingHorizontal="30dp">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="높이"
-                        android:textSize="15dp"
-                        android:textColor="@color/gray"
+                        android:layout_marginVertical="5dp"
                         android:layout_marginRight="10dp"
-                        android:layout_marginVertical="5dp"/>
+                        android:text="높이"
+                        android:textColor="@color/gray"
+                        android:textSize="15dp" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginVertical="5dp"
                         android:text=""
                         android:textSize="15dp"
-                        android:layout_marginVertical="5dp"/>
+                        android:id="@+id/mntHigh"/>
                 </LinearLayout>
+
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/button_realtime_recording"
-                    android:backgroundTint="@color/white"
                     android:layout_gravity="center"
-                    android:layout_marginTop="10dp" />
+                    android:layout_marginTop="10dp"
+                    android:backgroundTint="@color/white"
+                    android:src="@drawable/button_realtime_recording"
+                    android:id="@+id/BtnRecordNow"/>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="3dp"
-                    android:padding="10dp"
-                    android:background="#e0e0e0"
                     android:layout_gravity="center"
-                    android:layout_marginTop="20dp"/>
+                    android:layout_marginTop="20dp"
+                    android:background="#e0e0e0"
+                    android:padding="10dp" />
 
 
                 <!-- 하산 후 -->
@@ -140,10 +157,16 @@
                     android:fontFamily="@font/nanum_square_round_eb"
                     android:text="🍀 하산 후 "
                     android:textSize="20dp" />
+
                 <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/aftRestaurantRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/afterHikingRecyclerView"
+                    android:layout_marginTop="20dp" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/aftTourRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="20dp" />
 
             </LinearLayout>
