@@ -122,7 +122,14 @@ class MountainInfoActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-
+        binding.btnRealtimeRecord.setOnClickListener {
+            val context = binding.root.context
+            val intent = Intent(context, LiveRecordActivity::class.java).apply{
+                putExtra("name", mountain!!.mntiname)
+                putExtra("number", mountain!!.mntilistno)
+            }
+            startActivity(intent)
+        }
     }
 
     private fun fetchWeatherData(token: String, mntiadd: String?) {

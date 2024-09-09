@@ -26,6 +26,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".LiveRecordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".utils.LiveRecordActivity"
+            android:exported="false" />
+        <activity
             android:name=".MapLocationActivity"
             android:exported="false" />
         <activity
@@ -106,10 +112,9 @@
         <meta-data
             android:name="com.kakao.vectormap.APP_KEY"
             android:value="b054d4aac052e2c90ddc6fee33f06119" />
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyD9g650J2YbbVvb7cmwlLdrceZBHkzFKLM"/>
+            android:value="AIzaSyD9g650J2YbbVvb7cmwlLdrceZBHkzFKLM" />
     </application>
 
 </manifest>
