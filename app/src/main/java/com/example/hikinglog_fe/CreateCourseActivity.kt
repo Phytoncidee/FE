@@ -57,7 +57,6 @@ class CreateCourseActivity : AppCompatActivity(), OnDataPassListener {
         binding = ActivityCreateCourseBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         // [[SharedPreferences 초기화]]
         sharedPreferences = getSharedPreferences("userToken", Context.MODE_PRIVATE)
         token = sharedPreferences.getString("token", "")!!
@@ -69,6 +68,9 @@ class CreateCourseActivity : AppCompatActivity(), OnDataPassListener {
             (intent.getParcelableExtra("mountain") as? Mountain)!!
         }
         Log.d("mobileApp", "CreateCourseActivity Intent: ${mountain}")
+
+        // 페이지 title
+        binding.titleCreateCourse.text = "${mountain.mntiname} 관광 코스 생성"
 
         // >> 현재 로그인한 사용자 프로필 조회 -> userid 얻어오기
         val call: Call<ProfileGetResponse> = RetrofitConnection.jsonNetServ.getMyProfile(
