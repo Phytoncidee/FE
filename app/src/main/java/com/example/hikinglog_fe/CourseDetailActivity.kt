@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.hikinglog_fe.adapter.MyToursAdapter
 import com.example.hikinglog_fe.adapter.RestaurantAdapter
+import com.example.hikinglog_fe.adapter.TourDRestaurantAdapter
+import com.example.hikinglog_fe.adapter.TourDTourspotAdapter
 import com.example.hikinglog_fe.databinding.ActivityAccommodationDetailBinding
 import com.example.hikinglog_fe.databinding.ActivityCourseDetailBinding
 import com.example.hikinglog_fe.models.MyTourDResponse
@@ -47,19 +49,31 @@ class CourseDetailActivity : AppCompatActivity() {
             override fun onResponse(call: Call<MyTourDResponse>, response: Response<MyTourDResponse>) {
 
                 if (response.isSuccessful) {
-                    Log.d("mobileApp", "getMyTours: $response")
+                    Log.d("mobileApp", "getMyTours: ${response}")
+
                     // >> 관광 코스 이름
                     binding.titleMyTour.text = response.body()!!.tourTitle
 
                     // <<입산 전 음식점, 관광지 리사이클러뷰에 표시>>
-//                    binding.beforeHikingRecyclerView.layoutManager = LinearLayoutManager(this@CourseDetailActivity)
-//                    binding.beforeHikingRecyclerView.adapter = RestaurantAdapter(this@CourseDetailActivity, response.body()!!., childFragmentManager, token)
-//                    binding.beforeHikingRecyclerView.addItemDecoration(DividerItemDecoration(this@CourseDetailActivity, LinearLayoutManager.VERTICAL))
+                    binding.befRestaurantRecyclerView.layoutManager = LinearLayoutManager(this@CourseDetailActivity)
+                    binding.befRestaurantRecyclerView.adapter = TourDRestaurantAdapter(this@CourseDetailActivity, response.body()!!.preHikeRestaurant, token)
+                    binding.befRestaurantRecyclerView.addItemDecoration(DividerItemDecoration(this@CourseDetailActivity, LinearLayoutManager.VERTICAL))
+
+                    binding.befTourRecyclerView.layoutManager = LinearLayoutManager(this@CourseDetailActivity)
+                    binding.befTourRecyclerView.adapter = TourDTourspotAdapter(this@CourseDetailActivity, response.body()!!.preHikeTour, token)
+                    binding.befTourRecyclerView.addItemDecoration(DividerItemDecoration(this@CourseDetailActivity, LinearLayoutManager.VERTICAL))
 
                     // <<산 정보 표시>> (사진, 소재지, 높이, 실시간 등산 기록)
 
                     
                     // <<하산 후 음식점, 관광지 리사이클러뷰에 표시>>
+                    binding.aftRestaurantRecyclerView.layoutManager = LinearLayoutManager(this@CourseDetailActivity)
+                    binding.aftRestaurantRecyclerView.adapter = TourDRestaurantAdapter(this@CourseDetailActivity, response.body()!!.postHikeRestaurant, token)
+                    binding.aftRestaurantRecyclerView.addItemDecoration(DividerItemDecoration(this@CourseDetailActivity, LinearLayoutManager.VERTICAL))
+
+                    binding.aftTourRecyclerView.layoutManager = LinearLayoutManager(this@CourseDetailActivity)
+                    binding.aftTourRecyclerView.adapter = TourDTourspotAdapter(this@CourseDetailActivity, response.body()!!.postHikeTour, token)
+                    binding.aftTourRecyclerView.addItemDecoration(DividerItemDecoration(this@CourseDetailActivity, LinearLayoutManager.VERTICAL))
 
                 } else {
                     val errorBody = response.errorBody()?.string()

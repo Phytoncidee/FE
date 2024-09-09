@@ -28,7 +28,8 @@
                     android:textColor="@color/white"
                     android:textSize="30dp"
                     android:fontFamily="@font/nanum_square_round_eb"
-                    android:layout_marginTop="20dp"/>
+                    android:layout_marginTop="20dp"
+                    android:id="@+id/titleCreateCourse"/>
             </LinearLayout>
 
             <LinearLayout

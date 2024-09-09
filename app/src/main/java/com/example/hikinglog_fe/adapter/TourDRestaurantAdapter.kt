@@ -15,6 +15,7 @@ import com.example.hikinglog_fe.databinding.ItemRestaurantBinding
 import com.example.hikinglog_fe.models.AccommodationBookmarkDeleteResponse
 import com.example.hikinglog_fe.models.AccommodationBookmarkGetResponse
 import com.example.hikinglog_fe.models.AccommodationBookmarkPostResponse
+import com.example.hikinglog_fe.models.MyTourDRestaurant
 import com.example.hikinglog_fe.models.PostAccommodationBMDTO
 import com.example.hikinglog_fe.models.PostRestaurantBMDTO
 import com.example.hikinglog_fe.models.Restaurant
@@ -25,39 +26,30 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class RestaurantHolder(val binding: ItemRestaurantBinding): RecyclerView.ViewHolder(binding.root)
-class RestaurantAdapter(val context: Context, val datas:MutableList<Restaurant>?, private val token: String?): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class TourDRestaurantHolder(val binding: ItemRestaurantBinding): RecyclerView.ViewHolder(binding.root)
+class TourDRestaurantAdapter(val context: Context, val datas:MutableList<MyTourDRestaurant>?, private val token: String?): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun getItemCount(): Int {
         return datas?.size ?: 0
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return RestaurantHolder(ItemRestaurantBinding.inflate(LayoutInflater.from(parent.context),parent,false))
+        return TourDRestaurantHolder(ItemRestaurantBinding.inflate(LayoutInflater.from(parent.context),parent,false))
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val binding = (holder as RestaurantHolder).binding
+        val binding = (holder as TourDRestaurantHolder).binding
         val model = datas!![position]
 
         // [[음식점 정보]]
-        binding.restaurantName.text = model.name
-        binding.restaurantAdd.text = model.add
+        binding.restaurantName.text = model.sname
+        binding.restaurantAdd.text = model.location
 
-        if (model.img != "") {
+        if (model.simage != "") {
             // <음식점 이미지 표시(Glide)>
             Glide.with(binding.root)
-                .load("${model.img}")
+                .load("${model.simage}")
                 .override(100, 100) // 이미지 크기 조정
                 .into(binding.ImgRestaurant)
-        }
-        else {
-            if (model.img2 != "") {
-                // <음식점 이미지 표시(Glide)>
-                Glide.with(binding.root)
-                    .load("${model.img2}")
-                    .override(100, 100) // 이미지 크기 조정
-                    .into(binding.ImgRestaurant)
-            }
         }
 
 
@@ -119,7 +111,7 @@ class RestaurantAdapter(val context: Context, val datas:MutableList<Restaurant>?
                 isBookmarked = true
 
                 // <즐겨찾기 등록>
-                val newRestaurantnBM = PostRestaurantBMDTO(name = model.name, location = model.add, phone = model.tel, image = model.img)
+                val newRestaurantnBM = PostRestaurantBMDTO(name = model.sname, location = model.location, phone = model.phone, image = model.simage)
 
                 val callB: Call<RestaurantBookmarkPostResponse> = RetrofitConnection.jsonNetServ.postRestaurantBookmark(
                     "Bearer $token",
