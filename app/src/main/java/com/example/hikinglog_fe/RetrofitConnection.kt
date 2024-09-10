@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit
 // [Retrofit 객체 생성]
 class RetrofitConnection {
     companion object{ //companion: 전역 변수 형태로 생각
-        private const val BASE_URL = "http://192.168.0.25:8080/"    // http://localhost:8080/
+        private const val BASE_URL = "http://192.168.0.10:8080/"    // http://localhost:8080/
         //private const val BASE_URL = "http://localhost:8080"
 
         //JsonReader.setLeninet(true) 오류 해결
