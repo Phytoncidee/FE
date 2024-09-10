@@ -45,14 +45,18 @@ class CreateCourseActivity : AppCompatActivity(), OnDataPassListener {
     private lateinit var binding: ActivityCreateCourseBinding
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var token : String
-    private lateinit var PreTourspot: TourSpot
-    private lateinit var PostTourspot: TourSpot
-    private lateinit var PreRestaurant: Restaurant
-    private lateinit var PostRestaurant: Restaurant
-    private lateinit var jsonData : JSONObject
+
     private lateinit var courseName: String
     private lateinit var mountain: Mountain
     private var userId = 0
+
+    private lateinit var jsonData : JSONObject
+    private lateinit var preHikeTourIds : MutableList<String>
+    private lateinit var postHikeTourIds : MutableList<String>
+    private lateinit var preHikeRestaurantIds : MutableList<String>
+    private lateinit var postHikeRestaurantIds : MutableList<String>
+    private lateinit var tourDetails : MutableList<JSONObject>
+    private lateinit var restaurantDetails : MutableList<JSONObject>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -157,11 +161,18 @@ class CreateCourseActivity : AppCompatActivity(), OnDataPassListener {
             }
         })
 
+        // lateinit 변수들
         jsonData = JSONObject()
+        preHikeTourIds = mutableListOf<String>()
+        tourDetails = mutableListOf<JSONObject>()
+        postHikeTourIds = mutableListOf<String>()
+        preHikeRestaurantIds  = mutableListOf<String>()
+        restaurantDetails = mutableListOf<JSONObject>()
+        postHikeRestaurantIds  = mutableListOf<String>()
         // [[코스 저장]]
         binding.BtnSaveCourse.setOnClickListener {
             // >> 받은 데이터를 처리
-            createJsonData(PreTourspot, PostTourspot, PreRestaurant, PostRestaurant)
+            createJsonData()
             // [코스 저장]
             // [Retrofit 통신 요청: 마이관광 저장]
             Log.d("mobileApp", "token 확인: $token")
@@ -194,22 +205,23 @@ class CreateCourseActivity : AppCompatActivity(), OnDataPassListener {
         }
     } //onCreate()
 
+    // [[인터페이스 구현을 통해 Adapter에서 data 받기 -> 서버에 보낼 jsonData에 넣는 함수 호출]]
     override fun preRestaurantToActivity(preRestaurant: Restaurant) {
-        PreRestaurant = preRestaurant
+        putPreRestaurant(preRestaurant)
     }
-    override fun postRestaurantToActivity(postrestaurant: Restaurant) {
-        PostRestaurant = postrestaurant
+    override fun postRestaurantToActivity(postRestaurant: Restaurant) {
+        putPostRestaurant(postRestaurant)
     }
     override fun preTourspotToActivity(preTourspot: TourSpot) {
-        PreTourspot = preTourspot
+        putPreTourspot(preTourspot)
     }
     override fun postTourspotToActivity(postTourspot: TourSpot) {
-        PostTourspot = postTourspot
+        putPostTourspot(postTourspot)
     }
 
-    private fun createJsonData(preTourspot: TourSpot?, postTourspot: TourSpot?, prerestaurant: Restaurant?, postrestaurant: Restaurant?) {
-        Log.d("mobileApp", "createJsonData()에서 받은 data 확인: ${preTourspot}, ${postTourspot}, ${prerestaurant}, ${postrestaurant}")
 
+    // [[ jsonData 구성하는 함수들]]
+    private fun createJsonData() {
         // 기본 정보 채우기
         if (userId == 0) {
             Log.d("mobileApp", "사용자 userId 조회 실패")
@@ -219,91 +231,125 @@ class CreateCourseActivity : AppCompatActivity(), OnDataPassListener {
         jsonData.put("tourTitle", courseName)
         jsonData.put("mountainId", mountain.mntilistno)
 
-        // 선택된 tour와 restaurant의 id 추가
-        val preHikeTourIds = mutableListOf<String>()
-        preTourspot?.let {
-            preHikeTourIds.add(preTourspot.contentId.toString())
-        }
+        // data 확인
+        Log.d("mobileApp", "preHikeTourIds: ${preHikeTourIds}")
+        Log.d("mobileApp", "postHikeTourIds: ${postHikeTourIds}")
+        Log.d("mobileApp", "preHikeRestaurantIds: ${preHikeRestaurantIds}")
+        Log.d("mobileApp", "postHikeRestaurantIds: ${postHikeRestaurantIds}")
+        Log.d("mobileApp", "tourDetails: ${tourDetails}")
+        Log.d("mobileApp", "restaurantDetails: ${restaurantDetails}")
+
+        // preTour
         jsonData.put("preHikeTourIds", JSONArray(preHikeTourIds))
-
-        val postHikeTourIds = mutableListOf<String>()
-        postTourspot?.let {
-            postHikeTourIds.add(postTourspot.contentId.toString())
-        }
+        // postTour
         jsonData.put("postHikeTourIds", JSONArray(postHikeTourIds))
-
-        val preHikeRestaurantIds = mutableListOf<String>()
-        prerestaurant?.let {
-            preHikeRestaurantIds.add(prerestaurant.contentId.toString())
-        }
+        // preRestaurant
         jsonData.put("preHikeRestaurantIds", JSONArray(preHikeRestaurantIds))
-
-        val postHikeRestaurantIds = mutableListOf<String>()
-        postrestaurant?.let {
-            postHikeRestaurantIds.add(postrestaurant.contentId.toString())
-        }
+        // postRestaurant
         jsonData.put("postHikeRestaurantIds", JSONArray(postHikeRestaurantIds))
-
-        // 선택된 tour와 restaurant 정보 추가
-        val tourDetails = mutableListOf<TourspotDetail>()
-        preTourspot?.let {
-            val tourDetail = TourspotDetail(
-                name = it.name,
-                contentId = it.contentId.toString(),
-                add = it.add,
-                img = it.img,
-                img2 = it.img2,
-                mapX = it.mapX.toString(),
-                mapY = it.mapY.toString(),
-                tel = it.tel
-            )
-            tourDetails.add(tourDetail)
-        }
-        postTourspot?.let {
-            val tourDetail = TourspotDetail(
-                name = it.name,
-                contentId = it.contentId.toString(),
-                add = it.add,
-                img = it.img,
-                img2 = it.img2,
-                mapX = it.mapX.toString(),
-                mapY = it.mapY.toString(),
-                tel = it.tel
-            )
-            tourDetails.add(tourDetail)
-        }
+        // Details
         jsonData.put("tourDetails", JSONArray(tourDetails))
-
-        val restaurantDetails = mutableListOf<RestaurantDetail>()
-        prerestaurant?.let {
-            val restaurantDetail = RestaurantDetail(
-                name = it.name,
-                contentId = it.contentId.toString(),
-                add = it.add,
-                img = it.img,
-                mapX = it.mapX.toString(),
-                mapY = it.mapY.toString(),
-                tel = it.tel,
-                intro = ""
-            )
-            restaurantDetails.add(restaurantDetail)
-        }
-        postrestaurant?.let {
-            val restaurantDetail = RestaurantDetail(
-                name = it.name,
-                contentId = it.contentId.toString(),
-                add = it.add,
-                img = it.img,
-                mapX = it.mapX.toString(),
-                mapY = it.mapY.toString(),
-                tel = it.tel,
-                intro = ""
-            )
-            restaurantDetails.add(restaurantDetail)
-        }
         jsonData.put("restaurantDetails", JSONArray(restaurantDetails))
     }
 
+    private fun putPreTourspot(preTourspot: TourSpot?) {
+        Log.d("mobileApp", "putPreTourspot 호출 확인: ${preTourspot!!.name}")
+        // 선택된 tour id 추가
+        preTourspot?.let {
+            preHikeTourIds.add(preTourspot.contentId.toString())
+        }
+        Log.d("mobileApp", "putPreTourspot 호출 후 preHikeTourIds 확인: ${preHikeTourIds}")
+
+        // 선택된 tour 정보 추가
+        preTourspot?.let {
+            val tourDetail = JSONObject().apply {
+                put("name", it.name)
+                put("contentId", it.contentId.toString())
+                put("add", it.add)
+                put("img", it.img)
+                put("img2", it.img2)
+                put("mapX", it.mapX.toString())
+                put("mapY", it.mapY.toString())
+                put("tel", it.tel)
+            }
+            tourDetails.add(tourDetail)
+        }
+        Log.d("mobileApp", "putPreTourspot 호출 후 tourDetails 확인: ${tourDetails}")
+    }
+
+    private fun putPostTourspot(postTourspot: TourSpot?) {
+        Log.d("mobileApp", "putPostTourspot 호출 확인: ${postTourspot!!.name}")
+        // 선택된 tour id 추가
+        postTourspot?.let {
+            postHikeTourIds.add(postTourspot.contentId.toString())
+        }
+        Log.d("mobileApp", "putPostTourspot 호출 후 postHikeTourIds 확인: ${postHikeTourIds}")
+
+        // 선택된 tour 정보 추가
+        postTourspot?.let {
+            val tourDetail = JSONObject().apply {
+                put("name", it.name)
+                put("contentId", it.contentId.toString())
+                put("add", it.add)
+                put("img", it.img)
+                put("img2", it.img2)
+                put("mapX", it.mapX.toString())
+                put("mapY", it.mapY.toString())
+                put("tel", it.tel)
+            }
+            tourDetails.add(tourDetail)
+        }
+        Log.d("mobileApp", "putPostTourspot 호출 후 tourDetails 확인: ${tourDetails}")
+    }
+    private fun putPreRestaurant(preRestaurant: Restaurant?) {
+        Log.d("mobileApp", "putPreRestaurant 호출 확인: ${preRestaurant!!.name}")
+        // 선택된 restaurant id 추가
+        preRestaurant?.let {
+            preHikeRestaurantIds.add(preRestaurant.contentId.toString())
+        }
+        Log.d("mobileApp", "putPreRestaurant 호출 후 preHikeRestaurantIds 확인: ${preHikeRestaurantIds}")
+
+        // 선택된 restaurant 정보 추가
+        preRestaurant?.let {
+            val restaurantDetail = JSONObject().apply {
+                put("name", it.name)
+                put("contentId", it.contentId.toString())
+                put("add", it.add)
+                put("img", it.img)
+                put("mapX", it.mapX.toString())
+                put("mapY", it.mapY.toString())
+                put("tel", it.tel)
+                put("intro", "")
+            }
+            restaurantDetails.add(restaurantDetail)
+        }
+        Log.d("mobileApp", "putPreRestaurant 호출 후 restaurantDetails 확인: ${restaurantDetails}")
+    }
+    private fun putPostRestaurant(postRestaurant: Restaurant?) {
+        Log.d("mobileApp", "putPostRestaurant 호출 확인: ${postRestaurant!!.name}")
+        // 선택된 restaurant id 추가
+        postRestaurant?.let {
+            postHikeRestaurantIds.add(postRestaurant.contentId.toString())
+        }
+        Log.d("mobileApp", "putPostRestaurant 호출 후 postHikeRestaurantIds 확인: ${postHikeRestaurantIds}")
+
+        // 선택된 restaurant 정보 추가
+        postRestaurant?.let {
+            val restaurantDetail = JSONObject().apply {
+                put("name", it.name)
+                put("contentId", it.contentId.toString())
+                put("add", it.add)
+                put("img", it.img)
+                put("mapX", it.mapX.toString())
+                put("mapY", it.mapY.toString())
+                put("tel", it.tel)
+                put("intro", "")
+
+            }
+            restaurantDetails.add(restaurantDetail)
+        }
+        Log.d("mobileApp", "putPostRestaurant 호출 후 restaurantDetails 확인: ${restaurantDetails}")
+    }
 
 
 
