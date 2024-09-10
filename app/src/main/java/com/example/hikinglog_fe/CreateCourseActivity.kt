@@ -206,18 +206,15 @@ class CreateCourseActivity : AppCompatActivity(), OnDataPassListener {
     } //onCreate()
 
     // [[인터페이스 구현을 통해 Adapter에서 data 받기 -> 서버에 보낼 jsonData에 넣는 함수 호출]]
-    override fun preRestaurantToActivity(preRestaurant: Restaurant) {
-        putPreRestaurant(preRestaurant)
-    }
-    override fun postRestaurantToActivity(postRestaurant: Restaurant) {
-        putPostRestaurant(postRestaurant)
-    }
-    override fun preTourspotToActivity(preTourspot: TourSpot) {
-        putPreTourspot(preTourspot)
-    }
-    override fun postTourspotToActivity(postTourspot: TourSpot) {
-        putPostTourspot(postTourspot)
-    }
+    override fun preRestaurantToActivity(preRestaurant: Restaurant) { putPreRestaurant(preRestaurant) }
+    override fun postRestaurantToActivity(postRestaurant: Restaurant) { putPostRestaurant(postRestaurant) }
+    override fun preTourspotToActivity(preTourspot: TourSpot) { putPreTourspot(preTourspot) }
+    override fun postTourspotToActivity(postTourspot: TourSpot) { putPostTourspot(postTourspot) }
+
+    override fun CancelpreRestaurant(preRestaurant: Restaurant) { outPreRestaurant(preRestaurant) }
+    override fun CancelpostRestaurantToActivity(postRestaurant: Restaurant) { outPostRestaurant(postRestaurant) }
+    override fun CancelpreTourspotToActivity(preTourspot: TourSpot) { outPreTourspot(preTourspot) }
+    override fun CancelpostTourspotToActivity(postTourspot: TourSpot) { outPostTourspot(postTourspot) }
 
 
     // [[ jsonData 구성하는 함수들]]
@@ -276,7 +273,6 @@ class CreateCourseActivity : AppCompatActivity(), OnDataPassListener {
         }
         Log.d("mobileApp", "putPreTourspot 호출 후 tourDetails 확인: ${tourDetails}")
     }
-
     private fun putPostTourspot(postTourspot: TourSpot?) {
         Log.d("mobileApp", "putPostTourspot 호출 확인: ${postTourspot!!.name}")
         // 선택된 tour id 추가
@@ -349,6 +345,100 @@ class CreateCourseActivity : AppCompatActivity(), OnDataPassListener {
             restaurantDetails.add(restaurantDetail)
         }
         Log.d("mobileApp", "putPostRestaurant 호출 후 restaurantDetails 확인: ${restaurantDetails}")
+    }
+
+    // [[ jsonData 추가를 "취소"하는 함수들]]
+    private fun outPreTourspot(preTourspot: TourSpot?) {
+        Log.d("mobileApp", "putPreTourspot 호출 확인: ${preTourspot!!.name}")
+        // 선택된 tour id 삭제
+        preTourspot?.let {
+            preHikeTourIds.remove(preTourspot.contentId.toString())
+        }
+        Log.d("mobileApp", "putPreTourspot 호출 후 preHikeTourIds 확인: ${preHikeTourIds}")
+        // 선택된 tour 정보 삭제
+        preTourspot?.let {
+            val tourDetail = JSONObject().apply {
+                put("name", it.name)
+                put("contentId", it.contentId.toString())
+                put("add", it.add)
+                put("img", it.img)
+                put("img2", it.img2)
+                put("mapX", it.mapX.toString())
+                put("mapY", it.mapY.toString())
+                put("tel", it.tel)
+            }
+            tourDetails.remove(tourDetail)
+        }
+        Log.d("mobileApp", "putPreTourspot 호출 후 tourDetails 확인: ${tourDetails}")
+    }
+    private fun outPostTourspot(postTourspot: TourSpot?) {
+        Log.d("mobileApp", "putPostTourspot 호출 확인: ${postTourspot!!.name}")
+        // 선택된 tour id 삭제
+        postTourspot?.let {
+            postHikeTourIds.remove(postTourspot.contentId.toString())
+        }
+        Log.d("mobileApp", "outPostTourspot 호출 후 postHikeTourIds 확인: ${postHikeTourIds}")
+        // 선택된 tour 정보 삭제
+        postTourspot?.let {
+            val tourDetail = JSONObject().apply {
+                put("name", it.name)
+                put("contentId", it.contentId.toString())
+                put("add", it.add)
+                put("img", it.img)
+                put("img2", it.img2)
+                put("mapX", it.mapX.toString())
+                put("mapY", it.mapY.toString())
+                put("tel", it.tel)
+            }
+            tourDetails.remove(tourDetail)
+        }
+        Log.d("mobileApp", "outPostTourspot 호출 후 tourDetails 확인: ${tourDetails}")
+    }
+    private fun outPreRestaurant(preRestaurant: Restaurant?) {
+        Log.d("mobileApp", "outPreRestaurant 호출 확인: ${preRestaurant!!.name}")
+        // 선택된 restaurant id 삭제
+        preRestaurant?.let {
+            preHikeRestaurantIds.remove(preRestaurant.contentId.toString())
+        }
+        Log.d("mobileApp", "outPreRestaurant 호출 후 preHikeRestaurantIds 확인: ${preHikeRestaurantIds}")
+        // 선택된 restaurant 정보 삭제
+        preRestaurant?.let {
+            val restaurantDetail = JSONObject().apply {
+                put("name", it.name)
+                put("contentId", it.contentId.toString())
+                put("add", it.add)
+                put("img", it.img)
+                put("mapX", it.mapX.toString())
+                put("mapY", it.mapY.toString())
+                put("tel", it.tel)
+                put("intro", "")
+            }
+            restaurantDetails.remove(restaurantDetail)
+        }
+        Log.d("mobileApp", "outPreRestaurant 호출 후 restaurantDetails 확인: ${restaurantDetails}")
+    }
+    private fun outPostRestaurant(postRestaurant: Restaurant?) {
+        Log.d("mobileApp", "outPostRestaurant 호출 확인: ${postRestaurant!!.name}")
+        // 선택된 restaurant id 삭제
+        postRestaurant?.let {
+            postHikeRestaurantIds.remove(postRestaurant.contentId.toString())
+        }
+        Log.d("mobileApp", "outPostRestaurant 호출 후 postHikeRestaurantIds 확인: ${postHikeRestaurantIds}")
+        // 선택된 restaurant 정보 삭제
+        postRestaurant?.let {
+            val restaurantDetail = JSONObject().apply {
+                put("name", it.name)
+                put("contentId", it.contentId.toString())
+                put("add", it.add)
+                put("img", it.img)
+                put("mapX", it.mapX.toString())
+                put("mapY", it.mapY.toString())
+                put("tel", it.tel)
+                put("intro", "")
+            }
+            restaurantDetails.remove(restaurantDetail)
+        }
+        Log.d("mobileApp", "outPostRestaurant 호출 후 restaurantDetails 확인: ${restaurantDetails}")
     }
 
 
