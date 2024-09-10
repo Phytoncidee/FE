@@ -32,6 +32,8 @@ import com.example.hikinglog_fe.models.RestaurantLResponse
 import com.example.hikinglog_fe.models.TourSpot
 import com.example.hikinglog_fe.models.TourismLResponse
 import com.example.hikinglog_fe.models.TourspotDetail
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONArray
 import org.json.JSONObject
 import retrofit2.Call
@@ -166,7 +168,7 @@ class CreateCourseActivity : AppCompatActivity(), OnDataPassListener {
             Log.d("mobileApp", "jsonData 확인: $jsonData")
             val call: Call<List<String>> = RetrofitConnection.jsonNetServ.saveCourse(
                 "Bearer $token",
-                jsonData
+                jsonData.toString().toRequestBody("application/json".toMediaTypeOrNull())
             )
 
             // [Retrofit 통신 응답: 마이관광 저장]
@@ -205,103 +207,103 @@ class CreateCourseActivity : AppCompatActivity(), OnDataPassListener {
         PostTourspot = postTourspot
     }
 
-    private fun createJsonData(preTourspot: TourSpot?, postTourspot: TourSpot?, prerestaurant: Restaurant?, postrestaurant: Restaurant?){
+    private fun createJsonData(preTourspot: TourSpot?, postTourspot: TourSpot?, prerestaurant: Restaurant?, postrestaurant: Restaurant?) {
         Log.d("mobileApp", "createJsonData()에서 받은 data 확인: ${preTourspot}, ${postTourspot}, ${prerestaurant}, ${postrestaurant}")
+
         // 기본 정보 채우기
-        if (userId == 0){
+        if (userId == 0) {
             Log.d("mobileApp", "사용자 userId 조회 실패")
         } else {
-            jsonData.put("userId", userId)
+            jsonData.put("userId", userId.toString())
         }
-        jsonData.put("userId", userId)
         jsonData.put("tourTitle", courseName)
         jsonData.put("mountainId", mountain.mntilistno)
 
         // 선택된 tour와 restaurant의 id 추가
-        val preHikeTourIds = JSONArray()
+        val preHikeTourIds = mutableListOf<String>()
         preTourspot?.let {
-            preHikeTourIds.put(preTourspot.contentId.toString())
+            preHikeTourIds.add(preTourspot.contentId.toString())
         }
-        jsonData.put("preHikeTourIds", preHikeTourIds)
+        jsonData.put("preHikeTourIds", JSONArray(preHikeTourIds))
 
-        val postHikeTourIds = JSONArray()
+        val postHikeTourIds = mutableListOf<String>()
         postTourspot?.let {
-            postHikeTourIds.put(postTourspot.contentId.toString())
+            postHikeTourIds.add(postTourspot.contentId.toString())
         }
-        jsonData.put("postHikeTourIds", postHikeTourIds)
+        jsonData.put("postHikeTourIds", JSONArray(postHikeTourIds))
 
-        val preHikeRestaurantIds = JSONArray()
+        val preHikeRestaurantIds = mutableListOf<String>()
         prerestaurant?.let {
-            preHikeRestaurantIds.put(prerestaurant.contentId.toString())
+            preHikeRestaurantIds.add(prerestaurant.contentId.toString())
         }
-        jsonData.put("preHikeRestaurantIds", preHikeRestaurantIds)
+        jsonData.put("preHikeRestaurantIds", JSONArray(preHikeRestaurantIds))
 
-        val postHikeRestaurantIds = JSONArray()
+        val postHikeRestaurantIds = mutableListOf<String>()
         postrestaurant?.let {
-            postHikeRestaurantIds.put(postrestaurant.contentId.toString())
+            postHikeRestaurantIds.add(postrestaurant.contentId.toString())
         }
-        jsonData.put("postHikeRestaurantIds", postHikeRestaurantIds)
+        jsonData.put("postHikeRestaurantIds", JSONArray(postHikeRestaurantIds))
 
         // 선택된 tour와 restaurant 정보 추가
-        val tourDetails = JSONArray()
+        val tourDetails = mutableListOf<TourspotDetail>()
         preTourspot?.let {
-            val tourDetail = JSONObject().apply {
-                put("name", it.name)
-                put("contentId", it.contentId.toString())
-                put("add", it.add)
-                put("img", it.img)
-                put("img2", it.img2)
-                put("mapX", it.mapX.toString())
-                put("mapY", it.mapY.toString())
-                put("tel", it.tel)
-            }
-            tourDetails.put(tourDetail)
+            val tourDetail = TourspotDetail(
+                name = it.name,
+                contentId = it.contentId.toString(),
+                add = it.add,
+                img = it.img,
+                img2 = it.img2,
+                mapX = it.mapX.toString(),
+                mapY = it.mapY.toString(),
+                tel = it.tel
+            )
+            tourDetails.add(tourDetail)
         }
         postTourspot?.let {
-            val tourDetail = JSONObject().apply {
-                put("name", it.name)
-                put("contentId", it.contentId.toString())
-                put("add", it.add)
-                put("img", it.img)
-                put("img2", it.img2)
-                put("mapX", it.mapX.toString())
-                put("mapY", it.mapY.toString())
-                put("tel", it.tel)
-            }
-            tourDetails.put(tourDetail)
+            val tourDetail = TourspotDetail(
+                name = it.name,
+                contentId = it.contentId.toString(),
+                add = it.add,
+                img = it.img,
+                img2 = it.img2,
+                mapX = it.mapX.toString(),
+                mapY = it.mapY.toString(),
+                tel = it.tel
+            )
+            tourDetails.add(tourDetail)
         }
+        jsonData.put("tourDetails", JSONArray(tourDetails))
 
-        val restaurantDetails = JSONArray()
+        val restaurantDetails = mutableListOf<RestaurantDetail>()
         prerestaurant?.let {
-            val restaurantDetail = JSONObject().apply {
-                put("name", it.name)
-                put("contentId", it.contentId.toString())
-                put("add", it.add)
-                put("img", it.img)
-                put("mapX", it.mapX.toString())
-                put("mapY", it.mapY.toString())
-                put("tel", it.tel)
-                put("intro", "")
-
-            }
-            restaurantDetails.put(restaurantDetail)
+            val restaurantDetail = RestaurantDetail(
+                name = it.name,
+                contentId = it.contentId.toString(),
+                add = it.add,
+                img = it.img,
+                mapX = it.mapX.toString(),
+                mapY = it.mapY.toString(),
+                tel = it.tel,
+                intro = ""
+            )
+            restaurantDetails.add(restaurantDetail)
         }
         postrestaurant?.let {
-            val restaurantDetail = JSONObject().apply {
-                put("name", it.name)
-                put("contentId", it.contentId.toString())
-                put("add", it.add)
-                put("img", it.img)
-                put("mapX", it.mapX.toString())
-                put("mapY", it.mapY.toString())
-                put("tel", it.tel)
-                put("intro", "")
-            }
-            restaurantDetails.put(restaurantDetail)
+            val restaurantDetail = RestaurantDetail(
+                name = it.name,
+                contentId = it.contentId.toString(),
+                add = it.add,
+                img = it.img,
+                mapX = it.mapX.toString(),
+                mapY = it.mapY.toString(),
+                tel = it.tel,
+                intro = ""
+            )
+            restaurantDetails.add(restaurantDetail)
         }
-        jsonData.put("tourDetails", tourDetails)
-        jsonData.put("restaurantDetails", restaurantDetails)
+        jsonData.put("restaurantDetails", JSONArray(restaurantDetails))
     }
+
 
 
 

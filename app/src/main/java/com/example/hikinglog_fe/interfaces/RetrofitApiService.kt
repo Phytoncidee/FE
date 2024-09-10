@@ -35,6 +35,7 @@ import com.example.hikinglog_fe.models.RestaurantLResponse
 import com.example.hikinglog_fe.models.Top100Response
 import com.example.hikinglog_fe.models.TourismLResponse
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Response
@@ -307,7 +308,7 @@ interface RetrofitApiService {
     @POST("/api/tour/save")
     fun saveCourse(
         @Header("Authorization") auth: String?,
-        @Body content: JSONObject
+        @Body content: RequestBody
     ): Call<List<String>>
 
     // [마이관광_목록]
