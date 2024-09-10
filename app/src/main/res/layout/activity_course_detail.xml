@@ -98,7 +98,8 @@
                     android:layout_height="150dp"
                     android:layout_gravity="center"
                     android:layout_marginVertical="20dp"
-                    android:src="@drawable/etc_logo" />
+                    android:src="@drawable/etc_logo"
+                    android:id="@+id/mntImg"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"

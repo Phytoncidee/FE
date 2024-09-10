@@ -51,14 +51,14 @@
 
 
                 <!-- 입산 전 위치 선택 -->
-                <Button
+                <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="입산 전 위치 선택"
-                    android:textColor="@color/black"
-                    android:backgroundTint="@color/backgroundblue"
-                    android:id="@+id/befHLocation"
-                    android:layout_margin="10dp"/>
+                    android:src="@drawable/button_beflocation"
+                    android:background="@color/white"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="15dp"
+                    android:id="@+id/befHLocation"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -111,14 +111,14 @@
                     android:textSize="20dp" />
 
                 <!-- 하산 후 위치 선택 -->
-                <Button
+                <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="하산 후 위치 선택"
-                    android:textColor="@color/black"
-                    android:backgroundTint="@color/backgroundblue"
-                    android:id="@+id/aftHLocation"
-                    android:layout_margin="10dp"/>
+                    android:src="@drawable/button_aftlocation"
+                    android:background="@color/white"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="15dp"
+                    android:id="@+id/aftHLocation"/>
 
                 <TextView
                     android:layout_width="wrap_content"

@@ -44,14 +44,14 @@ class Top100Adapter(val context: Context, val datas:MutableList<Top100Item>?, pr
         // [[산 클릭 시 산 상세로 이동]]
         binding.root.setOnClickListener {
             // [Top100 산 이름, 코드 =>  산 상세 api로 Mountian Data Class 얻어오기]
-            // [Retrofit 통신 요청: 숙소 목록 검색]
+            // [Retrofit 통신 요청: 산 상세]
             Log.d("mobileApp", "Mountian 얻어올 데이터 있는지 확인: ${model.frtrlNm}/${model.mtnCd}/${model.addrNm}")
             val call: Call<MountainDetailResponse> = RetrofitConnection.jsonNetServ.getMountainDetail(
                 "Bearer $token",
                 model.frtrlNm,
                 model.mtnCd
             )
-            // [Retrofit 통신 응답: 숙소 목록 검색]
+            // [Retrofit 통신 응답: 산 상세]
             call.enqueue(object : Callback<MountainDetailResponse> {
                 override fun onResponse(call: Call<MountainDetailResponse>, response: Response<MountainDetailResponse>) {
                     if (response.isSuccessful) {

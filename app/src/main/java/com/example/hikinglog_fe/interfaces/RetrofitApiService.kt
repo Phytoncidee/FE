@@ -15,10 +15,10 @@ import com.example.hikinglog_fe.models.EShopBookmarkPostResponse
 import com.example.hikinglog_fe.models.EquipmentShopLResponse
 import com.example.hikinglog_fe.models.GetRegionTop100Response
 import com.example.hikinglog_fe.models.MBookmarkGetResponse
-import com.example.hikinglog_fe.models.MImageResponse
 import com.example.hikinglog_fe.models.MountainDetailResponse
 import com.example.hikinglog_fe.models.MyTourDResponse
 import com.example.hikinglog_fe.models.MyTourLResponse
+import com.example.hikinglog_fe.models.NationalMountainsImageResponse
 import com.example.hikinglog_fe.models.NationalMountainsResponse
 import com.example.hikinglog_fe.models.PostAccommodationBMDTO
 import com.example.hikinglog_fe.models.PostEShopBMDTO
@@ -86,7 +86,7 @@ interface RetrofitApiService {
     fun getMountainImage(
         @Header("Authorization") auth: String?,
         @Path("mountain_Code") mCode: String?
-    ): Call<MImageResponse>
+    ): Call<NationalMountainsImageResponse>
 
     // [산 즐겨찾기 조회]
     @GET("/api/bookmarks/mountain")
@@ -324,7 +324,7 @@ interface RetrofitApiService {
         @Header("Authorization") auth: String?,
         @Path("tourId") tourId: Int?,
         @Query("status") status: String?
-    ): Call<Response<Void>>
+    ): Call<String>
 
     // [마이관광_상세]
     @GET("/api/tour/details/{tourId}")

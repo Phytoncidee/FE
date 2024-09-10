@@ -227,6 +227,7 @@ class CreateCourseActivity : AppCompatActivity(), OnDataPassListener {
         }
         jsonData.put("tourTitle", courseName)
         jsonData.put("mountainId", mountain.mntilistno)
+        jsonData.put("mountainName", mountain.mntiname)
 
         // data 확인
         Log.d("mobileApp", "preHikeTourIds: ${preHikeTourIds}")
@@ -315,7 +316,6 @@ class CreateCourseActivity : AppCompatActivity(), OnDataPassListener {
                 put("mapX", it.mapX.toString())
                 put("mapY", it.mapY.toString())
                 put("tel", it.tel)
-                put("intro", "")
             }
             restaurantDetails.add(restaurantDetail)
         }
@@ -339,7 +339,6 @@ class CreateCourseActivity : AppCompatActivity(), OnDataPassListener {
                 put("mapX", it.mapX.toString())
                 put("mapY", it.mapY.toString())
                 put("tel", it.tel)
-                put("intro", "")
 
             }
             restaurantDetails.add(restaurantDetail)
@@ -411,7 +410,6 @@ class CreateCourseActivity : AppCompatActivity(), OnDataPassListener {
                 put("mapX", it.mapX.toString())
                 put("mapY", it.mapY.toString())
                 put("tel", it.tel)
-                put("intro", "")
             }
             restaurantDetails.remove(restaurantDetail)
         }
@@ -434,7 +432,6 @@ class CreateCourseActivity : AppCompatActivity(), OnDataPassListener {
                 put("mapX", it.mapX.toString())
                 put("mapY", it.mapY.toString())
                 put("tel", it.tel)
-                put("intro", "")
             }
             restaurantDetails.remove(restaurantDetail)
         }
