@@ -135,8 +135,14 @@ class CourseDetailActivity : AppCompatActivity() {
                                 binding.mntAdd.text = mountain.mntiadd
                                 binding.mntHigh.text = "${mountain.mntihigh}m"
 
+                                // 실시간 등산기록
                                 binding.BtnRecordNow.setOnClickListener {
-                                    // 효민!! 여기야!!!!!!!!!!
+                                    val context = binding.root.context
+                                    val intent = Intent(context, LiveRecordActivity::class.java).apply{
+                                        putExtra("name", mountain!!.mntiname)
+                                        putExtra("number", mountain!!.mntilistno)
+                                    }
+                                    startActivity(intent)
                                 }
                             } else {
                                 // 오류 처리

@@ -29,9 +29,6 @@
             android:name=".LiveRecordActivity"
             android:exported="false" />
         <activity
-            android:name=".utils.LiveRecordActivity"
-            android:exported="false" />
-        <activity
             android:name=".MapLocationActivity"
             android:exported="false" />
         <activity
