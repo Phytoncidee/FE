@@ -7,12 +7,14 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.hikinglog_fe.adapter.CommentAdapter
 import com.example.hikinglog_fe.adapter.MyToursAdapter
 import com.example.hikinglog_fe.adapter.RestaurantAdapter
@@ -20,9 +22,11 @@ import com.example.hikinglog_fe.adapter.TourDRestaurantAdapter
 import com.example.hikinglog_fe.adapter.TourDTourspotAdapter
 import com.example.hikinglog_fe.databinding.ActivityAccommodationDetailBinding
 import com.example.hikinglog_fe.databinding.ActivityCourseDetailBinding
-import com.example.hikinglog_fe.models.CommentsGetResponse
+import com.example.hikinglog_fe.models.Mountain
+import com.example.hikinglog_fe.models.MountainDetailResponse
 import com.example.hikinglog_fe.models.MyTourDResponse
 import com.example.hikinglog_fe.models.MyTourLResponse
+import com.example.hikinglog_fe.models.NationalMountainsImageResponse
 import com.example.hikinglog_fe.models.PostLikeCommentResponse
 import retrofit2.Call
 import retrofit2.Callback
@@ -32,6 +36,7 @@ class CourseDetailActivity : AppCompatActivity() {
     private lateinit var binding : ActivityCourseDetailBinding
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var token: String
+    private var imageUrl: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCourseDetailBinding.inflate(layoutInflater)
@@ -69,8 +74,81 @@ class CourseDetailActivity : AppCompatActivity() {
                     binding.befTourRecyclerView.addItemDecoration(DividerItemDecoration(this@CourseDetailActivity, LinearLayoutManager.VERTICAL))
 
                     // <<산 정보 표시>> (사진, 소재지, 높이, 실시간 등산 기록)
+                    // >> 산 상세 정보 얻어오기
+                    // [Retrofit 통신 요청: 산 상세]
+                    val call: Call<MountainDetailResponse> = RetrofitConnection.jsonNetServ.getMountainDetail(
+                        "Bearer $token",
+                        response.body()!!.mountainName,
+                        response.body()!!.mountainId.toString()
+                    )
+                    // [Retrofit 통신 응답: 산 상세]
+                    call.enqueue(object : Callback<MountainDetailResponse> {
+                        override fun onResponse(call: Call<MountainDetailResponse>, response: Response<MountainDetailResponse>) {
+                            if (response.isSuccessful) {
+                                Log.d("mobileApp", "getMountainDetail: $response")
+                                val data = response.body()!!.data
+                                val mountain = Mountain(
+                                    mntiadd = data.mntiadd,
+                                    mntiadmin = data.mntiadmin,
+                                    mntiadminnum = data.mntiadminnum,
+                                    mntidetails = data.mntidetails,
+                                    mntihigh = data.mntihigh,
+                                    mntilistno = data.mntilistno,
+                                    mntiname = data.mntiname,
+                                    mntinfdt = data.mntinfdt,
+                                    mntisname = data.mntisname,
+                                    mntisummary = data.mntisummary,
+                                    mntitop = data.mntitop
+                                )
+                                // >> 가져온 산 정보 넣어주기
+                                // [Retrofit 통신 요청: 산 이미지]
+                                val call: Call<NationalMountainsImageResponse> = RetrofitConnection.jsonNetServ.getMountainImage(
+                                    "Bearer $token",
+                                    mountain.mntilistno.toString()
+                                )
+                                // [Retrofit 통신 응답: 산 이미지]
+                                call.enqueue(object : Callback<NationalMountainsImageResponse> {
+                                    override fun onResponse(call: Call<NationalMountainsImageResponse>, response: Response<NationalMountainsImageResponse>) {
+                                        if (response.isSuccessful) {
+                                            val responseBody = response.body()
+                                            if (responseBody != null) {
+                                                val images = responseBody.response?.body?.items?.item
+                                                if (!images.isNullOrEmpty()) {
+                                                    // 이미지 URL을 설정
+                                                    imageUrl = "https://www.forest.go.kr/images/data/down/mountain/${images[0].imgfilename}"
+                                                    Glide.with(binding.root.context)
+                                                        .load(imageUrl)
+                                                        .error(R.drawable.etc_default_mountain) // 로드 실패 시 이미지
+                                                        .into(binding.mntImg)
+                                                }
+                                            }
+                                        } else {
+                                            // 오류 처리
+                                            Log.e("mobileApp", "getMountainDetail Error: ${response.code()}")
+                                        }
+                                    }
+                                    override fun onFailure(call: Call<NationalMountainsImageResponse>, t: Throwable) {
+                                        // 네트워크 오류 처리
+                                        Log.e("mobileApp", "Failed to fetch data(getMountainDetail)", t)
+                                    }
+                                })
+                                binding.mntAdd.text = mountain.mntiadd
+                                binding.mntHigh.text = "${mountain.mntihigh}m"
 
-                    
+                                binding.BtnRecordNow.setOnClickListener {
+                                    // 효민!! 여기야!!!!!!!!!!
+                                }
+                            } else {
+                                // 오류 처리
+                                Log.e("mobileApp", "getMountainDetail Error: ${response.code()}")
+                            }
+                        }
+                        override fun onFailure(call: Call<MountainDetailResponse>, t: Throwable) {
+                            // 네트워크 오류 처리
+                            Log.e("mobileApp", "Failed to fetch data(getMountainDetail)", t)
+                        }
+                    })
+
                     // <<하산 후 음식점, 관광지 리사이클러뷰에 표시>>
                     binding.aftRestaurantRecyclerView.layoutManager = LinearLayoutManager(this@CourseDetailActivity)
                     binding.aftRestaurantRecyclerView.adapter = TourDRestaurantAdapter(this@CourseDetailActivity, response.body()!!.postHikeRestaurant, token)

@@ -65,15 +65,15 @@ class MyToursAdapter(val context: Context, val datas:List<MyTourLResponse>?, val
                 status = "PREPARING"
                 binding.mytourismState.setImageResource(R.drawable.button_planned)
                 // [Retrofit 통신 요청: 마이 관광 상태변화]
-                val call: Call<Response<Void>> = RetrofitConnection.jsonNetServ.putStatus(
+                val call: Call<String> = RetrofitConnection.jsonNetServ.putStatus(
                     "Bearer $token",
                     model.tourId,
                     "PREPARING"
                     )
 
                 // [Retrofit 통신 응답: 마이 관광 상태변화]
-                call.enqueue(object : Callback<Response<Void>> {
-                    override fun onResponse(call: Call<Response<Void>>, response: Response<Response<Void>>) {
+                call.enqueue(object : Callback<String> {
+                    override fun onResponse(call: Call<String>, response: Response<String>) {
 
                         if (response.isSuccessful) {
                             Log.d("mobileApp", "putStatus: $response")
@@ -82,7 +82,7 @@ class MyToursAdapter(val context: Context, val datas:List<MyTourLResponse>?, val
                             Log.e("mobileApp", "putStatus Error: ${response.code()}, Error Body: ${errorBody}")
                         }
                     }
-                    override fun onFailure(call: Call<Response<Void>>, t: Throwable) {
+                    override fun onFailure(call: Call<String>, t: Throwable) {
                         // 네트워크 오류 처리
                         Log.e("mobileApp", "Failed to fetch data(putStatus)", t)
                     }
@@ -92,14 +92,14 @@ class MyToursAdapter(val context: Context, val datas:List<MyTourLResponse>?, val
                 status = "COMPLETED"
                 binding.mytourismState.setImageResource(R.drawable.button_complete)
                 // [Retrofit 통신 요청: 마이 관광 상태변화]
-                val callC: Call<Response<Void>> = RetrofitConnection.jsonNetServ.putStatus(
+                val callC: Call<String> = RetrofitConnection.jsonNetServ.putStatus(
                     "Bearer $token",
                     model.tourId,
                     "COMPLETED"
                 )
                 // [Retrofit 통신 응답: 마이 관광 상태변화]
-                callC.enqueue(object : Callback<Response<Void>> {
-                    override fun onResponse(call: Call<Response<Void>>, response: Response<Response<Void>>) {
+                callC.enqueue(object : Callback<String> {
+                    override fun onResponse(call: Call<String>, response: Response<String>) {
                         if (response.isSuccessful) {
                             Log.d("mobileApp", "putStatus: $response")
                         } else {
@@ -107,7 +107,7 @@ class MyToursAdapter(val context: Context, val datas:List<MyTourLResponse>?, val
                             Log.e("mobileApp", "putStatus Error: ${response.code()}, Error Body: ${errorBody}")
                         }
                     }
-                    override fun onFailure(call: Call<Response<Void>>, t: Throwable) {
+                    override fun onFailure(call: Call<String>, t: Throwable) {
                         // 네트워크 오류 처리
                         Log.e("mobileApp", "Failed to fetch data(putStatus)", t)
                     }

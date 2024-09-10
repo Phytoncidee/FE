@@ -7,6 +7,7 @@ data class MyTourDResponse(
     val tourId: Int,
     val tourTitle: String,
     val mountainId: Int,
+    val mountainName: String,
     val preHikeTour: MutableList<MyTourDAccommo>,
     val preHikeRestaurant: MutableList<MyTourDRestaurant>,
     val postHikeTour: MutableList<MyTourDAccommo>,
