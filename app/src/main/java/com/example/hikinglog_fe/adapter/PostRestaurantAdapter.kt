@@ -63,22 +63,22 @@ class PostRestaurantAdapter(val context: Context, private val listener: OnDataPa
 
         // [[리사이클러 뷰 클릭 -> 색 변화 & 데이터 저장해서 넘기기 ]]
         binding.root.setOnClickListener {
+            val postRestaurant = Restaurant(
+                name = model.name,
+                contentId = model.contentId,
+                add = model.add,
+                img = model.img,
+                img2 = model.img2,
+                mapX = model.mapX,
+                mapY = model.mapY,
+                tel = model.tel
+            )
             if (isSelected == false){ //미선택인 상황
                 isSelected = true
                 // 색 변화
                 binding.root.setBackgroundResource(R.color.backgroundblue)
                 binding.BtnResBookmark.setBackgroundResource(R.color.backgroundblue)
                 // >> 데이터 CreateCourseActivity로 넘기기
-                val postRestaurant = Restaurant(
-                    name = model.name,
-                    contentId = model.contentId,
-                    add = model.add,
-                    img = model.img,
-                    img2 = model.img2,
-                    mapX = model.mapX,
-                    mapY = model.mapY,
-                    tel = model.tel
-                )
                 listener.postRestaurantToActivity(postRestaurant)
             }
             else { //선택인 상황에서 취소를 위해 재선택
@@ -86,6 +86,8 @@ class PostRestaurantAdapter(val context: Context, private val listener: OnDataPa
                 // 색 변화
                 binding.root.setBackgroundResource(R.color.backgroundyellow)
                 binding.BtnResBookmark.setBackgroundResource(R.color.backgroundyellow)
+                // >> 취소된 경우 CreateCourseActivity에 알리기
+                listener.CancelpostRestaurantToActivity(postRestaurant)
             }
         }
 

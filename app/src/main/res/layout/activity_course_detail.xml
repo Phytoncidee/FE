@@ -55,11 +55,28 @@
                     android:text="🔆 입산 전 "
                     android:textSize="20dp" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/nanum_square_round_eb"
+                    android:text="🍽️ 음식점 "
+                    android:textSize="20dp" />
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/befRestaurantRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/nanum_square_round_eb"
+                    android:text="🏖️ 관광지 "
+                    android:textSize="20dp" />
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/befTourRecyclerView"
                     android:layout_width="match_parent"
@@ -158,11 +175,28 @@
                     android:text="🍀 하산 후 "
                     android:textSize="20dp" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/nanum_square_round_eb"
+                    android:text="🍽️ 음식점 "
+                    android:textSize="20dp" />
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/aftRestaurantRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/nanum_square_round_eb"
+                    android:text="🏖️ 관광지 "
+                    android:textSize="20dp" />
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/aftTourRecyclerView"
                     android:layout_width="match_parent"

@@ -1,6 +1,8 @@
 package com.example.hikinglog_fe
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -11,14 +13,17 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.hikinglog_fe.adapter.CommentAdapter
 import com.example.hikinglog_fe.adapter.MyToursAdapter
 import com.example.hikinglog_fe.adapter.RestaurantAdapter
 import com.example.hikinglog_fe.adapter.TourDRestaurantAdapter
 import com.example.hikinglog_fe.adapter.TourDTourspotAdapter
 import com.example.hikinglog_fe.databinding.ActivityAccommodationDetailBinding
 import com.example.hikinglog_fe.databinding.ActivityCourseDetailBinding
+import com.example.hikinglog_fe.models.CommentsGetResponse
 import com.example.hikinglog_fe.models.MyTourDResponse
 import com.example.hikinglog_fe.models.MyTourLResponse
+import com.example.hikinglog_fe.models.PostLikeCommentResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -90,30 +95,51 @@ class CourseDetailActivity : AppCompatActivity() {
 
         // [[마이 관광 삭제]]
         binding.BtnDelete.setOnClickListener {
-            // [Retrofit 통신 요청: 마이 관광 삭제]
-            val call: Call<String> = RetrofitConnection.jsonNetServ.deleteMyTour(
-                "Bearer $token",
-                tourId
-            )
-            // [Retrofit 통신 응답: 마이 관광 삭제]
-            call.enqueue(object : Callback<String> {
-                override fun onResponse(call: Call<String>, response: Response<String>) {
-                    if (response.isSuccessful) {
-                        Log.d("mobileApp", "deleteMyTour: $response")
-                        // 삭제 후 메인으로 돌아가기
-                        val intent = Intent(applicationContext, MainActivity::class.java)
-                        startActivity(intent)
-                        true
-                    } else {
-                        val errorBody = response.errorBody()?.string()
-                        Log.e("mobileApp", "deleteMyTour Error: ${response.code()}, Error Body: ${errorBody}")
+            val eventHandler = object: DialogInterface.OnClickListener{ // 다이얼로그에 속하는 버튼에 쓸 클릭 리스너.. 변수로 받아 여러 버튼에 대해 사용
+                override fun onClick(dialog: DialogInterface?, which: Int) { //which에 어떤 버튼 눌렸는지 저장
+                    if (which == DialogInterface.BUTTON_POSITIVE) { //positive 버튼 누른 경우
+                        // >> 삭제
+                        // [Retrofit 통신 요청: 마이 관광 삭제]
+                        val call: Call<String> = RetrofitConnection.jsonNetServ.deleteMyTour(
+                            "Bearer $token",
+                            tourId
+                        )
+                        // [Retrofit 통신 응답: 마이 관광 삭제]
+                        call.enqueue(object : Callback<String> {
+                            override fun onResponse(call: Call<String>, response: Response<String>) {
+                                if (response.isSuccessful) {
+                                    Log.d("mobileApp", "deleteMyTour: $response")
+                                    // 삭제 후 메인으로 돌아가기
+                                    val intent = Intent(applicationContext, MainActivity::class.java)
+                                    startActivity(intent)
+                                    true
+                                } else {
+                                    val errorBody = response.errorBody()?.string()
+                                    Log.e("mobileApp", "deleteMyTour Error: ${response.code()}, Error Body: ${errorBody}")
+                                }
+                            }
+                            override fun onFailure(call: Call<String>, t: Throwable) {
+                                // 네트워크 오류 처리
+                                Log.e("mobileApp", "Failed to fetch data(deleteMyTour)", t)
+                            }
+                        }) // 삭제 <<
+                    }
+                    else if (which == DialogInterface.BUTTON_NEGATIVE) { //negative 버튼 누른 경우
+                        Log.d("mobileapp", "댓글 삭제 취소") //그냥 다이얼로그만 닫음
                     }
                 }
-                override fun onFailure(call: Call<String>, t: Throwable) {
-                    // 네트워크 오류 처리
-                    Log.e("mobileApp", "Failed to fetch data(deleteMyTour)", t)
-                }
-            })
+            }
+            AlertDialog.Builder(this).run(){
+                setTitle("마이 관광 삭제 확인")
+                setIcon(android.R.drawable.ic_dialog_alert)
+
+                setMessage("정말로 삭제하시겠습니까?")
+
+                setPositiveButton("예", eventHandler)
+                setNegativeButton("아니오", eventHandler)
+
+                show()
+            }
         }
     }
 }

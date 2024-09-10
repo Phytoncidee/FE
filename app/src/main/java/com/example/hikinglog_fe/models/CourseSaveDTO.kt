@@ -5,12 +5,12 @@ data class CourseSaveDTO(
     val userId: String,
     val tourTitle: String,
     val mountainId: Int,
-    val preHikeAccomoIds: Array<String>,
-    val preHikeRestaurantIds: Array<String>,
-    val postHikeAccomoIds: Array<String>,
-    val postHikeRestaurantIds: Array<String>,
-    val tourspotDetail: Array<TourspotDetail>,
-    val restaurantDetails: Array<RestaurantDetail>
+    val preHikeTourIds: MutableList<String>,
+    val preHikeRestaurantIds: MutableList<String>,
+    val postHikeTourIds: MutableList<String>,
+    val postHikeRestaurantIds: MutableList<String>,
+    val tourDetails: MutableList<TourspotDetail>,
+    val restaurantDetails: MutableList<RestaurantDetail>
 )
 
 // Tourspot Detail 클래스
