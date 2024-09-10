@@ -50,13 +50,13 @@ class LoginActivity : AppCompatActivity() {
                     response: Response<LoginResponse>
                 ) {
                     val message = response.body()?.message
-                    Log.d("로그인 통신 성공", "메시지: $message")
 
                     when (response.code()) {
                         200 -> {
                             val loginResponse = response.body()
                             // 로그인 성공
                             saveToken(loginResponse?.data) // 토큰 저장
+                            Log.d("로그인 통신 성공", "메시지: $message")
                             showToast("로그인 성공")
                             navigateToMainActivity() // 메인 화면으로 이동
                         }

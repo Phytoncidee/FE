@@ -11,6 +11,7 @@ data class MountainDetailResponse(
     val data: MountainDetail
 )
 
+@Parcelize
 data class MountainDetail(
     val mntiadd: String?,
     val mntiadmin: String?,
@@ -24,7 +25,7 @@ data class MountainDetail(
     val mntisummary: String?,
     val mntitop: String?,
     val mimage: String
-)
+) : Parcelable
 
 data class MountainDetailErrorResponse(
     val timestamp: Timestamp,

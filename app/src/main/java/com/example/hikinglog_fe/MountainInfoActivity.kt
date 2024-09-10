@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.example.hikinglog_fe.databinding.ActivityMountainInfoBinding
 import com.example.hikinglog_fe.interfaces.ApiService
 import com.example.hikinglog_fe.models.Mountain
+import com.example.hikinglog_fe.models.MountainDetail
 import com.example.hikinglog_fe.models.MountainDetailResponse
 import com.example.hikinglog_fe.models.TrailResponse
 import com.example.hikinglog_fe.models.WeatherResponse

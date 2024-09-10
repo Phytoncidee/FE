@@ -76,6 +76,11 @@ class NationalMountainsActivity : AppCompatActivity() {
     }
 
     private fun getMByRegion(index: Int) {
+        if (index == 0) {
+            fetchMountains(token) // "전국" 선택 시 전국 목록 재호출
+            return
+        }
+
         apiService.getMtnByRegion("Bearer $token", index)
             .enqueue(object : Callback<RegionMountainResponse>{
                 override fun onResponse(
@@ -87,7 +92,7 @@ class NationalMountainsActivity : AppCompatActivity() {
                         Log.d("NationalMountainsActivity", "RegionMountains: ${response.body()}")
 
                         binding.allMountainsRecyclerView.layoutManager = LinearLayoutManager(applicationContext)
-                        binding.allMountainsRecyclerView.adapter = RegionAllMtnAdapter(this@NationalMountainsActivity, response.body()!!.data, token)
+                        binding.allMountainsRecyclerView.adapter = RegionAllMtnAdapter(this@NationalMountainsActivity, response.body()!!.data, token, apiService)
                         binding.allMountainsRecyclerView.addItemDecoration(DividerItemDecoration(applicationContext, LinearLayoutManager.VERTICAL))
                     } else {
                         // 오류 처리
