@@ -109,9 +109,15 @@
         <meta-data
             android:name="com.kakao.vectormap.APP_KEY"
             android:value="b054d4aac052e2c90ddc6fee33f06119" />
+
+        <!-- 개발용 구글맵 key -->
+<!--        <meta-data-->
+<!--            android:name="com.google.android.geo.API_KEY"-->
+<!--            android:value="AIzaSyD9g650J2YbbVvb7cmwlLdrceZBHkzFKLM" />-->
+        <!-- 배포용 구글맵 key -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyD9g650J2YbbVvb7cmwlLdrceZBHkzFKLM" />
+            android:value="AIzaSyAqxMoTtHPFIOOdKEcZXbRdqnd4nrpym_A" />
     </application>
 
 </manifest>
