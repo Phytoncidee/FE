@@ -1,35 +1,25 @@
 package com.example.hikinglog_fe.adapter
 
-import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import android.content.Context
 import android.content.DialogInterface
-import android.os.Build
 import android.util.Log
 import android.view.View
-import androidx.annotation.RequiresApi
-import androidx.core.view.isGone
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.example.hikinglog_fe.CommentFragment
 import com.example.hikinglog_fe.R
 import com.example.hikinglog_fe.RetrofitConnection
 import com.example.hikinglog_fe.databinding.ItemPostBinding
-import com.example.hikinglog_fe.models.CommentsGetResponse
 import com.example.hikinglog_fe.models.CommunityPost
 import com.example.hikinglog_fe.models.CommunityPostLResponse
 import com.example.hikinglog_fe.models.PostLikeCommentResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 class MyPostsPostHolder(val binding: ItemPostBinding): RecyclerView.ViewHolder(binding.root)
 class MyPostsAdapter(val context: Context, val datas:MutableList<CommunityPost>?, private val token: String?, private val recyclerView: RecyclerView): RecyclerView.Adapter<RecyclerView.ViewHolder>() {

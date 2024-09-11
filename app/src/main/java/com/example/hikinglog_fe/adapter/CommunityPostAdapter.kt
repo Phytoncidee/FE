@@ -22,7 +22,7 @@ import retrofit2.Response
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class CommunityPostHolder(val binding: ItemPostBinding): RecyclerView.ViewHolder(binding.root)
+class CommunityPostHolder(val binding: com.example.hikinglog_fe.databinding.ItemPostBinding): RecyclerView.ViewHolder(binding.root)
 class CommunityPostAdapter(val context: Context, val datas:MutableList<CommunityPost>?, val fragmentManager: FragmentManager, private val token: String?): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun getItemCount(): Int {
         return datas?.size ?: 0
