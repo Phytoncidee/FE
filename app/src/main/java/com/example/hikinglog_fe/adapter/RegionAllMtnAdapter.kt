@@ -15,6 +15,7 @@ import com.example.hikinglog_fe.models.Mountain
 import com.example.hikinglog_fe.models.MountainDetail
 import com.example.hikinglog_fe.models.MountainDetailResponse
 import com.example.hikinglog_fe.models.MountainsByRegion
+import com.example.hikinglog_fe.models.NationalMountainsImageResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -28,6 +29,8 @@ class RegionAllMtnAdapter(
     private val token: String,
     private val apiService: ApiService
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    private var imageUrl: String? = null
 
     override fun getItemCount(): Int {
         return datas?.size ?: 0
@@ -47,6 +50,43 @@ class RegionAllMtnAdapter(
 
         // 기본 이미지 설정
         binding.mntImg.setImageResource(R.drawable.etc_default_mountain)
+
+        // 이미지 API 호출
+        apiService.getMountainImage("Bearer $token", model.mntilistno.toLong()).enqueue(object :
+            Callback<NationalMountainsImageResponse> {
+            override fun onResponse(
+                call: Call<NationalMountainsImageResponse>,
+                response: Response<NationalMountainsImageResponse>
+            ) {
+                if (response.isSuccessful) {
+                    val responseBody = response.body()
+                    if (responseBody != null) {
+                        val images = responseBody.response?.body?.items?.item
+                        if (!images.isNullOrEmpty()) {
+                            // 이미지 URL을 설정
+                            imageUrl =
+                                "https://www.forest.go.kr/images/data/down/mountain/${images[0].imgfilename}"
+
+                            Log.d("MountainAdapter", "Image URL: $imageUrl")
+
+                            Glide.with(binding.root.context)
+                                .load(imageUrl)
+                                .error(R.drawable.etc_default_mountain) // 로드 실패 시 이미지
+                                .into(binding.mntImg)
+                        }
+                    } else {
+                        Log.e("API_ERROR", "Image response body is null")
+                    }
+                } else {
+                    Log.e("API_ERROR", "Image response code: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<NationalMountainsImageResponse>, t: Throwable) {
+                t.printStackTrace()
+                Log.e("API_ERROR", "Image API failure: ${t.message}")
+            }
+        })
 
         // 산 상세 이동
         binding.root.setOnClickListener {
@@ -79,21 +119,13 @@ class RegionAllMtnAdapter(
                                     mntitop = data.mntitop
                                 )
 
-                                // 이미지 로드
-                                Log.d("RegionAllMtnAdapter", "Image URL: ${data.mimage}")
-                                Glide.with(binding.root.context)
-                                    .load(data.mimage)
-                                    .error(R.drawable.etc_default_mountain) // 로드 실패 시 이미지
-                                    .into(binding.mntImg)
-
                                 Log.d("RegionAllMtnAdapter", "Mountain data: $mountain")
 
                                 // MountainInfoActivity로 이동
                                 val intent =
                                     Intent(context, MountainInfoActivity::class.java).apply {
                                         putExtra("mountain", mountain)
-                                        putExtra("image_url", data.mimage)
-
+                                        putExtra("image_url", imageUrl)
                                     }
                                 context.startActivity(intent)
                             } else {
