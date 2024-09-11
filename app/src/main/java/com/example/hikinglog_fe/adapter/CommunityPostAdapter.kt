@@ -32,8 +32,6 @@ class CommunityPostAdapter(val context: Context, val datas:MutableList<Community
         return CommunityPostHolder(ItemPostBinding.inflate(LayoutInflater.from(parent.context),parent,false))
     }
 
-//    @RequiresApi(Build.VERSION_CODES.O)
-//    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val binding = (holder as CommunityPostHolder).binding
         val model = datas!![position]
@@ -54,6 +52,7 @@ class CommunityPostAdapter(val context: Context, val datas:MutableList<Community
         }
 
         if (model.image != "") {
+            Log.d("mobileApp", "커뮤니티 글 이미지 표시: ${model.image}")
             // <커뮤니티 글 이미지 표시(Glide)>
             Glide.with(binding.root)
                 .load("${model.image}")

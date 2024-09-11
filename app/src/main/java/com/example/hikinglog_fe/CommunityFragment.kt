@@ -105,6 +105,7 @@ class CommunityFragment : Fragment() {
     override fun onStart() { //작성한 게시물 포함 커뮤니티 목록 다시 불러오기
         super.onStart()
 
+        Log.d("mobileApp", "커뮤니티 글 등록 후 목록 재요청")
         // [Retrofit 통신 요청: 커뮤니티 글 목록]
         val call: Call<CommunityPostLResponse> = RetrofitConnection.jsonNetServ.getPostList(
             "Bearer $token",
@@ -124,9 +125,7 @@ class CommunityFragment : Fragment() {
                     binding.communityRecyclerView.adapter = CommunityPostAdapter(context!!, response.body()!!.data.boardList, childFragmentManager, token)
                     binding.communityRecyclerView.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
 
-                } else {
-                    // 오류 처리
-//                    Log.e("mobileApp", "getPostList Error: ${response.code()}")
+                } else { // 오류 처리
                     val errorBody = response.errorBody()?.string()
                     Log.e("mobileApp", "getPostList Error: ${response.code()}, Error Body: ${errorBody}")
                 }

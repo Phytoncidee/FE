@@ -47,8 +47,8 @@
             android:id="@+id/post_image"
             android:layout_width="match_parent"
             android:layout_height="400dp"
-            android:background="@color/lightgray"
-            android:src="@drawable/etc_default_image" />
+            android:background="@color/backgroundyellow"
+            android:src="@drawable/etc_default_mountain" />
 
         <!-- 좋아요, 댓글 -->
         <LinearLayout
