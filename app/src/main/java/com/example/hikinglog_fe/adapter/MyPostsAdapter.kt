@@ -58,6 +58,8 @@ class MyPostsAdapter(val context: Context, val datas:MutableList<CommunityPost>?
                 .load(model.userImage)
                 .override(100, 100) // 이미지 크기 조정
                 .into(binding.postUserprofile)
+        } else {
+            binding.postUserprofile.setImageResource(R.drawable.etc_default_profile)
         }
 
         if (model.image != "") {
@@ -66,6 +68,8 @@ class MyPostsAdapter(val context: Context, val datas:MutableList<CommunityPost>?
                 .load(model.image)
                 .override(400, 400) // 이미지 크기 조정
                 .into(binding.postImage)
+        } else {
+            binding.postImage.setImageResource(R.drawable.etc_default_mountain)
         }
 
         // [[좋아요]]
