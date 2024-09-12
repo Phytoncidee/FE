@@ -58,16 +58,16 @@ class NationalMountainsActivity : AppCompatActivity() {
 
         binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                if (position == 0) {
-                    // "전국" 선택 시 전국 목록 재호출
-                    fetchMountains(token)
-                } else if (position in 1..16) {
-                    // 지역 선택 시 지역별 산 목록 호출
-                    getMByRegion(position)
-                }
-//                if (position in 0..16) {
+//                if (position == 0) {
+//                    // "전국" 선택 시 전국 목록 재호출
+//                    fetchMountains(token)
+//                } else if (position in 1..16) {
+//                    // 지역 선택 시 지역별 산 목록 호출
 //                    getMByRegion(position)
 //                }
+                if (position in 0..16) {
+                    getMByRegion(position)
+                }
             }
             override fun onNothingSelected(parent: AdapterView<*>) {
 
