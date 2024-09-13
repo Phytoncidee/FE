@@ -123,6 +123,7 @@
                     android:layout_gravity="center"
                     android:orientation="vertical"
                     android:layout_marginTop="10dp"
+                    app:layout_constraintWidth_percent="0.9"
                     android:background="@drawable/xml_mountain_info_district">
 
                     <TextView
@@ -164,6 +165,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_marginTop="20dp"
+                    app:layout_constraintWidth_percent="0.9"
                     android:padding="10dp"
                     android:layout_gravity="center"
                     android:layout_marginBottom="20dp">
@@ -202,6 +204,7 @@
                     android:layout_height="140dp"
                     android:layout_gravity="center"
                     android:orientation="vertical"
+                    app:layout_constraintWidth_percent="0.9"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/xml_mountain_info_district">
 
@@ -256,6 +259,7 @@
                     android:layout_marginBottom="20dp"
                     android:background="@drawable/xml_weather"
                     android:orientation="vertical"
+                    app:layout_constraintWidth_percent="0.9"
                     android:padding="20dp">
 
                     <TextView

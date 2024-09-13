@@ -56,6 +56,7 @@
                     android:layout_gravity="bottom"
                     android:layout_marginTop="40dp"
                     android:hint="이름을 입력해주세요."
+                    android:textColor="@color/black"
                     android:background="@drawable/edit_text_box"
                     android:inputType="text" />
             </FrameLayout>
@@ -152,6 +153,7 @@
                         android:padding="8dp"
                         android:background="@drawable/edit_text_box"
                         android:hint="이메일을 입력해주세요."
+                        android:textColor="@color/black"
                         android:inputType="text" />
                 </LinearLayout>
             </FrameLayout>
@@ -180,6 +182,7 @@
                     android:layout_marginTop="40dp"
                     android:background="@drawable/edit_text_box"
                     android:hint="비밀번호를 입력해주세요."
+                    android:textColor="@color/black"
                     android:inputType="textPassword" />
             </FrameLayout>
 
@@ -207,6 +210,7 @@
                     android:layout_marginTop="40dp"
                     android:background="@drawable/edit_text_box"
                     android:hint="비밀번호를 입력해주세요."
+                    android:textColor="@color/black"
                     android:inputType="textPassword" />
             </FrameLayout>
 
@@ -233,7 +237,8 @@
                     android:layout_gravity="bottom"
                     android:layout_marginTop="40dp"
                     android:background="@drawable/edit_text_box"
-                    android:hint="전화번호를 입력해주세요." />
+                    android:hint="전화번호를 입력해주세요."
+                    android:textColor="@color/black" />
             </FrameLayout>
 
             <CheckBox
@@ -243,7 +248,7 @@
                 android:layout_marginTop="15dp"
                 android:text="개인정보 수집 및 이용에 동의"
                 android:textSize="16sp"
-                android:checked="true" />
+                android:paddingStart="10dp" />
 
             <CheckBox
                 android:id="@+id/checkboxLocation"
@@ -251,7 +256,8 @@
                 android:layout_height="wrap_content"
                 android:enabled="true"
                 android:text="위치 정보 수집 및 이용에 동의"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:paddingStart="10dp" />
 
             <Button
                 android:id="@+id/btnRegister"

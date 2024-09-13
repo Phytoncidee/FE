@@ -11,13 +11,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.hikinglog_fe.MountainInfoActivity
+import com.example.hikinglog_fe.R
 import com.example.hikinglog_fe.databinding.ItemMountainBinding
 import com.example.hikinglog_fe.interfaces.ApiService
+import com.example.hikinglog_fe.models.Mountain
 import com.example.hikinglog_fe.models.MountainBookmarkItem
 import com.example.hikinglog_fe.models.MountainAddBookmarkRequest
 import com.example.hikinglog_fe.models.MountainAddBookmarkResponse
 import com.example.hikinglog_fe.models.MountainCheckBookmarkResponse
 import com.example.hikinglog_fe.models.MountainDeleteBookmarkResponse
+import com.example.hikinglog_fe.models.MountainDetailResponse
+import com.example.hikinglog_fe.models.NationalMountainsImageResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -25,6 +29,8 @@ import retrofit2.Response
 class BookMarkMountainHolder(val binding: ItemMountainBinding): RecyclerView.ViewHolder(binding.root)
 
 class BookMarkMountainAdapter(val context: Context, val datas:MutableList<MountainBookmarkItem>?, private val token: String?, private val recyclerView: RecyclerView,  private val apiService: ApiService): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    private var imageUrl: String? = null
 
     override fun getItemCount(): Int {
         return datas?.size ?: 0
@@ -44,21 +50,102 @@ class BookMarkMountainAdapter(val context: Context, val datas:MutableList<Mounta
         binding.mntihigh.text = model.mntiHigh.toString()
 
 
-        if (model.image != "") {
-            // <숙박시설 이미지 표시(Glide)>
-            Glide.with(binding.root)
-                .load("${model.image}")
-                .override(100, 100) // 이미지 크기 조정
-                .into(binding.mntImg)
-        }
+        // 기본 이미지 설정
+        binding.mntImg.setImageResource(R.drawable.etc_default_mountain)
 
-        // 산 상세 페이지로 이동
-//        binding.root.setOnClickListener {
-//            Intent(context, MountainInfoActivity::class.java).apply {
-//                putExtra("name", model.name)
-//                putExtra("listno", model.mntilistno)
-//            }.run { context.startActivity(this) }
-//        }
+        // 이미지 API 호출
+        apiService.getMountainImage("Bearer $token", model.mntilistno.toLong()).enqueue(object :
+            Callback<NationalMountainsImageResponse> {
+            override fun onResponse(
+                call: Call<NationalMountainsImageResponse>,
+                response: Response<NationalMountainsImageResponse>
+            ) {
+                if (response.isSuccessful) {
+                    val responseBody = response.body()
+                    if (responseBody != null) {
+                        val images = responseBody.response?.body?.items?.item
+                        if (!images.isNullOrEmpty()) {
+                            // 이미지 URL을 설정
+                            imageUrl =
+                                "https://www.forest.go.kr/images/data/down/mountain/${images[0].imgfilename}"
+
+                            Log.d("MountainAdapter", "Image URL: $imageUrl")
+
+                            Glide.with(binding.root.context)
+                                .load(imageUrl)
+                                .error(R.drawable.etc_default_mountain) // 로드 실패 시 이미지
+                                .into(binding.mntImg)
+                        }
+                    } else {
+                        Log.e("API_ERROR", "Image response body is null")
+                    }
+                } else {
+                    Log.e("API_ERROR", "Image response code: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<NationalMountainsImageResponse>, t: Throwable) {
+                t.printStackTrace()
+                Log.e("API_ERROR", "Image API failure: ${t.message}")
+            }
+        })
+
+        // 산 상세 이동
+        binding.root.setOnClickListener {
+            Log.d(
+                "RegionAllMtnAdapter",
+                "Mountain 얻어올 데이터:  ${model.name}/${model.mntiHigh}/${model.location}"
+            )
+
+            apiService.getMountainDetail("Bearer $token", model.name, model.mntilistno.toString())
+                .enqueue(object : Callback<MountainDetailResponse> {
+                    override fun onResponse(
+                        call: Call<MountainDetailResponse>,
+                        response: Response<MountainDetailResponse>
+                    ) {
+                        if (response.isSuccessful) {
+                            val data = response.body()?.data
+                            if (data != null) {
+                                // Mountain 객체 생성
+                                val mountain = Mountain(
+                                    mntiadd = data.mntiadd,
+                                    mntiadmin = data.mntiadmin,
+                                    mntiadminnum = data.mntiadminnum,
+                                    mntidetails = data.mntidetails,
+                                    mntihigh = data.mntihigh,
+                                    mntilistno = data.mntilistno,
+                                    mntiname = data.mntiname,
+                                    mntinfdt = data.mntinfdt,
+                                    mntisname = data.mntisname,
+                                    mntisummary = data.mntisummary,
+                                    mntitop = data.mntitop
+                                )
+
+                                Log.d("RegionAllMtnAdapter", "Mountain data: $mountain")
+
+                                // MountainInfoActivity로 이동
+                                val intent =
+                                    Intent(context, MountainInfoActivity::class.java).apply {
+                                        putExtra("mountain", mountain)
+                                        putExtra("image_url", imageUrl)
+                                    }
+                                context.startActivity(intent)
+                            } else {
+                                Log.e("RegionAllMtnAdapter", "Response data is null")
+                            }
+                        } else {
+                            Log.e(
+                                "RegionAllMtnAdapter",
+                                "getMountainDetail Error: ${response.code()}"
+                            )
+                        }
+                    }
+
+                    override fun onFailure(call: Call<MountainDetailResponse>, t: Throwable) {
+                        Log.e("RegionAllMtnAdapter", "Failed to fetch mountain detail", t)
+                    }
+                })
+        }
 
 
         // 산 즐겨찾기
