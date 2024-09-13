@@ -120,6 +120,7 @@ class RestaurantActivity : AppCompatActivity() {
 
 
     private fun requestRestaurantList(token: String?, latitude: Double, longitude: Double) {
+        Log.d("mobileApp", "getRestaurantList 데이터 확인: ${token}, ${longitude}, ${latitude}")
         val call: Call<RestaurantLResponse> = RetrofitConnection.jsonNetServ.getRestaurantList(
             "Bearer $token",
             longitude,

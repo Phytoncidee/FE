@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit
 // [Retrofit 객체 생성]
 class RetrofitConnection {
     companion object{ //companion: 전역 변수 형태로 생각
-        private const val BASE_URL = "http://192.168.0.25:8080/"    // http://localhost:8080/
+        private const val BASE_URL = "http://3.39.65.172:8080/"    // http://localhost:8080/
         //private const val BASE_URL = "http://localhost:8080"
 
         //JsonReader.setLeninet(true) 오류 해결
@@ -25,9 +25,9 @@ class RetrofitConnection {
 
         // 크롤링으로 인한 시간 지연 해결(10초 -> 30초)
         val okHttpClient = OkHttpClient.Builder()
-            .connectTimeout(30, TimeUnit.SECONDS)  // 연결 타임아웃
-            .readTimeout(30, TimeUnit.SECONDS)     // 읽기 타임아웃
-            .writeTimeout(30, TimeUnit.SECONDS)    // 쓰기 타임아웃
+            .connectTimeout(100, TimeUnit.SECONDS)  // 연결 타임아웃
+            .readTimeout(100, TimeUnit.SECONDS)     // 읽기 타임아웃
+            .writeTimeout(100, TimeUnit.SECONDS)    // 쓰기 타임아웃
             .build()
 
         // [json 통신 위한 retrofit]
