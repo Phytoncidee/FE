@@ -117,7 +117,7 @@
         <!-- 배포용 구글맵 key -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCvhQezadDCPojY_drDwIdQKKyk48nN2tk" />
+            android:value="${MAPS_API_KEY}" />
     </application>
 
 </manifest>

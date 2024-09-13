@@ -4,6 +4,8 @@ plugins {
     id("kotlin-kapt") // Kotlin Annotation Processing Tool
     id("kotlin-android")
     id("kotlin-parcelize")
+
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
@@ -114,4 +116,8 @@ dependencies {
     // 관광 코스 생성_구글 지도 이용
     implementation("com.google.android.gms:play-services-maps:18.1.0")
     implementation("com.google.android.gms:play-services-location:21.0.1")
+
+    // 로딩 이미지
+    implementation ("com.airbnb.android:lottie:6.0.0")
+
 }

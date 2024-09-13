@@ -21,6 +21,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import android.Manifest
 import android.location.Location
+import android.view.View
 import android.widget.Toast
 import com.example.hikinglog_fe.adapter.AccommodationAdapter
 import com.example.hikinglog_fe.models.AccommodationLResponse
@@ -42,6 +43,10 @@ class RestaurantActivity : AppCompatActivity() {
         // [[FusedLocationProviderClient 초기화]]
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
+        // <로딩 시작>
+        binding.lottieAnimationView.visibility = View.VISIBLE
+        binding.lottieAnimationView.playAnimation()
+
         // [[위치 권한 확인]]
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
             == PackageManager.PERMISSION_GRANTED) { // 위치 권한이 허용된 경우 현재 위치를 가져옴
@@ -55,6 +60,10 @@ class RestaurantActivity : AppCompatActivity() {
         binding.btnSearch.setOnClickListener {
             val keyword = binding.searchEditText.text.toString()
             if (keyword.isNotEmpty()) {
+                // <로딩 시작>
+                binding.lottieAnimationView.visibility = View.VISIBLE
+                binding.lottieAnimationView.playAnimation()
+
                 searchRestaurants(keyword, token)
             } else {
                 Toast.makeText(this, "검색어를 입력하세요.", Toast.LENGTH_SHORT).show()
@@ -74,6 +83,10 @@ class RestaurantActivity : AppCompatActivity() {
         call.enqueue(object : Callback<RestaurantLResponse> {
             override fun onResponse(call: Call<RestaurantLResponse>, response: Response<RestaurantLResponse>) {
                 if (response.isSuccessful) {
+                    // <로딩 종료>
+                    binding.lottieAnimationView.cancelAnimation()
+                    binding.lottieAnimationView.visibility = View.GONE
+
                     Log.d("mobileApp", "getAccommodationList: $response")
 
                     // <리사이클러뷰에 표시>
@@ -130,6 +143,10 @@ class RestaurantActivity : AppCompatActivity() {
         call.enqueue(object : Callback<RestaurantLResponse> {
             override fun onResponse(call: Call<RestaurantLResponse>, response: Response<RestaurantLResponse>) {
                 if (response.isSuccessful) {
+                    // <로딩 종료>
+                    binding.lottieAnimationView.cancelAnimation()
+                    binding.lottieAnimationView.visibility = View.GONE
+
                     Log.d("mobileApp", "getRestaurantList: $response")
 
                     // 리사이클러뷰에 표시
