@@ -237,7 +237,7 @@
                     android:layout_gravity="bottom"
                     android:layout_marginTop="40dp"
                     android:background="@drawable/edit_text_box"
-                    android:hint="전화번호를 입력해주세요."
+                    android:hint="예) 01012341234"
                     android:textColor="@color/black" />
             </FrameLayout>
 
