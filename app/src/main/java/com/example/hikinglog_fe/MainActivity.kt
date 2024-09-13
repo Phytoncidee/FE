@@ -1,6 +1,7 @@
 package com.example.hikinglog_fe
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -14,6 +15,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewbinding.ViewBinding
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.hikinglog_fe.databinding.ActivityMainBinding
+import com.example.hikinglog_fe.models.Mountain
 import com.google.android.material.tabs.TabLayoutMediator
 
 class MainActivity : AppCompatActivity() {
@@ -55,6 +57,7 @@ class MainActivity : AppCompatActivity() {
 
         // [뷰 페이저2]
         binding.viewpager.adapter = MyFragmentPagerAdapter(this) // viewpager 이용해 Fregment activity에 포함시키기 위해 adapter 사용.
+
 
         // [탭 레이아웃 추가]_탭을 이용해 viewpager 좀 더 편리하게
         TabLayoutMediator(binding.tabs, binding.viewpager){ //TabLayoutMediator 사용! - binding에서 탭 레이아웃과 뷰페이저 찾아서 묶음.
