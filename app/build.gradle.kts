@@ -4,6 +4,8 @@ plugins {
     id("kotlin-kapt") // Kotlin Annotation Processing Tool
     id("kotlin-android")
     id("kotlin-parcelize")
+
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
