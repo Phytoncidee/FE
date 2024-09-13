@@ -452,6 +452,10 @@ class CreateCourseActivity : AppCompatActivity(), OnDataPassListener {
                 REQUEST_LOCATION -> { // >> 입산 전 위치에 대한 처리
                     Log.d("mobileApp", "입산 전 위치: latitude: $latitude, longitude: $longitude")
 
+                    // <로딩 시작>
+                    binding.lottieAnimationView.visibility = View.VISIBLE
+                    binding.lottieAnimationView.playAnimation()
+
                     // [[입산 전 음식점]]
                     // [Retrofit 통신 요청: 음식점 목록]
                     val call: Call<RestaurantLResponse> = RetrofitConnection.jsonNetServ.getRestaurantList(
@@ -465,6 +469,7 @@ class CreateCourseActivity : AppCompatActivity(), OnDataPassListener {
                         override fun onResponse(call: Call<RestaurantLResponse>, response: Response<RestaurantLResponse>) {
 
                             if (response.isSuccessful) {
+
                                 Log.d("mobileApp", "getPreRestaurantList: $response")
 
                                 // <리사이클러뷰에 표시>
@@ -498,6 +503,10 @@ class CreateCourseActivity : AppCompatActivity(), OnDataPassListener {
                         override fun onResponse(call: Call<TourismLResponse>, response: Response<TourismLResponse>) {
 
                             if (response.isSuccessful) {
+                                // <로딩 종료>
+                                binding.lottieAnimationView.cancelAnimation()
+                                binding.lottieAnimationView.visibility = View.GONE
+
                                 Log.d("mobileApp", "getTourpList: $response")
 
                                 // <리사이클러뷰에 표시>
@@ -520,6 +529,10 @@ class CreateCourseActivity : AppCompatActivity(), OnDataPassListener {
 
                 REQUEST_LOCATION_AFTER -> { // >> 하산 후 위치에 대한 처리
                     Log.d("mobileApp", "하산 후 위치: latitude: $latitude, longitude: $longitude")
+
+                    // <로딩 시작>
+                    binding.lottieAnimationView2.visibility = View.VISIBLE
+                    binding.lottieAnimationView2.playAnimation()
 
                     // [[하산 후 음식점]]
                     // [Retrofit 통신 요청: 음식점 목록]
@@ -568,6 +581,10 @@ class CreateCourseActivity : AppCompatActivity(), OnDataPassListener {
                         override fun onResponse(call: Call<TourismLResponse>, response: Response<TourismLResponse>) {
 
                             if (response.isSuccessful) {
+                                // <로딩 종료>
+                                binding.lottieAnimationView2.cancelAnimation()
+                                binding.lottieAnimationView2.visibility = View.GONE
+
                                 Log.d("mobileApp", "getTourpList2: $response")
 
                                 // <리사이클러뷰에 표시>
