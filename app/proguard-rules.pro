@@ -22,3 +22,6 @@
 
 -keep class com.kakao.vectormap.** { *; }
 -keep interface com.kakao.vectormap.**
+
+-keep class com.google.android.gms.maps.** { *; }
+-keep interface com.google.android.gms.maps.** { *; }
