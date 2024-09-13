@@ -66,6 +66,10 @@ class RegisterActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            if (binding.editPassword != binding.editRePassword) {
+                showToast("비밀번호를 다시 확인해주세요.")
+            }
+
             val newData = RegisterRequest (
                 email = email,
                 password = password,

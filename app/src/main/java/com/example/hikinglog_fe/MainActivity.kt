@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         // Fragment를 리스트로 가져옴
         val fragments : List<Fragment>
         init{
-            fragments = listOf(HomeFragment(), MyTourismFragment(), MapFragment(), CommunityFragment(), MyPageFragment()) //fragments 초기화
+            fragments = listOf(HomeFragment(), MyTourismFragment(), CommunityFragment(), MyPageFragment()) //fragments 초기화
         }
 
         // override 필수: getItemCount, createFragment
@@ -72,14 +72,10 @@ class MainActivity : AppCompatActivity() {
                     tab.icon = ContextCompat.getDrawable(this, R.drawable.icon_tab_tourism)
                 }
                 2 -> {
-                    tab.text = "지도"
-                    tab.icon = ContextCompat.getDrawable(this, R.drawable.icon_tab_map)
-                }
-                3 -> {
                     tab.text = "커뮤니티"
                     tab.icon = ContextCompat.getDrawable(this, R.drawable.icon_tab_community)
                 }
-                4 -> {
+                3 -> {
                     tab.text = "마이"
                     tab.icon = ContextCompat.getDrawable(this, R.drawable.icon_tab_mypage)
                 }
@@ -91,7 +87,7 @@ class MainActivity : AppCompatActivity() {
         val fragmentToSelect = intent.getStringExtra("fragment")
         if (fragmentToSelect != null) {
             when (fragmentToSelect) {
-                "community" -> binding.viewpager.currentItem = 3 // 커뮤니티 탭으로 이동
+                "community" -> binding.viewpager.currentItem = 2 // 커뮤니티 탭으로 이동
             }
         }
 

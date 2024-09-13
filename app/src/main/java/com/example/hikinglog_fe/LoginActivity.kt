@@ -60,8 +60,16 @@ class LoginActivity : AppCompatActivity() {
                             showToast("로그인 성공")
                             navigateToMainActivity() // 메인 화면으로 이동
                         }
-                        405 -> showToast("로그인 실패: 아이디나 비밀번호가 올바르지 않습니다")
-                        500 -> showToast("로그인 실패: 서버 오류")
+                        401 -> {
+                            // 비밀번호가 틀린 경우
+                            showToast("비밀번호가 틀렸습니다.")
+                            Log.d("로그인 실패", "비밀번호 오류")
+                        }
+                        else -> {
+                            // 그 외의 응답 코드 처리
+                            showToast("로그인에 실패했습니다.")
+                            Log.d("로그인 실패", "코드: ${response.code()}")
+                        }
                     }
                 }
 

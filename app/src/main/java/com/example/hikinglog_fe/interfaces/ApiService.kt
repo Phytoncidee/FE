@@ -147,7 +147,8 @@ interface ApiService {
     ): Call<RegionMountainResponse>
 
     companion object {
-        private const val BASE_URL = "http://3.39.65.172:8080/"    // http://localhost:8080/
+        private const val BASE_URL = "http://3.39.65.172:8080/" //"http://192.168.0.10:8080/" "http://3.39.65.172:8080/"     "http://192.168.0.10:8080/"    // http://localhost:8080/
+
         val gson : Gson =   GsonBuilder().setLenient().create()
 
         private val client: OkHttpClient = OkHttpClient.Builder()
