@@ -11,8 +11,11 @@ class MyApplication : Application() {
         super.onCreate()
 
         var keyHash = Utility.getKeyHash(this)
-        Log.i("GlobalApplication", "$keyHash")
+        Log.i("MyApplication", "$keyHash")
 
-        KakaoMapSdk.init(this, "b054d4aac052e2c90ddc6fee33f06119")
+
+        KakaoMapSdk.init(this, KAKAO_API_KEY)
+
+
     }
 }

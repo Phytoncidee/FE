@@ -49,6 +49,7 @@ android:orientation="vertical">
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_gravity="center"
+                app:layout_constraintWidth_percent="0.9"
                 android:padding="10dp">
 
                 <ImageButton
@@ -57,28 +58,28 @@ android:orientation="vertical">
                     android:src="@drawable/button_mybookmark_mountain"
                     android:background="@color/white"
                     android:id="@+id/BtnMountain"
-                    android:layout_marginHorizontal="15dp"/>
+                    android:layout_marginHorizontal="10dp"/>
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/button_mybookmark_light_restaurant"
                     android:background="@color/white"
                     android:id="@+id/BtnRestaurant"
-                    android:layout_marginHorizontal="15dp"/>
+                    android:layout_marginHorizontal="10dp"/>
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/button_mybookmark_light_accommodation"
                     android:background="@color/white"
                     android:id="@+id/BtnAccommodation"
-                    android:layout_marginHorizontal="15dp"/>
+                    android:layout_marginHorizontal="10dp"/>
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/button_mybookmark_light_equipment"
                     android:background="@color/white"
                     android:id="@+id/BtnEquipment"
-                    android:layout_marginHorizontal="15dp"/>
+                    android:layout_marginHorizontal="10dp"/>
 
             </LinearLayout>
 
