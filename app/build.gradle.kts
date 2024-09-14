@@ -12,11 +12,11 @@ plugins {
 
 android {
 
-    namespace = "com.example.hikinglog_fe"
+    namespace = "com.phytoncidee.hikinglog_fe"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.hikinglog_fe"
+        applicationId = "com.phytoncidee.hikinglog_fe"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
