@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.hikinglog_fe">
+    package="com.phytoncidee.hikinglog_fe">
     <!-- 권한 설정 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -13,7 +13,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".MyApplication"
+        android:name="com.phytoncidee.hikinglog_fe.MyApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -26,16 +26,16 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".LiveRecordActivity"
+            android:name="com.phytoncidee.hikinglog_fe.LiveRecordActivity"
             android:exported="false" />
         <activity
-            android:name=".MapLocationActivity"
+            android:name="com.phytoncidee.hikinglog_fe.MapLocationActivity"
             android:exported="false" />
         <activity
-            android:name=".MyPostsActivity"
+            android:name="com.phytoncidee.hikinglog_fe.MyPostsActivity"
             android:exported="false" />
         <activity
-            android:name=".SplashActivity"
+            android:name="com.phytoncidee.hikinglog_fe.SplashActivity"
             android:exported="true"
             android:theme="@style/SplashTheme">
             <intent-filter>
@@ -45,64 +45,64 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".RestaurantDetailActivity"
+            android:name="com.phytoncidee.hikinglog_fe.RestaurantDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".AccommodationDetailActivity"
+            android:name="com.phytoncidee.hikinglog_fe.AccommodationDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".RealTimeRecordActivity"
+            android:name="com.phytoncidee.hikinglog_fe.RealTimeRecordActivity"
             android:exported="false" />
         <activity
-            android:name=".DirectRecordActivity"
+            android:name="com.phytoncidee.hikinglog_fe.DirectRecordActivity"
             android:exported="false" />
         <activity
-            android:name=".HikingRecordActivity"
+            android:name="com.phytoncidee.hikinglog_fe.HikingRecordActivity"
             android:exported="false" />
         <activity
-            android:name=".MountainInfoActivity"
+            android:name="com.phytoncidee.hikinglog_fe.MountainInfoActivity"
             android:exported="false" />
         <activity
-            android:name=".NationalMountainsActivity"
+            android:name="com.phytoncidee.hikinglog_fe.NationalMountainsActivity"
             android:exported="false" />
         <activity
-            android:name=".HikingCourseActivity"
+            android:name="com.phytoncidee.hikinglog_fe.HikingCourseActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name="com.phytoncidee.hikinglog_fe.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".RegisterActivity"
+            android:name="com.phytoncidee.hikinglog_fe.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".CourseDetailActivity"
+            android:name="com.phytoncidee.hikinglog_fe.CourseDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".CreateCourseActivity"
+            android:name="com.phytoncidee.hikinglog_fe.CreateCourseActivity"
             android:exported="false" />
         <activity
-            android:name=".Top100Activity"
+            android:name="com.phytoncidee.hikinglog_fe.Top100Activity"
             android:exported="false" />
         <activity
-            android:name=".MyBookmarksActivity"
+            android:name="com.phytoncidee.hikinglog_fe.MyBookmarksActivity"
             android:exported="false" />
         <activity
-            android:name=".SafetyGuideActivity"
+            android:name="com.phytoncidee.hikinglog_fe.SafetyGuideActivity"
             android:exported="false" />
         <activity
-            android:name=".AccommodationActivity"
+            android:name="com.phytoncidee.hikinglog_fe.AccommodationActivity"
             android:exported="false" />
         <activity
-            android:name=".RestaurantActivity"
+            android:name="com.phytoncidee.hikinglog_fe.RestaurantActivity"
             android:exported="false" />
         <activity
-            android:name=".EquipmentShopActivity"
+            android:name="com.phytoncidee.hikinglog_fe.EquipmentShopActivity"
             android:exported="false" />
         <activity
-            android:name=".AddPostActivity"
+            android:name="com.phytoncidee.hikinglog_fe.AddPostActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.phytoncidee.hikinglog_fe.MainActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
 
