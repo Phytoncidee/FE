@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
@@ -20,6 +22,10 @@ android {
         versionCode = 1
         versionName = "1.0"
 
+        // 카카오 키 가져오기
+        buildConfigField("String","KAKAO_API_KEY", getApiKey("KAKAO_API_KEY"))
+        manifestPlaceholders["KAKAO_API_KEY"] = getApiKey("KAKAO_API_KEY")
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         ndk {
@@ -30,6 +36,11 @@ android {
         }
 
     }
+
+    buildFeatures {
+        buildConfig = true
+    }
+
 
     buildTypes {
         release {
@@ -52,6 +63,10 @@ android {
     viewBinding{
         enable = true
     }
+}
+
+fun getApiKey(propertyKey: String): String {
+    return gradleLocalProperties(rootDir, providers).getProperty(propertyKey)
 }
 
 dependencies {
