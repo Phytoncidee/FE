@@ -1,14 +1,12 @@
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
-
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     id("kotlin-kapt") // Kotlin Annotation Processing Tool
     id("kotlin-android")
     id("kotlin-parcelize")
+
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
-
-
 
 android {
 
@@ -16,16 +14,11 @@ android {
     compileSdk = 34
 
     defaultConfig {
-
         applicationId = "com.example.hikinglog_fe"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
-        // 카카오 키 가져오기
-        buildConfigField("String","KAKAO_API_KEY", getApiKey("KAKAO_API_KEY"))
-        manifestPlaceholders["KAKAO_API_KEY"] = getApiKey("KAKAO_API_KEY")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -36,10 +29,6 @@ android {
             abiFilters.add("x86_64")
         }
 
-    }
-
-    buildFeatures {
-        buildConfig = true
     }
 
     buildTypes {
@@ -63,10 +52,6 @@ android {
     viewBinding{
         enable = true
     }
-}
-
-fun getApiKey(propertyKey: String): String {
-    return gradleLocalProperties(rootDir, providers).getProperty(propertyKey)
 }
 
 dependencies {
@@ -131,5 +116,8 @@ dependencies {
     // 관광 코스 생성_구글 지도 이용
     implementation("com.google.android.gms:play-services-maps:18.1.0")
     implementation("com.google.android.gms:play-services-location:21.0.1")
-}
 
+    // 로딩 이미지
+    implementation ("com.airbnb.android:lottie:6.0.0")
+
+}

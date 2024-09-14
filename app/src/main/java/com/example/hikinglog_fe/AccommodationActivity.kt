@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -40,9 +41,14 @@ class AccommodationActivity : AppCompatActivity() {
         // [[FusedLocationProviderClient 초기화]]
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
+        // <로딩 시작>
+        binding.lottieAnimationView.visibility = View.VISIBLE
+        binding.lottieAnimationView.playAnimation()
+
         // [[위치 권한 확인]]
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
             == PackageManager.PERMISSION_GRANTED) { // 위치 권한이 허용된 경우 현재 위치를 가져옴
+
             getCurrentLocation(token)
         } else { // 위치 권한 요청
             ActivityCompat.requestPermissions(this,
@@ -54,6 +60,10 @@ class AccommodationActivity : AppCompatActivity() {
         binding.btnSearch.setOnClickListener {
             val keyword = binding.searchEditText.text.toString()
             if (keyword.isNotEmpty()) {
+                // <로딩 시작>
+                binding.lottieAnimationView.visibility = View.VISIBLE
+                binding.lottieAnimationView.playAnimation()
+
                 searchAccommodations(keyword, token)
             } else {
                 Toast.makeText(this, "검색어를 입력하세요.", Toast.LENGTH_SHORT).show()
@@ -73,6 +83,10 @@ class AccommodationActivity : AppCompatActivity() {
         call.enqueue(object : Callback<AccommodationLResponse> {
             override fun onResponse(call: Call<AccommodationLResponse>, response: Response<AccommodationLResponse>) {
                 if (response.isSuccessful) {
+                    // <로딩 종료>
+                    binding.lottieAnimationView.cancelAnimation()
+                    binding.lottieAnimationView.visibility = View.GONE
+
                     Log.d("mobileApp", "getAccommodationList: $response")
 
                     // <리사이클러뷰에 표시>
@@ -104,6 +118,7 @@ class AccommodationActivity : AppCompatActivity() {
                         Log.d("mobileApp", "현재 사용자 위치 정보: $latitude, $longitude")
 
                         // Retrofit 통신 요청: 음식점 목록
+
                         requestAccommodationList(token, latitude, longitude)
                     } else {
                         Log.e("mobileApp", "Location is null")
@@ -119,6 +134,7 @@ class AccommodationActivity : AppCompatActivity() {
 
 
     private fun requestAccommodationList(token: String?, latitude: Double, longitude: Double) {
+
         // [Retrofit 통신 요청: 등산용품점 목록]
         val call: Call<AccommodationLResponse> = RetrofitConnection.jsonNetServ.getAccommodationList(
             "Bearer $token",
@@ -131,6 +147,10 @@ class AccommodationActivity : AppCompatActivity() {
             override fun onResponse(call: Call<AccommodationLResponse>, response: Response<AccommodationLResponse>) {
 
                 if (response.isSuccessful) {
+                    // <로딩 종료>
+                    binding.lottieAnimationView.cancelAnimation()
+                    binding.lottieAnimationView.visibility = View.GONE
+
                     Log.d("mobileApp", "getAccommodationList: $response")
 
                     // <리사이클러뷰에 표시>

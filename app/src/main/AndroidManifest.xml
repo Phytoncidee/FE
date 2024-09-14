@@ -106,14 +106,18 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
 
-        <!--카카오-->
         <meta-data
             android:name="com.kakao.vectormap.APP_KEY"
-            android:value="${KAKAO_API_KEY}" />
+            android:value="b054d4aac052e2c90ddc6fee33f06119" />
 
+        <!-- 개발용 구글맵 key -->
+<!--        <meta-data-->
+<!--            android:name="com.google.android.geo.API_KEY"-->
+<!--            android:value="AIzaSyD9g650J2YbbVvb7cmwlLdrceZBHkzFKLM" />-->
+        <!-- 배포용 구글맵 key -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyD9g650J2YbbVvb7cmwlLdrceZBHkzFKLM" />
+            android:value="${MAPS_API_KEY}" />
     </application>
 
 </manifest>
