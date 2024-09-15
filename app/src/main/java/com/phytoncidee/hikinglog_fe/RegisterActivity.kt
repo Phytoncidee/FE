@@ -29,11 +29,15 @@ class RegisterActivity : AppCompatActivity() {
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // 기본 날짜 설정 (초기화)
+        val calendar = Calendar.getInstance()
+        calendar.set(2000, 0, 1) // 2000년 1월 1일
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        selectedDate = dateFormat.format(calendar.time) // 기본값으로 설정
+
         binding.spinnerBirth.init(2000, 0, 1) { view, year, monthOfYear, dayOfMonth ->
             // 날짜를 yyyy-MM-dd 형식으로 변환
-            val calendar = Calendar.getInstance()
             calendar.set(year, monthOfYear, dayOfMonth)
-            val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
             selectedDate = dateFormat.format(calendar.time)
         }
 
@@ -59,8 +63,9 @@ class RegisterActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            if (binding.editPassword != binding.editRePassword) {
+            if (password != password2) {
                 showToast("비밀번호를 다시 확인해주세요.")
+                return@setOnClickListener
             }
 
             val newData = RegisterRequest (
@@ -88,6 +93,7 @@ class RegisterActivity : AppCompatActivity() {
                         Log.d("RegisterResponse", registerResponse.toString())
                         if (registerResponse != null && registerResponse.status == 200) {
                             showToast("회원가입에 성공했습니다.")
+                            Log.d("회원가입 정보", "${newData}")
 
                             // LoginActivity로 이동
                             val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
