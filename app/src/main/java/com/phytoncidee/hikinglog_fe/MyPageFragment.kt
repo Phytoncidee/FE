@@ -1,21 +1,23 @@
 package com.phytoncidee.hikinglog_fe
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.phytoncidee.hikinglog_fe.databinding.FragmentMyPageBinding
 import com.phytoncidee.hikinglog_fe.interfaces.ApiService
 import com.phytoncidee.hikinglog_fe.models.HikingRecordDetailResponse
 import com.phytoncidee.hikinglog_fe.models.ProfileResponse
 import com.phytoncidee.hikinglog_fe.models.RecordListResponse
+import com.phytoncidee.hikinglog_fe.models.WithdrawResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -74,6 +76,49 @@ class MyPageFragment : Fragment() {
             val intent = Intent(context, MyBookmarksActivity::class.java)
             startActivity(intent)
             true
+        }
+
+        // 회원탈퇴
+        binding.withdrawBtn.setOnClickListener {
+            // 모달 창 띄워 탈퇴 여부 확인
+            val builder = AlertDialog.Builder(context)
+            builder.setMessage("정말 탈퇴하시겠어요?")
+                .setPositiveButton("탈퇴") { dialog, _ ->
+                    apiService.deleteAccount("Bearer $token").enqueue(object: Callback<WithdrawResponse> {
+                        override fun onResponse(
+                            call: Call<WithdrawResponse>,
+                            response: Response<WithdrawResponse>
+                        ) {
+                            if (response.isSuccessful) {
+                                // 탈퇴 성공
+                                Toast.makeText(context, "회원 탈퇴가 완료되었습니다.", Toast.LENGTH_SHORT).show()
+
+                                // 로그인 화면으로 이동
+                                val intent = Intent(context, LoginActivity::class.java)
+                                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                startActivity(intent)
+                            } else {
+                                // 탈퇴 실패
+                                Toast.makeText(context, "탈퇴에 실패했습니다. 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
+                                Log.e("MyPageFragment", "회원 탈퇴 실패")
+                            }
+                        }
+
+                        override fun onFailure(call: Call<WithdrawResponse>, t: Throwable) {
+                            // 네트워크 실패 시 처리
+                            t.printStackTrace()
+                            Log.e("MyPageFragment", "Failed 회원 탈퇴")
+                        }
+
+                    })
+                }
+
+                .setNegativeButton("취소") { dialog, _ ->
+                    dialog.dismiss()
+                }
+
+            // 모달 창을 실제로 화면에 보여줍니다.
+            builder.create().show()
         }
 
         return binding.root
@@ -183,30 +228,12 @@ class MyPageFragment : Fragment() {
         binding.userName.text = "로그인하세요"
         binding.bannerName.text = ""
         binding.btnAuth.setImageResource(R.drawable.button_login)
-        binding.btnAuth.setOnClickListener {
-            val intent = Intent(context, LoginActivity::class.java)
-            startActivity(intent)
-        }
+
+        // 로그인 화면으로 이동
+        val intent = Intent(context, LoginActivity::class.java)
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        startActivity(intent)
+
         Toast.makeText(context, "로그아웃 성공", Toast.LENGTH_SHORT).show()
     }
-
-//    companion object {
-//        /**
-//         * Use this factory method to create a new instance of
-//         * this fragment using the provided parameters.
-//         *
-//         * @param param1 Parameter 1.
-//         * @param param2 Parameter 2.
-//         * @return A new instance of fragment MyPageFragment.
-//         */
-//        // TODO: Rename and change types and number of parameters
-//        @JvmStatic
-//        fun newInstance(param1: String, param2: String) =
-//            MyPageFragment().apply {
-//                arguments = Bundle().apply {
-//                    putString(ARG_PARAM1, param1)
-//                    putString(ARG_PARAM2, param2)
-//                }
-//            }
-//    }
 }

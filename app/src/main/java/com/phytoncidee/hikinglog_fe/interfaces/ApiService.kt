@@ -22,6 +22,7 @@ import com.phytoncidee.hikinglog_fe.models.TrailResponse
 import com.phytoncidee.hikinglog_fe.models.WeatherResponse
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.phytoncidee.hikinglog_fe.models.WithdrawResponse
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -144,6 +145,12 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Path("region_array_index") region_array_index: Int
     ): Call<RegionMountainResponse>
+
+    // 회원탈퇴
+    @DELETE("api/member/delete")
+    fun deleteAccount(
+        @Header("Authorization") token: String
+    ): Call<WithdrawResponse>
 
     companion object {
         private const val BASE_URL = "http://3.39.65.172:8080/" //"http://192.168.0.10:8080/" "http://3.39.65.172:8080/"     "http://192.168.0.10:8080/"    // http://localhost:8080/
