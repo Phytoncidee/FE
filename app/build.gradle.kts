@@ -135,4 +135,7 @@ dependencies {
     // 로딩 이미지
     implementation ("com.airbnb.android:lottie:6.0.0")
 
+    // 안드로이드 12 이상 스플래시 2개 표시 해결
+    implementation ("androidx.core:core-splashscreen:1.0.1")
+
 }
