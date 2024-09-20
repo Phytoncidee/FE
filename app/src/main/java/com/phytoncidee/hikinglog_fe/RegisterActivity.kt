@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.phytoncidee.hikinglog_fe.databinding.ActivityRegisterBinding
 import com.phytoncidee.hikinglog_fe.interfaces.ApiService
@@ -39,6 +40,22 @@ class RegisterActivity : AppCompatActivity() {
             // 날짜를 yyyy-MM-dd 형식으로 변환
             calendar.set(year, monthOfYear, dayOfMonth)
             selectedDate = dateFormat.format(calendar.time)
+        }
+
+        binding.confirmPrivacy.setOnClickListener {
+            val privacyDialog = AlertDialog.Builder(this)
+            privacyDialog.setTitle("개인정보처리방침")
+            privacyDialog.setMessage(getString(R.string.terms_privacy))
+            privacyDialog.setPositiveButton("확인", null)
+            privacyDialog.show()
+        }
+
+        binding.confirmLocation.setOnClickListener {
+            val locationDialog = AlertDialog.Builder(this)
+            locationDialog.setTitle("위치기반서비스 이용약관")
+            locationDialog.setMessage(getString(R.string.terms_location))
+            locationDialog.setPositiveButton("확인", null)
+            locationDialog.show()
         }
 
         binding.btnRegister.setOnClickListener {
