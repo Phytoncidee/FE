@@ -45,14 +45,14 @@ class RestaurantActivity : AppCompatActivity() {
         binding.lottieAnimationView.playAnimation()
 
         // [[위치 권한 확인]]
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-            == PackageManager.PERMISSION_GRANTED) { // 위치 권한이 허용된 경우 현재 위치를 가져옴
-            getCurrentLocation(token)
-        } else { // 위치 권한 요청
-            ActivityCompat.requestPermissions(this,
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                LOCATION_PERMISSION_REQUEST_CODE)
-        }
+//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+//            == PackageManager.PERMISSION_GRANTED) { // 위치 권한이 허용된 경우 현재 위치를 가져옴
+//            getCurrentLocation(token)
+//        } else { // 위치 권한 요청
+//            ActivityCompat.requestPermissions(this,
+//                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+//                LOCATION_PERMISSION_REQUEST_CODE)
+//        }
 
         binding.btnSearch.setOnClickListener {
             val keyword = binding.searchEditText.text.toString()
