@@ -19,8 +19,8 @@ android {
         applicationId = "com.phytoncidee.hikinglog_fe"
         minSdk = 24
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "1.1"
 
         // 카카오 키 가져오기
         buildConfigField("String","KAKAO_API_KEY", getApiKey("KAKAO_API_KEY"))
