@@ -36,7 +36,7 @@ class RegisterActivity : AppCompatActivity() {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         selectedDate = dateFormat.format(calendar.time) // 기본값으로 설정
 
-        binding.spinnerBirth.init(2000, 0, 1) { view, year, monthOfYear, dayOfMonth ->
+        binding.spinnerBirth.init(2000, 0, 1) { _, year, monthOfYear, dayOfMonth ->
             // 날짜를 yyyy-MM-dd 형식으로 변환
             calendar.set(year, monthOfYear, dayOfMonth)
             selectedDate = dateFormat.format(calendar.time)
@@ -48,14 +48,6 @@ class RegisterActivity : AppCompatActivity() {
             privacyDialog.setMessage(getString(R.string.terms_privacy))
             privacyDialog.setPositiveButton("확인", null)
             privacyDialog.show()
-        }
-
-        binding.confirmLocation.setOnClickListener {
-            val locationDialog = AlertDialog.Builder(this)
-            locationDialog.setTitle("위치기반서비스 이용약관")
-            locationDialog.setMessage(getString(R.string.terms_location))
-            locationDialog.setPositiveButton("확인", null)
-            locationDialog.show()
         }
 
         binding.btnRegister.setOnClickListener {
@@ -75,8 +67,8 @@ class RegisterActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            if (!binding.checkboxPrivacy.isChecked || !binding.checkboxLocation.isChecked) {
-                showToast("개인정보 수집 및 이용, 위치 정보 수집 및 이용에 동의해주세요.")
+            if (!binding.checkboxPrivacy.isChecked) {
+                showToast("개인정보 수집 및 이용에 동의해주세요.")
                 return@setOnClickListener
             }
 
