@@ -72,6 +72,17 @@
             android:background="@drawable/round_background_white"
             android:orientation="vertical"
             android:layout_weight="1">
+
+            <!-- 사용자 위치 -> 직접 위치 선택 임시 수정(앱 등록 일정 임박 이슈..): 위치 선택 버튼 추가 -->
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/button_move_to_map"
+                android:layout_gravity="center_horizontal"
+                android:background="@color/white"
+                android:layout_marginVertical="10dp"
+                android:id="@+id/BtnMap"/>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
